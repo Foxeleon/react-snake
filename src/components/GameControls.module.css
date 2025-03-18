@@ -1,57 +1,187 @@
 .controls {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 400px;
-  width: 100%;
+  gap: 15px;
 }
 
 .controls button {
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  background: linear-gradient(135deg, #3498db, #2980b9);
-  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  transition: background-color 0.2s ease;
 }
 
-.controls button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-  background: linear-gradient(135deg, #2980b9, #3498db);
-}
-
-.controls button:active:not(:disabled) {
-  transform: translateY(0);
+.controls button:hover {
+  background-color: #3e8e41;
 }
 
 .controls button:disabled {
-  background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+  background-color: #cccccc;
   cursor: not-allowed;
-  box-shadow: none;
+}
+
+.dark button {
+  background-color: #2e7d32;
+}
+
+.dark button:hover {
+  background-color: #1b5e20;
+}
+
+.dark {
+  color: #f0f0f0;
 }
 
 .instructions {
-  color: #2c3e50;
+  margin-top: 10px;
   text-align: center;
-  font-size: 1rem;
-  line-height: 1.6;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #666;
+}
+
+.dark .instructions {
+  color: #aaa;
+}
+
+.gameOverControls {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease;
+}
+
+.dark .gameOverControls {
+  background-color: rgba(44, 44, 44, 0.9);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.gameOverControls h2 {
+  color: #f44336;
+  margin-bottom: 10px;
+}
+
+.dark .gameOverControls h2 {
+  color: #ef5350;
+}
+
+.gameOverControls p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.startButton {
+  margin-bottom: 10px;
+  padding: 15px 30px !important;
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+.menuButtons {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.settingsButton, .recordsButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50% !important;
+  padding: 5px !important;
+  font-size: 20px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settingsButton {
+  background-color: #2196F3 !important;
+}
+
+.settingsButton:hover {
+  background-color: #0b7dda !important;
+}
+
+.recordsButton {
+  background-color: #ff9800 !important;
+}
+
+.recordsButton:hover {
+  background-color: #e68a00 !important;
+}
+
+/* Стили для мобильных контроллеров */
+.mobileControls {
+  display: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.touchControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.middleRow {
+  display: flex;
+  gap: 50px;
+}
+
+.touchButton {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(76, 175, 80, 0.7) !important;
+}
+
+.touchButton:hover {
+  background-color: rgba(76, 175, 80, 0.9) !important;
+}
+
+.dark .touchButton {
+  background-color: rgba(46, 125, 50, 0.7) !important;
+}
+
+.dark .touchButton:hover {
+  background-color: rgba(46, 125, 50, 0.9) !important;
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .instructions {
+    display: none;
+  }
+  
+  .mobileControls {
+    display: block;
+  }
 } 

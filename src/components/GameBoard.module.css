@@ -1,67 +1,405 @@
-.board {
-  display: grid;
-  grid-template-columns: repeat(20, 1fr);
-  gap: 2px;
-  background-color: #1a1a2e;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 3px solid #16213e;
-  max-width: 600px;
+/* Контейнер для игрового поля и индикатора удвоения очков */
+.boardContainer {
   width: 100%;
-  aspect-ratio: 1;
-}
-
-.cell {
-  aspect-ratio: 1;
-  background-color: #16213e;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  max-width: 600px;
+  margin: 0 auto;
   position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.cell::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.cell:hover::after {
-  opacity: 1;
-}
-
-.snake {
-  background-color: #4ecca3;
-  box-shadow: 0 0 10px rgba(78, 204, 163, 0.5);
-}
-
-.snake:first-child {
-  background-color: #2ecc71;
-  box-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
-}
-
-.food {
-  background-color: #e74c3c;
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+/* Индикатор удвоения очков */
+.doublePointsIndicator {
+  background-color: rgba(255, 215, 0, 0.8);
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
   animation: pulse 1.5s infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  border: 2px solid #ffd700;
+  z-index: 10;
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Базовые стили игрового поля */
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  position: relative;
+  border: 8px solid #000;
+  outline: 2px solid #555;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+/* Стили для ячеек */
+.cell {
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Анимация мигания для особой еды */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.blinking {
+  animation: blink 0.8s infinite;
+}
+
+/* Темы - светлая и темная */
+.light {
+  background-color: #f0f0f0;
+}
+
+.dark {
+  background-color: #202020;
+  border-color: #444;
+}
+
+.dark .cell {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Стили для окружений (улучшенные фоны) */
+.jungle {
+  background-color: #228B22;
+  background-image: 
+    linear-gradient(45deg, #228B22 25%, transparent 25%, transparent 75%, #228B22 75%),
+    linear-gradient(45deg, #228B22 25%, #32CD32 25%, #32CD32 75%, #228B22 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.sea {
+  background-color: #1E90FF;
+  background-image: 
+    linear-gradient(45deg, #1E90FF 25%, transparent 25%, transparent 75%, #1E90FF 75%),
+    linear-gradient(45deg, #1E90FF 25%, #00BFFF 25%, #00BFFF 75%, #1E90FF 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.forest {
+  background-color: #556B2F;
+  background-image: 
+    linear-gradient(45deg, #556B2F 25%, transparent 25%, transparent 75%, #556B2F 75%),
+    linear-gradient(45deg, #556B2F 25%, #6B8E23 25%, #6B8E23 75%, #556B2F 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.desert {
+  background-color: #DAA520;
+  background-image: 
+    linear-gradient(45deg, #DAA520 25%, transparent 25%, transparent 75%, #DAA520 75%),
+    linear-gradient(45deg, #DAA520 25%, #F4A460 25%, #F4A460 75%, #DAA520 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.steppe {
+  background-color: #BDB76B;
+  background-image: 
+    linear-gradient(45deg, #BDB76B 25%, transparent 25%, transparent 75%, #BDB76B 75%),
+    linear-gradient(45deg, #BDB76B 25%, #F0E68C 25%, #F0E68C 75%, #BDB76B 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+/* Общие стили для змеи */
+.snakeHead {
+  z-index: 10;
+  position: relative;
+  border-radius: 4px;
+  border-width: 3px !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.snakeHead::after {
+  content: '';
+  position: absolute;
+  width: 25%;
+  height: 25%;
+  background-color: black;
+  border-radius: 50%;
+  top: 15%;
+  left: 15%;
+  z-index: 11;
+}
+
+.snakeHead::before {
+  content: '';
+  position: absolute;
+  width: 25%;
+  height: 25%;
+  background-color: black;
+  border-radius: 50%;
+  top: 15%;
+  right: 15%;
+  z-index: 11;
+}
+
+.snakeBody {
+  z-index: 5;
+  border-radius: 3px;
+  border-width: 3px !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+/* Стили для разных типов змей (улучшенные цвета вместо изображений) */
+.tropical_green {
+  background-color: #32CD32;
+  border: 3px solid #228B22;
+}
+
+.red_sea {
+  background-color: #FF4500;
+  border: 3px solid #B22222;
+}
+
+.blue_green_sea {
+  background-color: #20B2AA;
+  border: 3px solid #008B8B;
+}
+
+.forest_boa {
+  background-color: #8B4513;
+  border: 3px solid #A0522D;
+}
+
+.rattlesnake {
+  background-color: #F0E68C;
+  border: 3px solid #DAA520;
+}
+
+.striped_viper {
+  background-color: #A9A9A9;
+  border: 3px solid #696969;
+}
+
+.mouse_hunter {
+  background-color: #9ACD32;
+  border: 3px solid #6B8E23;
+}
+
+/* Общие стили для еды */
+.food {
+  background-size: cover;
+  z-index: 3;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  border-width: 3px !important;
+}
+
+/* Стили для типов еды - яркие цвета вместо спрайтов */
+/* Джунгли */
+.food_bug {
+  background-color: #000;
+  border: 3px solid #444;
+}
+
+.food_frog {
+  background-color: #3CB371;
+  border: 3px solid #2E8B57;
+}
+
+.food_bird {
+  background-color: #FF6347;
+  border: 3px solid #CD5C5C;
+}
+
+.food_pineapple {
+  background-color: #FFD700;
+  border: 3px solid #FFA500;
+}
+
+.food_poison_berry {
+  background-color: #800080;
+  border: 3px solid #4B0082;
+}
+
+/* Море */
+.food_shrimp {
+  background-color: #FFC0CB;
+  border: 3px solid #FF69B4;
+}
+
+.food_fish {
+  background-color: #00BFFF;
+  border: 3px solid #1E90FF;
+}
+
+.food_starfish {
+  background-color: #FF69B4;
+  border: 3px solid #C71585;
+}
+
+.food_plankton {
+  background-color: #00FFFF;
+  border: 3px solid #00CED1;
+}
+
+.food_jellyfish {
+  background-color: #EE82EE;
+  border: 3px solid #DDA0DD;
+}
+
+/* Лес */
+.food_ant {
+  background-color: #A52A2A;
+  border: 3px solid #800000;
+}
+
+.food_locust {
+  background-color: #556B2F;
+  border: 3px solid #006400;
+}
+
+.food_rabbit {
+  background-color: #F5F5DC;
+  border: 3px solid #BC8F8F;
+}
+
+.food_mushroom {
+  background-color: #CD853F;
+  border: 3px solid #8B4513;
+}
+
+.food_moldy_berry {
+  background-color: #808000;
+  border: 3px solid #556B2F;
+}
+
+/* Пустыня */
+.food_beetle {
+  background-color: #B8860B;
+  border: 3px solid #8B4513;
+}
+
+.food_egg {
+  background-color: #FFFAF0;
+  border: 3px solid #FAEBD7;
+}
+
+.food_cactus_flower {
+  background-color: #FF1493;
+  border: 3px solid #C71585;
+}
+
+.food_thorn {
+  background-color: #8B0000;
+  border: 3px solid #800000;
+}
+
+/* Степь */
+.food_grasshopper {
+  background-color: #9ACD32;
+  border: 3px solid #6B8E23;
+}
+
+.food_gopher {
+  background-color: #DAA520;
+  border: 3px solid #B8860B;
+}
+
+.food_mouse {
+  background-color: #D3D3D3;
+  border: 3px solid #A9A9A9;
+}
+
+.food_golden_grass {
+  background-color: #FFD700;
+  border: 3px solid #DAA520;
+}
+
+.food_bitter_seed {
+  background-color: #696969;
+  border: 3px solid #2F4F4F;
+}
+
+/* Стили для еды общих типов (запасной вариант, если конкретное название не найдено) */
+.food_common {
+  background-color: #32CD32;
+  border: 3px solid #228B22;
+}
+
+.food_medium {
+  background-color: #FFA500;
+  border: 3px solid #FF8C00;
+}
+
+.food_rare {
+  background-color: #9932CC;
+  border: 3px solid #8B008B;
+}
+
+.food_special {
+  background-color: #FFD700;
+  border: 3px solid #DAA520;
+}
+
+.food_penalty {
+  background-color: #DC143C;
+  border: 3px solid #8B0000;
+}
+
+/* Стили для состояния Game Over */
+.gameOver {
+  filter: grayscale(80%);
+  opacity: 0.8;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+  .boardContainer {
+    max-width: 400px;
   }
-  50% {
-    transform: scale(1.1);
+  
+  .board {
+    max-width: 400px;
+    height: 400px;
   }
-  100% {
-    transform: scale(1);
+  
+  .doublePointsIndicator {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .boardContainer {
+    max-width: 320px;
+  }
+  
+  .board {
+    max-width: 320px;
+    height: 320px;
+  }
+  
+  .doublePointsIndicator {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-bottom: 5px;
   }
 } 
