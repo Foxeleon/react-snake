@@ -3,7 +3,7 @@ React Snake Game
 Классическая игра "Змейка", реализованная на React и TypeScript
 
 <p align="center">
-  <img src="./src/content/img.png" alt="React Snake Game Screenshot" width="600" />
+  <img src="./src/content/img.png" alt="React Snake Game Screenshot" width="250" />
 </p>
 
 📋 О проекте
