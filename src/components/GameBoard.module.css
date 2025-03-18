@@ -1,0 +1,67 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 2px;
+  background-color: #1a1a2e;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 3px solid #16213e;
+  max-width: 600px;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.cell {
+  aspect-ratio: 1;
+  background-color: #16213e;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cell:hover::after {
+  opacity: 1;
+}
+
+.snake {
+  background-color: #4ecca3;
+  box-shadow: 0 0 10px rgba(78, 204, 163, 0.5);
+}
+
+.snake:first-child {
+  background-color: #2ecc71;
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
+}
+
+.food {
+  background-color: #e74c3c;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+} 
