@@ -11,20 +11,25 @@ import {
   SnakeType,
   PlayerRecord,
   GameSettings,
-  FieldSelectionMode
+  FieldSelectionMode,
+  Difficulty
 } from '@/types/game';
 import {
   GRID_SIZES,
-  FOOD_EXPIRATION_TIMES,
+  DEFAULT_FOOD_EXPIRATION_TIMES,
   ENVIRONMENT_TO_SNAKE_TYPES,
   DEFAULT_PLAYER_NAME,
   DEFAULT_ENVIRONMENT,
   DEFAULT_THEME,
   DEFAULT_BOARD_SIZE,
+  DEFAULT_DIFFICULTY,
   FOOD_SPAWN_PROBABILITIES,
   DOUBLE_POINTS_DURATION,
   INITIAL_SPEED,
-  SPEED_INCREASE_RATE
+  SPEED_INCREASE_RATE,
+  DIFFICULTY_EXPIRATION_MODIFIERS,
+  DIFFICULTY_SPEED_MODIFIERS,
+  DIFFICULTY_PENALTY_MODIFIERS
 } from '@/constants/game';
 import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils/storage';
 
@@ -123,7 +128,7 @@ const generateFood = (snake: Position[], gridSize: number, environment: Environm
   
   const now = Date.now();
   const boardSize = getBoardSizeFromGridSize(gridSize);
-  const expirationTime = FOOD_EXPIRATION_TIMES[boardSize];
+  const expirationTime = DEFAULT_FOOD_EXPIRATION_TIMES[boardSize];
   
   return {
     position,
@@ -157,13 +162,14 @@ const getDefaultSnakeType = (environment: Environment): SnakeType => {
 const DEFAULT_SETTINGS: GameSettings = {
   playerName: DEFAULT_PLAYER_NAME,
   environment: DEFAULT_ENVIRONMENT,
-  theme: DEFAULT_THEME,
+  theme: DEFAULT_THEME as Theme,
   boardSize: DEFAULT_BOARD_SIZE,
   snakeType: getDefaultSnakeType(DEFAULT_ENVIRONMENT),
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
-  foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
+  foodExpirationTime: DEFAULT_FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
   soundEnabled: true,
-  fieldSelectionMode: 'random'
+  fieldSelectionMode: 'random',
+  difficulty: DEFAULT_DIFFICULTY
 };
 
 export const useGameStore = create<GameStore>((set, get) => {
@@ -189,6 +195,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     isSettingsOpen: false,
     isAuthenticated: false,
     isRecordsOpen: false,
+    showLegend: false,
 
     // Методы для игровой логики
     startGame: () => {
@@ -395,7 +402,7 @@ export const useGameStore = create<GameStore>((set, get) => {
           ...state.settings,
           boardSize,
           gridSize: GRID_SIZES[boardSize],
-          foodExpirationTime: FOOD_EXPIRATION_TIMES[boardSize]
+          foodExpirationTime: DEFAULT_FOOD_EXPIRATION_TIMES[boardSize]
         }
       }));
       get().saveSettings();
@@ -421,6 +428,26 @@ export const useGameStore = create<GameStore>((set, get) => {
       get().saveSettings();
     },
 
+    setDifficulty: (difficulty: Difficulty) => {
+      set(state => ({
+        settings: {
+          ...state.settings,
+          difficulty
+        }
+      }));
+      get().saveSettings();
+    },
+
+    setSnakeType: (snakeType: SnakeType) => {
+      set(state => ({
+        settings: {
+          ...state.settings,
+          snakeType
+        }
+      }));
+      get().saveSettings();
+    },
+
     toggleSettings: () => {
       set(state => ({
         isSettingsOpen: !state.isSettingsOpen
@@ -433,6 +460,12 @@ export const useGameStore = create<GameStore>((set, get) => {
       }));
     },
 
+    toggleLegend: () => {
+      set(state => ({
+        showLegend: !state.showLegend
+      }));
+    },
+
     saveRecord: () => {
       const { score, settings } = get();
       if (score <= 0) return;
@@ -442,6 +475,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         score,
         environment: settings.environment,
         boardSize: settings.boardSize,
+        difficulty: settings.difficulty,
         date: new Date().toISOString()
       };
 

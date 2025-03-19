@@ -1,6 +1,6 @@
 export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'retro';
 
 export type Environment = 'jungle' | 'sea' | 'forest' | 'desert' | 'steppe';
 
@@ -22,6 +22,8 @@ export type FoodType =
 
 export type FieldSelectionMode = 'random' | 'sequential';
 
+export type Difficulty = 'easy' | 'normal' | 'hard';
+
 export interface Food {
   position: Position;
   type: FoodType;
@@ -41,6 +43,7 @@ export interface PlayerRecord {
   score: number;
   environment: Environment;
   boardSize: BoardSize;
+  difficulty: Difficulty;
   date: string;
 }
 
@@ -54,6 +57,7 @@ export interface GameSettings {
   foodExpirationTime: number;
   soundEnabled: boolean;
   fieldSelectionMode: FieldSelectionMode;
+  difficulty: Difficulty;
 }
 
 export interface GameState {
@@ -71,6 +75,7 @@ export interface GameState {
   isSettingsOpen: boolean;
   isAuthenticated: boolean;
   isRecordsOpen: boolean;
+  showLegend: boolean;
 }
 
 export interface GameStore extends GameState {
@@ -85,8 +90,11 @@ export interface GameStore extends GameState {
   setBoardSize: (size: BoardSize) => void;
   setSoundEnabled: (enabled: boolean) => void;
   setFieldSelectionMode: (mode: FieldSelectionMode) => void;
+  setDifficulty: (difficulty: Difficulty) => void;
+  setSnakeType: (type: SnakeType) => void;
   toggleSettings: () => void;
   toggleRecords: () => void;
+  toggleLegend: () => void;
   saveRecord: () => void;
   loadSettings: () => void;
   saveSettings: () => void;

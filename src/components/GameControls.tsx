@@ -1,144 +1,86 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameControls.module.css';
 
-export const GameControls: React.FC = () => {
+interface GameControlsProps {
+  onStartGame?: () => void;
+}
+
+export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
   const { 
-    startGame, 
-    resetGame, 
-    moveSnake, 
-    changeDirection, 
+    isPlaying, 
     isGameOver, 
-    speed, 
-    settings,
-    isPlaying,
-    toggleSettings,
-    toggleRecords
+    startGame: storeStartGame, 
+    resetGame,
+    changeDirection,
+    settings
   } = useGameStore();
 
-  // Обработка клавиатурных событий для управления змейкой
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (!isPlaying) return;
-      
-      switch (event.key) {
-        case 'ArrowUp':
-          changeDirection('UP');
-          break;
-        case 'ArrowDown':
-          changeDirection('DOWN');
-          break;
-        case 'ArrowLeft':
-          changeDirection('LEFT');
-          break;
-        case 'ArrowRight':
-          changeDirection('RIGHT');
-          break;
-      }
-    };
+  const handleStartGame = () => {
+    if (onStartGame) {
+      onStartGame();
+    } else {
+      storeStartGame();
+    }
+  };
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [changeDirection, isPlaying]);
-
-  // Игровой цикл
-  useEffect(() => {
-    if (!isPlaying || isGameOver) return;
-
-    const gameLoop = setInterval(() => {
-      moveSnake();
-    }, speed);
-
-    return () => clearInterval(gameLoop);
-  }, [moveSnake, isGameOver, speed, isPlaying]);
-  
-  // Обработчики для сенсорного управления на мобильных устройствах
-  const handleTouchUp = () => {
+  // Обработчики для сенсорного управления
+  const handleUp = () => {
     if (isPlaying) changeDirection('UP');
   };
-  
-  const handleTouchDown = () => {
+
+  const handleDown = () => {
     if (isPlaying) changeDirection('DOWN');
   };
-  
-  const handleTouchLeft = () => {
+
+  const handleLeft = () => {
     if (isPlaying) changeDirection('LEFT');
   };
-  
-  const handleTouchRight = () => {
+
+  const handleRight = () => {
     if (isPlaying) changeDirection('RIGHT');
   };
 
   return (
     <div className={`${styles.controls} ${styles[settings.theme]}`}>
-      {isGameOver ? (
+      {!isPlaying && !isGameOver && (
+        <button 
+          className={styles.startButton} 
+          onClick={handleStartGame}
+        >
+          Начать игру
+        </button>
+      )}
+      
+      {isGameOver && (
         <div className={styles.gameOverControls}>
           <h2>Игра окончена!</h2>
-          <p>Ваш счет: {useGameStore.getState().score}</p>
-          <div className={styles.buttonGroup}>
-            <button onClick={resetGame}>
-              Играть снова
-            </button>
-            <button onClick={toggleSettings}>
-              Настройки
-            </button>
-            <button onClick={toggleRecords}>
-              Таблица рекордов
-            </button>
-          </div>
+          <button 
+            onClick={resetGame} 
+            className={styles.resetButton}
+          >
+            Играть снова
+          </button>
         </div>
-      ) : (
-        <>
-          {!isPlaying && (
-            <button onClick={startGame} className={styles.startButton}>
-              Начать игру
+      )}
+      
+      {isPlaying && (
+        <div className={styles.touchControls}>
+          <button className={styles.upButton} onClick={handleUp}>
+            ↑
+          </button>
+          <div className={styles.middleControls}>
+            <button className={styles.leftButton} onClick={handleLeft}>
+              ←
             </button>
-          )}
-          
-          <div className={`${styles.mobileControls} ${isPlaying ? '' : styles.hidden}`}>
-            <div className={styles.touchControls}>
-              <button
-                onClick={handleTouchUp}
-                className={`${styles.touchButton} ${styles.touchUp}`}
-              >
-                ↑
-              </button>
-              <div className={styles.middleRow}>
-                <button
-                  onClick={handleTouchLeft}
-                  className={`${styles.touchButton} ${styles.touchLeft}`}
-                >
-                  ←
-                </button>
-                <button
-                  onClick={handleTouchRight}
-                  className={`${styles.touchButton} ${styles.touchRight}`}
-                >
-                  →
-                </button>
-              </div>
-              <button
-                onClick={handleTouchDown}
-                className={`${styles.touchButton} ${styles.touchDown}`}
-              >
-                ↓
-              </button>
-            </div>
-          </div>
-          
-          <div className={styles.instructions}>
-            <p>Используйте стрелки для управления змейкой</p>
-          </div>
-          
-          <div className={styles.menuButtons}>
-            <button onClick={toggleSettings} className={styles.settingsButton}>
-              ⚙️
-            </button>
-            <button onClick={toggleRecords} className={styles.recordsButton}>
-              🏆
+            <button className={styles.rightButton} onClick={handleRight}>
+              →
             </button>
           </div>
-        </>
+          <button className={styles.downButton} onClick={handleDown}>
+            ↓
+          </button>
+        </div>
       )}
     </div>
   );

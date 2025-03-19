@@ -190,4 +190,169 @@
     padding: 8px 15px;
     font-size: 14px;
   }
+}
+
+.settings {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  color: #333;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+  font-size: 24px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #444;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Стили для легенды объектов */
+.legendContainer {
+  margin-top: 30px;
+  border-top: 2px solid #ddd;
+  padding-top: 15px;
+}
+
+.legendTitle {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #444;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  background: rgba(245, 245, 245, 0.7);
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.legendIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border: 2px solid #333;
+}
+
+.legendInfo {
+  flex-grow: 1;
+}
+
+.legendName {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.legendDesc {
+  font-size: 12px;
+  color: #666;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.legendPoints {
+  font-size: 12px;
+  font-weight: bold;
+  color: #008800;
+}
+
+/* Заменяем unsupported :has(:negative) на селектор для отрицательных очков */
+.legendPoints[data-negative="true"] {
+  color: #cc0000;
+}
+
+/* Стили для иконок еды в легенде */
+.food_common {
+  background-color: rgba(0, 200, 0, 0.8);
+  border-color: rgba(0, 100, 0, 0.8);
+}
+
+.food_medium {
+  background-color: rgba(200, 200, 0, 0.8);
+  border-color: rgba(100, 100, 0, 0.8);
+}
+
+.food_rare {
+  background-color: rgba(0, 100, 255, 0.8);
+  border-color: rgba(0, 50, 150, 0.8);
+}
+
+.food_special {
+  background-color: rgba(220, 0, 220, 0.8);
+  border-color: rgba(100, 0, 100, 0.8);
+  animation: pulse 1.5s infinite alternate;
+}
+
+.food_penalty {
+  background-color: rgba(200, 0, 0, 0.8);
+  border-color: rgba(100, 0, 0, 0.8);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.9);
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .legend {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings {
+    margin: 10px;
+    padding: 15px;
+  }
 } 

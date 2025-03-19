@@ -91,8 +91,8 @@ export const GameBoard = () => {
         
         let cellClass = styles.cell;
         const cellStyle = {
-          width: `${cellSize}%`,
-          height: `${cellSize}%`
+          width: `${cellSize}`,
+          height: `${cellSize}`
         };
 
         // Стили для вращения головы змеи

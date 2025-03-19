@@ -1,108 +1,164 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { GameBoard } from './GameBoard';
-import styles from './Game.module.css';
-import { Score } from './Score';
 import { GameControls } from './GameControls';
-import { GameSettings } from './GameSettings';
-import { RecordsTable } from './RecordsTable';
+import { Score } from './Score';
+import GameSettings from './GameSettings';
+import Legend from './Legend';
 import { WelcomeScreen } from './WelcomeScreen';
+import { RecordsTable } from './RecordsTable';
 import { initAudio } from '@/utils/sound';
+import styles from './Game.module.css';
 
-const Game = () => {
+const Game: React.FC = () => {
   const { 
-    isPlaying, 
-    isGameOver, 
-    isSettingsOpen, 
-    isRecordsOpen, 
-    settings, 
-    loadSettings
+    settings,
+    startGame,
+    moveSnake,
+    changeDirection,
+    resetGame,
+    isPlaying,
+    isGameOver,
+    speed
   } = useGameStore();
   
-  const gameLoopRef = useRef<number | null>(null);
-  
-  // Загрузка настроек при первом рендере
+  const [showSettings, setShowSettings] = useState(false);
+  const [showLegend, setShowLegend] = useState(false);
+  const [showRecords, setShowRecords] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Инициализация аудио
   useEffect(() => {
-    loadSettings();
-    
-    // Инициализация аудио при первом взаимодействии
-    const handleFirstInteraction = () => {
-      initAudio();
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-    };
-    
-    document.addEventListener('click', handleFirstInteraction);
-    document.addEventListener('keydown', handleFirstInteraction);
-    document.addEventListener('touchstart', handleFirstInteraction);
-    
-    return () => {
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-    };
-  }, [loadSettings]);
-  
-  // Запуск игрового цикла
+    initAudio();
+  }, []);
+
+  // Настройка интервала для движения змеи
   useEffect(() => {
-    const { moveSnake, speed } = useGameStore.getState();
-    
-    if (isPlaying && !isGameOver) {
-      // Функция игрового цикла
-      const gameLoop = () => {
+    let gameLoop: number | null = null;
+
+    if (isPlaying && !isGameOver && !isPaused) {
+      gameLoop = window.setInterval(() => {
         moveSnake();
-        // Обновляем скорость из текущего состояния
-        const currentSpeed = useGameStore.getState().speed;
-        gameLoopRef.current = window.setTimeout(gameLoop, currentSpeed);
-      };
-      
-      // Запуск игрового цикла
-      gameLoopRef.current = window.setTimeout(gameLoop, speed);
-      
-      // Очистка при размонтировании
-      return () => {
-        if (gameLoopRef.current !== null) {
-          clearTimeout(gameLoopRef.current);
-        }
-      };
+      }, speed);
     }
-  }, [isPlaying, isGameOver]);
-  
-  // Скрываем окно настроек при начале игры
+
+    return () => {
+      if (gameLoop) {
+        clearInterval(gameLoop);
+      }
+    };
+  }, [isPlaying, isGameOver, isPaused, speed, moveSnake]);
+
+  // Обработчик для клавиатуры
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Если открыты настройки, не обрабатываем клавиши движения
+      if (showSettings) return;
+      
+      switch (e.key) {
+        case 'ArrowUp':
+          changeDirection('UP');
+          break;
+        case 'ArrowDown':
+          changeDirection('DOWN');
+          break;
+        case 'ArrowLeft':
+          changeDirection('LEFT');
+          break;
+        case 'ArrowRight':
+          changeDirection('RIGHT');
+          break;
+        case ' ':
+          // Пробел для старта игры
+          if (!isPlaying && !isGameOver) {
+            startGame();
+            setShowWelcome(false);
+          } else if (isGameOver) {
+            resetGame();
+          } else {
+            setIsPaused(!isPaused);
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [changeDirection, startGame, resetGame, isPlaying, isGameOver, showSettings, isPaused]);
+
+  // Скрываем окно приветствия при начале игры
   useEffect(() => {
     if (isPlaying) {
-      const { isSettingsOpen, isRecordsOpen, toggleSettings, toggleRecords } = useGameStore.getState();
-      
-      if (isSettingsOpen) {
-        toggleSettings();
-      }
-      
-      if (isRecordsOpen) {
-        toggleRecords();
-      }
+      setShowWelcome(false);
     }
   }, [isPlaying]);
-  
+
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const toggleLegend = () => {
+    setShowLegend(!showLegend);
+  };
+
+  const toggleRecords = () => {
+    setShowRecords(!showRecords);
+  };
+
+  const handleStartGame = () => {
+    startGame();
+    setShowWelcome(false);
+  };
+
   return (
-    <div 
-      className={`${styles.game} ${styles[settings.theme]}`}
-      data-testid="game-container"
-    >
-      <h1 className={styles.title}>Змейка 8-бит</h1>
+    <div className={`${styles.gameContainer} ${styles[settings.theme]}`}>
+      <h1 className={styles.title}>Змейка v2.0</h1>
       
-      {(!isPlaying && !isGameOver) ? (
+      {showWelcome ? (
         <WelcomeScreen />
       ) : (
         <>
           <Score />
+          
+          <div className={styles.buttonsContainer}>
+            <button 
+              className={styles.settingsButton} 
+              onClick={toggleSettings}
+            >
+              {showSettings ? 'Скрыть настройки' : 'Настройки'}
+            </button>
+            <button 
+              className={styles.legendButton} 
+              onClick={toggleLegend}
+            >
+              {showLegend ? 'Скрыть легенду' : 'Показать легенду'}
+            </button>
+            <button 
+              className={styles.recordsButton} 
+              onClick={toggleRecords}
+            >
+              {showRecords ? 'Скрыть рекорды' : 'Рекорды'}
+            </button>
+          </div>
+          
+          {showSettings && <GameSettings />}
+          {showLegend && <Legend />}
+          {showRecords && <RecordsTable />}
+          
           <GameBoard />
-          <GameControls />
+          <GameControls onStartGame={handleStartGame} />
+          
+          <div className={styles.info}>
+            <p>Сложность: {settings.difficulty === 'easy' ? 'Легкая' : settings.difficulty === 'normal' ? 'Нормальная' : 'Сложная'}</p>
+            <p>Режим поля: {settings.fieldSelectionMode === 'random' ? 'Случайный' : 'Последовательный'}</p>
+          </div>
         </>
       )}
-      
-      {isSettingsOpen && <GameSettings />}
-      {isRecordsOpen && <RecordsTable />}
     </div>
   );
 };
