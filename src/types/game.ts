@@ -72,6 +72,7 @@ export interface GameState {
   isAuthenticated: boolean;
   isRecordsOpen: boolean;
   showLegend: boolean;
+  isPaused: boolean;
 }
 
 export interface GameStore extends GameState {
@@ -90,6 +91,7 @@ export interface GameStore extends GameState {
   toggleSettings: () => void;
   toggleRecords: () => void;
   toggleLegend: () => void;
+  togglePause: () => void;
   saveRecord: () => void;
   loadSettings: () => void;
   saveSettings: () => void;

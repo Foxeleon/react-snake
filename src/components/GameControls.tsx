@@ -16,9 +16,11 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
     speed, 
     settings,
     isPlaying,
+    isPaused,
     toggleSettings,
     toggleRecords,
     toggleLegend,
+    togglePause,
     showLegend
   } = useGameStore();
 
@@ -36,7 +38,7 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
   // Обработка клавиатурных событий для управления змейкой
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (!isPlaying) return;
+      if (!isPlaying || isGameOver) return;
       
       switch (event.key) {
         case 'ArrowUp':
@@ -51,43 +53,73 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
         case 'ArrowRight':
           changeDirection('RIGHT');
           break;
+        case ' ': // Пробел для паузы
+        case 'p': // Или клавиша P
+          togglePause();
+          break;
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [changeDirection, isPlaying]);
+  }, [changeDirection, isPlaying, isGameOver, togglePause]);
 
   // Игровой цикл
   useEffect(() => {
-    if (!isPlaying || isGameOver) return;
+    if (!isPlaying || isGameOver || isPaused) return;
 
     const gameLoop = setInterval(() => {
       moveSnake();
     }, speed);
 
     return () => clearInterval(gameLoop);
-  }, [moveSnake, isGameOver, speed, isPlaying]);
+  }, [moveSnake, isGameOver, speed, isPlaying, isPaused]);
   
   // Обработчики для сенсорного управления на мобильных устройствах
   const handleTouchUp = () => {
-    if (isPlaying) changeDirection('UP');
+    if (isPlaying && !isPaused) changeDirection('UP');
   };
   
   const handleTouchDown = () => {
-    if (isPlaying) changeDirection('DOWN');
+    if (isPlaying && !isPaused) changeDirection('DOWN');
   };
   
   const handleTouchLeft = () => {
-    if (isPlaying) changeDirection('LEFT');
+    if (isPlaying && !isPaused) changeDirection('LEFT');
   };
   
   const handleTouchRight = () => {
-    if (isPlaying) changeDirection('RIGHT');
+    if (isPlaying && !isPaused) changeDirection('RIGHT');
   };
 
   return (
     <div className={`${styles.controls} ${styles[settings.theme]}`}>
+      {/* Верхние кнопки управления - всегда видимы */}
+      <div className={styles.menuButtons}>
+        <button onClick={toggleSettings} className={styles.settingsButton} title="Настройки">
+          ⚙️
+        </button>
+        <button onClick={toggleRecords} className={styles.recordsButton} title="Рекорды">
+          🏆
+        </button>
+        <button 
+          onClick={toggleLegend} 
+          className={`${styles.legendButton} ${showLegend ? styles.active : ''}`}
+          title={showLegend ? "Скрыть легенду" : "Показать легенду"}
+        >
+          ℹ️
+        </button>
+        {isPlaying && (
+          <button
+            onClick={togglePause}
+            className={`${styles.pauseButton} ${isPaused ? styles.active : ''}`}
+            title={isPaused ? "Продолжить игру" : "Пауза"}
+          >
+            {isPaused ? '▶️' : '⏸️'}
+          </button>
+        )}
+      </div>
+
       {isGameOver ? (
         <div className={styles.gameOverControls}>
           <h2>Игра окончена!</h2>
@@ -118,7 +150,7 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
             </button>
           )}
           
-          <div className={`${styles.mobileControls} ${isPlaying ? '' : styles.hidden}`}>
+          <div className={`${styles.mobileControls} ${isPlaying && !isPaused ? '' : styles.hidden}`}>
             <div className={styles.touchControls}>
               <button
                 onClick={handleTouchUp}
@@ -151,22 +183,6 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
           
           <div className={styles.instructions}>
             <p>Используйте стрелки для управления змейкой</p>
-          </div>
-          
-          <div className={styles.menuButtons}>
-            <button onClick={toggleSettings} className={styles.settingsButton}>
-              ⚙️
-            </button>
-            <button onClick={toggleRecords} className={styles.recordsButton}>
-              🏆
-            </button>
-            <button 
-              onClick={toggleLegend} 
-              className={`${styles.legendButton} ${showLegend ? styles.active : ''}`}
-              title={showLegend ? "Скрыть легенду" : "Показать легенду"}
-            >
-              ℹ️
-            </button>
           </div>
         </>
       )}

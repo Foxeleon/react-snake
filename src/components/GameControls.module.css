@@ -100,12 +100,13 @@
   right: 20px;
   display: flex;
   gap: 12px;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .settingsButton,
 .recordsButton,
-.legendButton {
+.legendButton,
+.pauseButton {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -123,7 +124,8 @@
 
 .settingsButton:hover,
 .recordsButton:hover,
-.legendButton:hover {
+.legendButton:hover,
+.pauseButton:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -149,10 +151,22 @@
   box-shadow: 0 0 15px rgba(46, 125, 50, 0.5);
 }
 
+.pauseButton {
+  background: #E91E63;
+  color: white;
+}
+
+.pauseButton.active {
+  background: #C2185B;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 15px rgba(194, 24, 91, 0.5);
+}
+
 /* Темная тема */
 .dark .settingsButton,
 .dark .recordsButton,
-.dark .legendButton {
+.dark .legendButton,
+.dark .pauseButton {
   background: rgba(50, 50, 50, 0.95);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -175,6 +189,16 @@
   box-shadow: 0 0 15px rgba(27, 94, 32, 0.5);
 }
 
+.dark .pauseButton {
+  background: #AD1457;
+}
+
+.dark .pauseButton.active {
+  background: #880E4F;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(136, 14, 79, 0.5);
+}
+
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .menuButtons {
@@ -185,7 +209,8 @@
 
   .settingsButton,
   .recordsButton,
-  .legendButton {
+  .legendButton,
+  .pauseButton {
     width: 38px;
     height: 38px;
     font-size: 18px;
