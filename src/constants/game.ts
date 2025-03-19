@@ -1,12 +1,12 @@
-import { BoardSize, Environment, SnakeType } from '@/types/game';
+import { BoardSize, Environment, SnakeType, FieldSelectionMode } from '@/types/game';
 
 // Константы для размеров игрового поля
 export const GRID_SIZES: Record<BoardSize, number> = {
-  mini: 10,
-  small: 15,
-  medium: 20,
-  large: 25,
-  giant: 30
+  mini: 15,      // Было 10
+  small: 20,     // Было 15
+  medium: 25,    // Было 20
+  large: 30,     // Было 25
+  giant: 35      // Было 30
 };
 
 // Константы для времени исчезновения еды (в миллисекундах)
@@ -27,11 +27,24 @@ export const ENVIRONMENT_TO_SNAKE_TYPES: Record<Environment, SnakeType[]> = {
   steppe: ['mouse_hunter']
 };
 
+// Режимы выбора поля
+export const FIELD_SELECTION_MODES: Record<string, FieldSelectionMode> = {
+  static: 'static',         // Не менять поле
+  sequential: 'sequential', // Последовательно менять поле
+  random: 'random'          // Случайно менять поле
+};
+
+// Порядок смены окружений для последовательного режима
+export const ENVIRONMENT_SEQUENCE: Environment[] = [
+  'jungle', 'sea', 'forest', 'desert', 'steppe'
+];
+
 // Настройки игры по умолчанию
 export const DEFAULT_PLAYER_NAME = 'Игрок';
 export const DEFAULT_ENVIRONMENT: Environment = 'jungle';
 export const DEFAULT_THEME = 'light';
 export const DEFAULT_BOARD_SIZE: BoardSize = 'medium';
+export const DEFAULT_FIELD_SELECTION_MODE: FieldSelectionMode = 'static';
 
 // Вероятности появления еды
 export const FOOD_SPAWN_PROBABILITIES = {
@@ -49,4 +62,143 @@ export const DOUBLE_POINTS_DURATION = 15000; // 15 секунд
 export const INITIAL_SPEED = 200;
 
 // Снижение скорости при поедании еды (выше значение = быстрее игра)
-export const SPEED_INCREASE_RATE = 2; 
+export const SPEED_INCREASE_RATE = 2;
+
+// Описания пищи для разных окружений
+export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, { name: string; description: string; points: number | string }>> = {
+  jungle: {
+    bug: { 
+      name: 'Жук', 
+      description: 'Обычная еда в джунглях', 
+      points: 10 
+    },
+    frog: { 
+      name: 'Лягушка', 
+      description: 'Средняя добыча', 
+      points: 25 
+    },
+    bird: { 
+      name: 'Птица', 
+      description: 'Редкая добыча', 
+      points: 50 
+    },
+    pineapple: { 
+      name: 'Ананас', 
+      description: 'Удваивает получаемые очки на 15 секунд', 
+      points: 'x2' 
+    },
+    poison_berry: { 
+      name: 'Ядовитая ягода', 
+      description: 'Штрафная еда, избегайте её', 
+      points: -20 
+    }
+  },
+  sea: {
+    shrimp: { 
+      name: 'Креветка', 
+      description: 'Обычная еда в море', 
+      points: 10 
+    },
+    fish: { 
+      name: 'Рыба', 
+      description: 'Средняя добыча', 
+      points: 25 
+    },
+    starfish: { 
+      name: 'Морская звезда', 
+      description: 'Редкая добыча', 
+      points: 50 
+    },
+    plankton: { 
+      name: 'Планктон', 
+      description: 'Удваивает получаемые очки на 15 секунд', 
+      points: 'x2' 
+    },
+    jellyfish: { 
+      name: 'Медуза', 
+      description: 'Штрафная еда, избегайте её', 
+      points: -20 
+    }
+  },
+  forest: {
+    ant: { 
+      name: 'Муравей', 
+      description: 'Обычная еда в лесу', 
+      points: 10 
+    },
+    locust: { 
+      name: 'Саранча', 
+      description: 'Средняя добыча', 
+      points: 25 
+    },
+    rabbit: { 
+      name: 'Кролик', 
+      description: 'Редкая добыча', 
+      points: 50 
+    },
+    mushroom: { 
+      name: 'Гриб', 
+      description: 'Удваивает получаемые очки на 15 секунд', 
+      points: 'x2' 
+    },
+    moldy_berry: { 
+      name: 'Плесневелая ягода', 
+      description: 'Штрафная еда, избегайте её', 
+      points: -20 
+    }
+  },
+  desert: {
+    locust: { 
+      name: 'Саранча', 
+      description: 'Обычная еда в пустыне', 
+      points: 10 
+    },
+    beetle: { 
+      name: 'Жук-скарабей', 
+      description: 'Средняя добыча', 
+      points: 25 
+    },
+    egg: { 
+      name: 'Яйцо', 
+      description: 'Редкая добыча', 
+      points: 50 
+    },
+    cactus_flower: { 
+      name: 'Цветок кактуса', 
+      description: 'Удваивает получаемые очки на 15 секунд', 
+      points: 'x2' 
+    },
+    thorn: { 
+      name: 'Колючка', 
+      description: 'Штрафная еда, избегайте её', 
+      points: -20 
+    }
+  },
+  steppe: {
+    grasshopper: { 
+      name: 'Кузнечик', 
+      description: 'Обычная еда в степи', 
+      points: 10 
+    },
+    gopher: { 
+      name: 'Суслик', 
+      description: 'Средняя добыча', 
+      points: 25 
+    },
+    mouse: { 
+      name: 'Мышь', 
+      description: 'Редкая добыча', 
+      points: 50 
+    },
+    golden_grass: { 
+      name: 'Золотистая трава', 
+      description: 'Удваивает получаемые очки на 15 секунд', 
+      points: 'x2' 
+    },
+    bitter_seed: { 
+      name: 'Горькое семя', 
+      description: 'Штрафная еда, избегайте её', 
+      points: -20 
+    }
+  }
+}; 

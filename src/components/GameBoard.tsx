@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useGameStore } from '@/store/gameStore';
+import { Position, Direction, Environment } from '@/types/game';
 import styles from './GameBoard.module.css';
-import { Direction, Position } from '@/types/game';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils/sound';
 
@@ -262,19 +262,14 @@ export const GameBoard = () => {
   useEffect(() => {
     if (snake.length > 0 && boardRef.current) {
       // Создаем анимационный эффект для текущей позиции головы змеи
-      createAnimationEffect(
-        environment,
-        snake[0],
-        gridSize,
-        boardRef.current
-      );
+      createSnakeAnimation(snake[0], environment);
       
       // Воспроизводим звук движения (с меньшей частотой, чтобы не перегружать звуком)
       if (snake.length % 3 === 0) {
         playSound('move', environment);
       }
     }
-  }, [snake, environment, gridSize]);
+  }, [snake, environment, gridSize, direction]);
 
   // Обработка поедания еды
   useEffect(() => {
@@ -307,6 +302,19 @@ export const GameBoard = () => {
     return null;
   };
 
+  // Функция для создания анимации при движении змеи
+  const createSnakeAnimation = (position: Position, environment: Environment) => {
+    if (!boardRef.current) return;
+    
+    createAnimationEffect(
+      environment,
+      position,
+      settings.gridSize,
+      boardRef.current,
+      direction // Передаем текущее направление движения змеи
+    );
+  };
+
   return (
     <div className={styles.boardContainer}>
       {renderDoublePointsIndicator()}
@@ -318,6 +326,6 @@ export const GameBoard = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default GameBoard; 

@@ -53,7 +53,7 @@
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Шахматные узоры для разных окружений */
@@ -67,7 +67,7 @@
 }
 
 .board.jungle .cell {
-  border-color: rgba(0, 50, 0, 0.3);
+  border-color: rgba(0, 30, 0, 0.5);
 }
 
 /* Море */
@@ -80,7 +80,7 @@
 }
 
 .board.sea .cell {
-  border-color: rgba(0, 30, 60, 0.3);
+  border-color: rgba(120, 180, 255, 0.4);
 }
 
 /* Лес */
@@ -93,7 +93,7 @@
 }
 
 .board.forest .cell {
-  border-color: rgba(20, 40, 20, 0.3);
+  border-color: rgba(150, 200, 120, 0.4);
 }
 
 /* Пустыня */
@@ -106,7 +106,7 @@
 }
 
 .board.desert .cell {
-  border-color: rgba(150, 120, 60, 0.3);
+  border-color: rgba(100, 60, 0, 0.4);
 }
 
 /* Степь */
@@ -119,7 +119,7 @@
 }
 
 .board.steppe .cell {
-  border-color: rgba(130, 110, 50, 0.3);
+  border-color: rgba(80, 60, 0, 0.4);
 }
 
 /* Анимация мигания для особой еды */

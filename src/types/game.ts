@@ -20,7 +20,7 @@ export type FoodType =
   | 'special' // удвоение очков
   | 'penalty'; // -20 очков
 
-export type FieldSelectionMode = 'random' | 'sequential';
+export type FieldSelectionMode = 'static' | 'sequential' | 'random';
 
 export interface Food {
   position: Position;
@@ -71,6 +71,7 @@ export interface GameState {
   isSettingsOpen: boolean;
   isAuthenticated: boolean;
   isRecordsOpen: boolean;
+  showLegend: boolean;
 }
 
 export interface GameStore extends GameState {
@@ -85,8 +86,10 @@ export interface GameStore extends GameState {
   setBoardSize: (size: BoardSize) => void;
   setSoundEnabled: (enabled: boolean) => void;
   setFieldSelectionMode: (mode: FieldSelectionMode) => void;
+  setSnakeType: (snakeType: SnakeType) => void;
   toggleSettings: () => void;
   toggleRecords: () => void;
+  toggleLegend: () => void;
   saveRecord: () => void;
   loadSettings: () => void;
   saveSettings: () => void;

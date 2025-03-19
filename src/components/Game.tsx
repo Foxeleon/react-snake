@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { GameBoard } from './GameBoard';
 import styles from './Game.module.css';
@@ -7,6 +7,7 @@ import { GameControls } from './GameControls';
 import { GameSettings } from './GameSettings';
 import { RecordsTable } from './RecordsTable';
 import { WelcomeScreen } from './WelcomeScreen';
+import Legend from './Legend';
 import { initAudio } from '@/utils/sound';
 
 const Game = () => {
@@ -14,12 +15,14 @@ const Game = () => {
     isPlaying, 
     isGameOver, 
     isSettingsOpen, 
-    isRecordsOpen, 
+    isRecordsOpen,
+    showLegend,
     settings, 
     loadSettings
   } = useGameStore();
   
-  const gameLoopRef = useRef<number | null>(null);
+  // Локальное состояние для отслеживания, нужно ли показывать экран приветствия
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
   
   // Загрузка настроек при первом рендере
   useEffect(() => {
@@ -44,60 +47,33 @@ const Game = () => {
     };
   }, [loadSettings]);
   
-  // Запуск игрового цикла
-  useEffect(() => {
-    const { moveSnake, speed } = useGameStore.getState();
-    
-    if (isPlaying && !isGameOver) {
-      // Функция игрового цикла
-      const gameLoop = () => {
-        moveSnake();
-        // Обновляем скорость из текущего состояния
-        const currentSpeed = useGameStore.getState().speed;
-        gameLoopRef.current = window.setTimeout(gameLoop, currentSpeed);
-      };
-      
-      // Запуск игрового цикла
-      gameLoopRef.current = window.setTimeout(gameLoop, speed);
-      
-      // Очистка при размонтировании
-      return () => {
-        if (gameLoopRef.current !== null) {
-          clearTimeout(gameLoopRef.current);
-        }
-      };
-    }
-  }, [isPlaying, isGameOver]);
-  
-  // Скрываем окно настроек при начале игры
+  // Скрытие экрана приветствия при начале игры
   useEffect(() => {
     if (isPlaying) {
-      const { isSettingsOpen, isRecordsOpen, toggleSettings, toggleRecords } = useGameStore.getState();
-      
-      if (isSettingsOpen) {
-        toggleSettings();
-      }
-      
-      if (isRecordsOpen) {
-        toggleRecords();
-      }
+      setShowWelcomeScreen(false);
     }
   }, [isPlaying]);
+  
+  // Обработчик для начала игры
+  const handleStartGame = () => {
+    setShowWelcomeScreen(false);
+  };
   
   return (
     <div 
       className={`${styles.game} ${styles[settings.theme]}`}
       data-testid="game-container"
     >
-      <h1 className={styles.title}>Змейка 8-бит</h1>
+      <h1 className={styles.title}>Змейка(snake_react v_alfa)</h1>
       
-      {(!isPlaying && !isGameOver) ? (
-        <WelcomeScreen />
+      {(!isPlaying && !isGameOver && showWelcomeScreen) ? (
+        <WelcomeScreen onStart={handleStartGame} />
       ) : (
         <>
           <Score />
           <GameBoard />
-          <GameControls />
+          <GameControls onStartGame={handleStartGame} />
+          {showLegend && <Legend />}
         </>
       )}
       
