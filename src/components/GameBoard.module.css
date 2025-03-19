@@ -1,7 +1,7 @@
 /* Контейнер для игрового поля и индикатора удвоения очков */
 .boardContainer {
   width: 100%;
-  max-width: 600px;
+  max-width: min(80vh, 90vw, 800px);
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -53,6 +53,7 @@
   box-sizing: border-box;
   position: relative;
   z-index: 1;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 /* Шахматные узоры для разных окружений */
@@ -65,6 +66,10 @@
   background-color: rgba(50, 150, 50, 0.9);
 }
 
+.board.jungle .cell {
+  border-color: rgba(0, 50, 0, 0.3);
+}
+
 /* Море */
 .board.sea .cell[data-is-even="true"] {
   background-color: rgba(0, 60, 120, 0.9);
@@ -72,6 +77,10 @@
 
 .board.sea .cell[data-is-even="false"] {
   background-color: rgba(0, 100, 180, 0.9);
+}
+
+.board.sea .cell {
+  border-color: rgba(0, 30, 60, 0.3);
 }
 
 /* Лес */
@@ -83,6 +92,10 @@
   background-color: rgba(50, 90, 40, 0.9);
 }
 
+.board.forest .cell {
+  border-color: rgba(20, 40, 20, 0.3);
+}
+
 /* Пустыня */
 .board.desert .cell[data-is-even="true"] {
   background-color: rgba(200, 160, 80, 0.9);
@@ -92,6 +105,10 @@
   background-color: rgba(230, 190, 110, 0.9);
 }
 
+.board.desert .cell {
+  border-color: rgba(150, 120, 60, 0.3);
+}
+
 /* Степь */
 .board.steppe .cell[data-is-even="true"] {
   background-color: rgba(170, 150, 70, 0.9);
@@ -99,6 +116,10 @@
 
 .board.steppe .cell[data-is-even="false"] {
   background-color: rgba(190, 170, 80, 0.9);
+}
+
+.board.steppe .cell {
+  border-color: rgba(130, 110, 50, 0.3);
 }
 
 /* Анимация мигания для особой еды */
@@ -123,7 +144,7 @@
 }
 
 .dark .cell {
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Общие стили для змеи */
@@ -380,11 +401,7 @@
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .boardContainer {
-    max-width: 90vw;
-  }
-  
-  .board {
-    max-width: 90vw;
+    max-width: min(95vh, 95vw);
   }
   
   .doublePointsIndicator {
@@ -398,12 +415,12 @@
     max-width: 95vw;
   }
   
-  .board {
-    max-width: 95vw;
-  }
-  
   .doublePointsIndicator {
     font-size: 12px;
     padding: 4px 8px;
+  }
+  
+  .cell {
+    border-width: 0.5px;
   }
 } 

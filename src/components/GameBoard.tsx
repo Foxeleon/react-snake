@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameBoard.module.css';
 import { Direction, Position } from '@/types/game';
@@ -27,6 +27,31 @@ export const GameBoard = () => {
   useEffect(() => {
     addAnimationStyles();
   }, []);
+
+  // Обработка изменения размера окна
+  useEffect(() => {
+    const handleResize = () => {
+      // Форсируем ререндер при изменении размера окна
+      setWindowDimension({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Вызываем сразу для начальной настройки
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Состояние для отслеживания размеров окна
+  const [windowDimension, setWindowDimension] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
 
   // Обработка окончания игры
   useEffect(() => {
@@ -99,8 +124,11 @@ export const GameBoard = () => {
       const diffX = touchStartX - touchEndX;
       const diffY = touchStartY - touchEndY;
       
+      // Минимальное расстояние для обнаружения свайпа - уменьшаем чувствительность
+      const minSwipeDistance = 20;
+      
       // Определяем направление свайпа
-      if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
         // Горизонтальный свайп
         if (diffX > 0) {
           // Свайп влево
@@ -109,7 +137,7 @@ export const GameBoard = () => {
           // Свайп вправо
           changeDirection('RIGHT');
         }
-      } else {
+      } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > minSwipeDistance) {
         // Вертикальный свайп
         if (diffY > 0) {
           // Свайп вверх
@@ -284,7 +312,7 @@ export const GameBoard = () => {
       {renderDoublePointsIndicator()}
       <div 
         ref={boardRef}
-        className={`${styles.board} ${styles[environment]} ${styles[theme]}`}
+        className={`${styles.board} ${styles[environment]} ${styles[theme]} ${isGameOver ? styles.gameOver : ''}`}
       >
         {renderGrid()}
       </div>
