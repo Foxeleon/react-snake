@@ -10,14 +10,15 @@ export const createAnimationEffect = (
   boardElement: HTMLElement
 ): void => {
   const effectElement = document.createElement('div');
-  const cellSize = boardElement.clientWidth / gridSize;
   
-  // Установка стилей для элемента эффекта
+  // Вычисляем размер и позицию в процентах
+  const cellSize = 100 / gridSize;
+  
   effectElement.style.position = 'absolute';
-  effectElement.style.left = `${position.x * cellSize}px`;
-  effectElement.style.top = `${position.y * cellSize}px`;
-  effectElement.style.width = `${cellSize}px`;
-  effectElement.style.height = `${cellSize}px`;
+  effectElement.style.left = `${position.x * cellSize}%`;
+  effectElement.style.top = `${position.y * cellSize}%`;
+  effectElement.style.width = `${cellSize}%`;
+  effectElement.style.height = `${cellSize}%`;
   effectElement.style.zIndex = '3';
   effectElement.style.pointerEvents = 'none';
   
@@ -28,7 +29,7 @@ export const createAnimationEffect = (
       effectElement.style.backgroundColor = 'rgba(144, 238, 144, 0.6)';
       effectElement.style.boxShadow = '0 0 15px rgba(144, 238, 144, 0.8)';
       effectElement.style.borderRadius = '50%';
-      effectElement.style.animation = 'fadeOut 1s forwards';
+      effectElement.style.animation = 'fadeOut 0.8s forwards';
       break;
       
     case 'sea':
@@ -39,13 +40,13 @@ export const createAnimationEffect = (
         bubble.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
         bubble.style.borderRadius = '50%';
         
-        // Увеличиваем размер пузырьков
-        const bubbleSize = Math.max(cellSize * 0.2, Math.random() * 10 + 5);
-        bubble.style.width = `${bubbleSize}px`;
-        bubble.style.height = `${bubbleSize}px`;
+        // Увеличиваем размер пузырьков (в процентах)
+        const bubbleSize = Math.max(5, Math.random() * 20);
+        bubble.style.width = `${bubbleSize}%`;
+        bubble.style.height = `${bubbleSize}%`;
         
         // Случайное начальное положение внутри клетки
-        bubble.style.left = `${Math.random() * (cellSize - bubbleSize)}px`;
+        bubble.style.left = `${Math.random() * (100 - bubbleSize)}%`;
         bubble.style.bottom = '0';
         
         // Анимация пузырьков
@@ -61,14 +62,18 @@ export const createAnimationEffect = (
         const leaf = document.createElement('div');
         leaf.style.position = 'absolute';
         leaf.style.backgroundColor = `rgba(${50 + Math.random() * 100}, ${100 + Math.random() * 155}, ${50}, 0.7)`;
-        leaf.style.width = `${Math.max(cellSize * 0.15, 6)}px`;
-        leaf.style.height = `${Math.max(cellSize * 0.15, 6)}px`;
+        
+        // Размер в процентах
+        const leafSize = Math.max(5, Math.random() * 15);
+        leaf.style.width = `${leafSize}%`;
+        leaf.style.height = `${leafSize}%`;
+        
         leaf.style.borderRadius = '2px';
         leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
         
         // Случайное начальное положение
-        leaf.style.left = `${Math.random() * cellSize}px`;
-        leaf.style.top = `${Math.random() * cellSize}px`;
+        leaf.style.left = `${Math.random() * 100}%`;
+        leaf.style.top = `${Math.random() * 100}%`;
         
         // Анимация падения листьев
         leaf.style.animation = `leafFall ${Math.random() * 2 + 1}s ease-in-out forwards`;
@@ -91,12 +96,15 @@ export const createAnimationEffect = (
         const grass = document.createElement('div');
         grass.style.position = 'absolute';
         grass.style.backgroundColor = `rgba(${140 + Math.random() * 70}, ${150 + Math.random() * 100}, ${50}, 0.7)`;
-        grass.style.width = `${Math.max(cellSize * 0.08, 3)}px`;
-        grass.style.height = `${Math.max(cellSize * 0.3, 10)}px`;
+        
+        // Размер в процентах
+        grass.style.width = `${Math.max(3, Math.random() * 8)}%`;
+        grass.style.height = `${Math.max(20, Math.random() * 30)}%`;
+        
         grass.style.borderRadius = '2px 2px 0 0';
         
         // Случайное положение внизу клетки
-        grass.style.left = `${Math.random() * cellSize}px`;
+        grass.style.left = `${Math.random() * 100}%`;
         grass.style.bottom = '0';
         
         // Анимация колыхания
@@ -119,7 +127,7 @@ export const createAnimationEffect = (
     if (boardElement.contains(effectElement)) {
       boardElement.removeChild(effectElement);
     }
-  }, 1200); // Увеличиваем время для более заметного эффекта
+  }, 800); // Время для более точного соответствия движению змеи
 };
 
 // Добавление стилей для анимаций

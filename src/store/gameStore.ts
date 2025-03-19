@@ -177,9 +177,9 @@ export const useGameStore = create<GameStore>((set, get) => {
     // Состояние игры
     snake: initialSnake,
     foods: [generateFood(initialSnake, savedSettings.gridSize, savedSettings.environment)],
-    direction: 'UP',
-    isGameOver: false,
-    score: 0,
+  direction: 'UP',
+  isGameOver: false,
+  score: 0,
     speed: INITIAL_SPEED,
     settings: savedSettings,
     doublePointsActive: false,
@@ -191,7 +191,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     isRecordsOpen: false,
 
     // Методы для игровой логики
-    startGame: () => {
+  startGame: () => {
       const { settings } = get();
       const initialSnake = getInitialSnake(settings.gridSize);
       
@@ -203,23 +203,23 @@ export const useGameStore = create<GameStore>((set, get) => {
       
       const updatedSettings = { ...settings, environment, snakeType: getDefaultSnakeType(environment) };
       
-      set({
+    set({
         snake: initialSnake,
         foods: [generateFood(initialSnake, settings.gridSize, environment)],
-        direction: 'UP',
-        isGameOver: false,
-        score: 0,
+      direction: 'UP',
+      isGameOver: false,
+      score: 0,
         speed: INITIAL_SPEED,
         isPlaying: true,
         doublePointsActive: false,
         doublePointsEndTime: null,
         settings: updatedSettings
-      });
-    },
+    });
+  },
 
-    moveSnake: () => {
+  moveSnake: () => {
       const { snake, foods, direction, score, speed, settings, doublePointsActive, doublePointsEndTime } = get();
-      const head = { ...snake[0] };
+    const head = { ...snake[0] };
 
       // Проверяем, не закончилось ли время удвоения очков
       let isDoublePointsActive = doublePointsActive;
@@ -228,48 +228,48 @@ export const useGameStore = create<GameStore>((set, get) => {
       }
 
       // Движение головы змеи
-      switch (direction) {
-        case 'UP':
-          head.y--;
-          break;
-        case 'DOWN':
-          head.y++;
-          break;
-        case 'LEFT':
-          head.x--;
-          break;
-        case 'RIGHT':
-          head.x++;
-          break;
-      }
+    switch (direction) {
+      case 'UP':
+        head.y--;
+        break;
+      case 'DOWN':
+        head.y++;
+        break;
+      case 'LEFT':
+        head.x--;
+        break;
+      case 'RIGHT':
+        head.x++;
+        break;
+    }
 
-      // Проверка столкновения со стенами
-      if (
-        head.x < 0 ||
+    // Проверка столкновения со стенами
+    if (
+      head.x < 0 ||
         head.x >= settings.gridSize ||
-        head.y < 0 ||
+      head.y < 0 ||
         head.y >= settings.gridSize
-      ) {
+    ) {
         set({ isGameOver: true, isPlaying: false });
         get().saveRecord();
-        return;
-      }
+      return;
+    }
 
-      // Проверка столкновения с собой
-      if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+    // Проверка столкновения с собой
+    if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
         set({ isGameOver: true, isPlaying: false });
         get().saveRecord();
-        return;
-      }
+      return;
+    }
 
-      const newSnake = [head, ...snake];
+    const newSnake = [head, ...snake];
       let newFoods = [...foods];
       let newScore = score;
       let newSpeed = speed;
       let newDoublePointsActive = isDoublePointsActive;
       let newDoublePointsEndTime = doublePointsEndTime;
 
-      // Проверка съедания еды
+    // Проверка съедания еды
       const eatenFoodIndex = foods.findIndex(food => 
         food.position.x === head.x && food.position.y === head.y
       );
@@ -297,9 +297,9 @@ export const useGameStore = create<GameStore>((set, get) => {
             newSpeed = Math.max(50, newSpeed - SPEED_INCREASE_RATE);
           }
         }
-      } else {
+    } else {
         // Если еда не съедена, укорачиваем змею
-        newSnake.pop();
+      newSnake.pop();
       }
 
       // Проверяем, не истекло ли время у какой-либо еды
@@ -319,41 +319,41 @@ export const useGameStore = create<GameStore>((set, get) => {
         doublePointsActive: newDoublePointsActive,
         doublePointsEndTime: newDoublePointsEndTime
       });
-    },
+  },
 
-    changeDirection: (newDirection: Direction) => {
-      const { direction } = get();
-      const opposites = {
-        UP: 'DOWN',
-        DOWN: 'UP',
-        LEFT: 'RIGHT',
-        RIGHT: 'LEFT',
-      };
+  changeDirection: (newDirection: Direction) => {
+    const { direction } = get();
+    const opposites = {
+      UP: 'DOWN',
+      DOWN: 'UP',
+      LEFT: 'RIGHT',
+      RIGHT: 'LEFT',
+    };
 
-      if (opposites[direction] !== newDirection) {
-        set({ direction: newDirection });
-      }
-    },
+    if (opposites[direction] !== newDirection) {
+      set({ direction: newDirection });
+    }
+  },
 
-    resetGame: () => {
+  resetGame: () => {
       const { settings } = get();
       const initialSnake = getInitialSnake(settings.gridSize);
       
-      set({
+    set({
         snake: initialSnake,
         foods: [generateFood(initialSnake, settings.gridSize, settings.environment)],
-        direction: 'UP',
-        isGameOver: false,
-        score: 0,
+      direction: 'UP',
+      isGameOver: false,
+      score: 0,
         speed: INITIAL_SPEED,
         isPlaying: false,
         doublePointsActive: false,
         doublePointsEndTime: null
-      });
-    },
+    });
+  },
 
-    increaseSpeed: () => {
-      const { speed } = get();
+  increaseSpeed: () => {
+    const { speed } = get();
       set({ speed: Math.max(50, speed - SPEED_INCREASE_RATE) });
     },
 

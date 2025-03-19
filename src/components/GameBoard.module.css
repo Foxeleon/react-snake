@@ -32,28 +32,73 @@
 
 /* Базовые стили игрового поля */
 .board {
+  position: relative;
+  border: 8px solid rgba(0, 0, 0, 0.7);
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  aspect-ratio: 1/1;
+  margin: 0 auto;
+  font-size: 0;
+  overflow: hidden;
+  border-radius: 4px;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  max-width: 600px;
-  height: 600px;
-  margin: 0 auto;
-  position: relative;
-  border: 8px solid #000;
-  outline: 2px solid #555;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: transparent;
 }
 
 /* Стили для ячеек */
 .cell {
+  display: inline-block;
   box-sizing: border-box;
   position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  display: inline-block;
-  margin: 0;
-  padding: 0;
+  z-index: 1;
+}
+
+/* Шахматные узоры для разных окружений */
+/* Джунгли */
+.board.jungle .cell[data-is-even="true"] {
+  background-color: rgba(0, 100, 0, 0.9);
+}
+
+.board.jungle .cell[data-is-even="false"] {
+  background-color: rgba(50, 150, 50, 0.9);
+}
+
+/* Море */
+.board.sea .cell[data-is-even="true"] {
+  background-color: rgba(0, 60, 120, 0.9);
+}
+
+.board.sea .cell[data-is-even="false"] {
+  background-color: rgba(0, 100, 180, 0.9);
+}
+
+/* Лес */
+.board.forest .cell[data-is-even="true"] {
+  background-color: rgba(30, 70, 30, 0.9);
+}
+
+.board.forest .cell[data-is-even="false"] {
+  background-color: rgba(50, 90, 40, 0.9);
+}
+
+/* Пустыня */
+.board.desert .cell[data-is-even="true"] {
+  background-color: rgba(200, 160, 80, 0.9);
+}
+
+.board.desert .cell[data-is-even="false"] {
+  background-color: rgba(230, 190, 110, 0.9);
+}
+
+/* Степь */
+.board.steppe .cell[data-is-even="true"] {
+  background-color: rgba(170, 150, 70, 0.9);
+}
+
+.board.steppe .cell[data-is-even="false"] {
+  background-color: rgba(190, 170, 80, 0.9);
 }
 
 /* Анимация мигания для особой еды */
@@ -69,11 +114,11 @@
 
 /* Темы - светлая и темная */
 .light {
-  background-color: #f0f0f0;
+  background-color: transparent;
 }
 
 .dark {
-  background-color: #202020;
+  background-color: transparent;
   border-color: #444;
 }
 
@@ -81,56 +126,14 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Стили для окружений (улучшенные фоны) */
-.jungle {
-  background-color: #228B22;
-  background-image: 
-    linear-gradient(45deg, #228B22 25%, transparent 25%, transparent 75%, #228B22 75%),
-    linear-gradient(45deg, #228B22 25%, #32CD32 25%, #32CD32 75%, #228B22 75%);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
-}
-
-.sea {
-  background-color: #1E90FF;
-  background-image: 
-    linear-gradient(45deg, #1E90FF 25%, transparent 25%, transparent 75%, #1E90FF 75%),
-    linear-gradient(45deg, #1E90FF 25%, #00BFFF 25%, #00BFFF 75%, #1E90FF 75%);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
-}
-
-.forest {
-  background-color: #556B2F;
-  background-image: 
-    linear-gradient(45deg, #556B2F 25%, transparent 25%, transparent 75%, #556B2F 75%),
-    linear-gradient(45deg, #556B2F 25%, #6B8E23 25%, #6B8E23 75%, #556B2F 75%);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
-}
-
-.desert {
-  background-color: #DAA520;
-  background-image: 
-    linear-gradient(45deg, #DAA520 25%, transparent 25%, transparent 75%, #DAA520 75%),
-    linear-gradient(45deg, #DAA520 25%, #F4A460 25%, #F4A460 75%, #DAA520 75%);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
-}
-
-.steppe {
-  background-color: #BDB76B;
-  background-image: 
-    linear-gradient(45deg, #BDB76B 25%, transparent 25%, transparent 75%, #BDB76B 75%),
-    linear-gradient(45deg, #BDB76B 25%, #F0E68C 25%, #F0E68C 75%, #BDB76B 75%);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
-}
-
 /* Общие стили для змеи */
-.snakeHead {
+.snakeHead, .snakeBody {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 10;
-  position: relative;
   border-radius: 4px;
   border-width: 3px !important;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
@@ -163,7 +166,6 @@
 .snakeBody {
   z-index: 5;
   border-radius: 3px;
-  border-width: 3px !important;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
 }
 
@@ -205,6 +207,11 @@
 
 /* Общие стили для еды */
 .food {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
   background-size: cover;
   z-index: 3;
   border-radius: 50%;
@@ -373,12 +380,11 @@
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .boardContainer {
-    max-width: 400px;
+    max-width: 90vw;
   }
   
   .board {
-    max-width: 400px;
-    height: 400px;
+    max-width: 90vw;
   }
   
   .doublePointsIndicator {
@@ -389,17 +395,15 @@
 
 @media (max-width: 480px) {
   .boardContainer {
-    max-width: 320px;
+    max-width: 95vw;
   }
   
   .board {
-    max-width: 320px;
-    height: 320px;
+    max-width: 95vw;
   }
   
   .doublePointsIndicator {
     font-size: 12px;
     padding: 4px 8px;
-    margin-bottom: 5px;
   }
 } 
