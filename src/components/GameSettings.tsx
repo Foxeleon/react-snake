@@ -182,11 +182,23 @@ export const GameSettings: React.FC = () => {
               value={formData.snakeType}
               onChange={handleChange}
             >
-              {availableSnakeTypes.map(type => (
-                <option key={type} value={type}>
-                  {type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                </option>
-              ))}
+              {availableSnakeTypes.map(type => {
+                // Словарь для отображения понятных названий змей
+                const snakeDisplayNames: Record<string, string> = {
+                  'tropical_green': 'Зеленая змея',
+                  'red_sea': 'Морская змея',
+                  'blue_green_sea': 'Угорь',
+                  'forest_boa': 'Лесная змея',
+                  'rattlesnake': 'Песчаная змея',
+                  'striped_viper': 'Гремучая змея',
+                  'mouse_hunter': 'Степная гадюка'
+                };
+                return (
+                  <option key={type} value={type}>
+                    {snakeDisplayNames[type] || type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                  </option>
+                );
+              })}
             </select>
           </div>
 

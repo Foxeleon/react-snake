@@ -27,17 +27,6 @@ const Legend: React.FC = () => {
     'mouse_hunter': 'steppe_adder'
   };
 
-  // Цвета змей для разных типов
-  const snakeColors: Record<string, string> = {
-    'tropical_green': '#4CAF50',  // Зеленый
-    'red_sea': '#F44336',         // Красный
-    'blue_green_sea': '#00BCD4',  // Сине-зеленый
-    'forest_boa': '#8BC34A',      // Светло-зеленый
-    'rattlesnake': '#FFC107',     // Желтый
-    'striped_viper': '#FF9800',   // Оранжевый
-    'mouse_hunter': '#795548'     // Коричневый
-  };
-
   // Цвета еды для разных типов
   const foodColors: Record<string, string> = {
     'bug': '#95a5a6',       // Серый
@@ -200,14 +189,26 @@ const Legend: React.FC = () => {
 
   // Добавим более яркое и интересное представление змеи в легенде
   const renderSnakeHead = () => {
-    const color = snakeColors[snakeType] || '#4CAF50';
+    // Получаем цвет змеи из стилей GameBoard для соответствия с игровым полем
+    const SNAKE_STYLES = {
+      'tropical_green': { bg: '#32CD32', border: '#228B22' },
+      'red_sea': { bg: '#FF4500', border: '#B22222' },
+      'blue_green_sea': { bg: '#20B2AA', border: '#008B8B' },
+      'forest_boa': { bg: '#8B4513', border: '#A0522D' },
+      'rattlesnake': { bg: '#F0E68C', border: '#DAA520' },
+      'striped_viper': { bg: '#A9A9A9', border: '#696969' },
+      'mouse_hunter': { bg: '#9ACD32', border: '#6B8E23' }
+    };
+    
+    const snakeStyle = SNAKE_STYLES[snakeType] || { bg: '#4CAF50', border: '#388E3C' };
     const eyeColor = '#000';
 
     return (
       <div 
         className={styles.snakeExample} 
         style={{ 
-          backgroundColor: color,
+          backgroundColor: snakeStyle.bg,
+          border: `3px solid ${snakeStyle.border}`,
           position: 'relative'
         }}
       >
