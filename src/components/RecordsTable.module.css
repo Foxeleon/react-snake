@@ -1,0 +1,164 @@
+.recordsOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.recordsPanel {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.recordsPanel h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dark {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+.dark h2 {
+  color: #f0f0f0;
+}
+
+.recordsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.recordsTable th, .recordsTable td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.dark .recordsTable th, .dark .recordsTable td {
+  border-bottom: 1px solid #444;
+}
+
+.recordsTable th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  color: #333;
+}
+
+.dark .recordsTable th {
+  background-color: #3c3c3c;
+  color: #f0f0f0;
+}
+
+.recordsTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.dark .recordsTable tr:hover {
+  background-color: #3a3a3a;
+}
+
+.top1 {
+  background-color: rgba(255, 215, 0, 0.1);
+  font-weight: bold;
+}
+
+.top2 {
+  background-color: rgba(192, 192, 192, 0.1);
+  font-weight: bold;
+}
+
+.top3 {
+  background-color: rgba(205, 127, 50, 0.1);
+  font-weight: bold;
+}
+
+.dark .top1 {
+  background-color: rgba(255, 215, 0, 0.15);
+}
+
+.dark .top2 {
+  background-color: rgba(192, 192, 192, 0.15);
+}
+
+.dark .top3 {
+  background-color: rgba(205, 127, 50, 0.15);
+}
+
+.noRecords {
+  text-align: center;
+  margin: 30px 0;
+  font-style: italic;
+  color: #777;
+}
+
+.dark .noRecords {
+  color: #aaa;
+}
+
+.closeButton {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: #3e8e41;
+}
+
+.dark .closeButton {
+  background-color: #388e3c;
+}
+
+.dark .closeButton:hover {
+  background-color: #2e7d32;
+}
+
+@media (max-width: 768px) {
+  .recordsTable {
+    font-size: 14px;
+  }
+  
+  .recordsTable th, .recordsTable td {
+    padding: 8px 10px;
+  }
+  
+  .recordsPanel {
+    padding: 15px;
+    width: 95%;
+  }
+} 
