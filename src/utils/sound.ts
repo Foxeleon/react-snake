@@ -1,6 +1,7 @@
 import { Environment, FoodType } from "@/types/game";
 import { useGameStore } from '@/store/gameStore';
 
+//TODO исправить и добавить звуки
 // Типы звуковых эффектов
 export type SoundEffect = 
   | 'eat'
