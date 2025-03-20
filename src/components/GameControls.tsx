@@ -2,7 +2,34 @@ import React, { useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameControls.module.css';
 
-export const GameControls: React.FC = () => {
+interface GameControlsProps {
+  onStartGame?: () => void; // Опциональный пропс для обработки запуска игры
+}
+
+// Отдельный компонент для кнопок меню
+const MenuButtons: React.FC = () => {
+  const { toggleSettings, toggleRecords, toggleLegend, showLegend } = useGameStore();
+
+  return (
+    <div className={styles.menuButtons}>
+      <button onClick={toggleSettings} className={styles.settingsButton}>
+        ⚙️
+      </button>
+      <button onClick={toggleRecords} className={styles.recordsButton}>
+        🏆
+      </button>
+      <button 
+        onClick={toggleLegend} 
+        className={`${styles.legendButton} ${showLegend ? styles.active : ''}`}
+        title={showLegend ? "Скрыть легенду" : "Показать легенду"}
+      >
+        ℹ️
+      </button>
+    </div>
+  );
+};
+
+export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
   const { 
     startGame, 
     resetGame, 
@@ -13,8 +40,22 @@ export const GameControls: React.FC = () => {
     settings,
     isPlaying,
     toggleSettings,
-    toggleRecords
+    toggleRecords,
+    isPaused,
+    pauseGame,
+    resumeGame
   } = useGameStore();
+
+  // Обработка нажатия на кнопку "Играть снова"
+  const handlePlayAgain = () => {
+    resetGame(); // Сбрасываем состояние игры
+    
+    // Сразу запускаем игру без показа стартового экрана
+    setTimeout(() => {
+      startGame();
+      if (onStartGame) onStartGame();
+    }, 0);
+  };
 
   // Обработка клавиатурных событий для управления змейкой
   useEffect(() => {
@@ -43,14 +84,14 @@ export const GameControls: React.FC = () => {
 
   // Игровой цикл
   useEffect(() => {
-    if (!isPlaying || isGameOver) return;
+    if (!isPlaying || isGameOver || isPaused) return;
 
     const gameLoop = setInterval(() => {
       moveSnake();
     }, speed);
 
     return () => clearInterval(gameLoop);
-  }, [moveSnake, isGameOver, speed, isPlaying]);
+  }, [moveSnake, isGameOver, speed, isPlaying, isPaused]);
   
   // Обработчики для сенсорного управления на мобильных устройствах
   const handleTouchUp = () => {
@@ -71,12 +112,13 @@ export const GameControls: React.FC = () => {
 
   return (
     <div className={`${styles.controls} ${styles[settings.theme]}`}>
+      <MenuButtons />
       {isGameOver ? (
         <div className={styles.gameOverControls}>
           <h2>Игра окончена!</h2>
           <p>Ваш счет: {useGameStore.getState().score}</p>
           <div className={styles.buttonGroup}>
-            <button onClick={resetGame}>
+            <button onClick={handlePlayAgain}>
               Играть снова
             </button>
             <button onClick={toggleSettings}>
@@ -90,7 +132,13 @@ export const GameControls: React.FC = () => {
       ) : (
         <>
           {!isPlaying && (
-            <button onClick={startGame} className={styles.startButton}>
+            <button 
+              onClick={() => {
+                startGame();
+                if (onStartGame) onStartGame();
+              }}
+              className={styles.startButton}
+            >
               Начать игру
             </button>
           )}
@@ -130,14 +178,14 @@ export const GameControls: React.FC = () => {
             <p>Используйте стрелки для управления змейкой</p>
           </div>
           
-          <div className={styles.menuButtons}>
-            <button onClick={toggleSettings} className={styles.settingsButton}>
-              ⚙️
+          {isPlaying && !isGameOver && (
+            <button 
+              onClick={isPaused ? resumeGame : pauseGame}
+              className={styles.pauseButton}
+            >
+              {isPaused ? 'Продолжить' : 'Пауза'}
             </button>
-            <button onClick={toggleRecords} className={styles.recordsButton}>
-              🏆
-            </button>
-          </div>
+          )}
         </>
       )}
     </div>

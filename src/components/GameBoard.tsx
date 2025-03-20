@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
+import { Position, Direction, Environment } from '@/types/game';
 import styles from './GameBoard.module.css';
-import { Direction, Position } from '@/types/game';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils/sound';
 
@@ -13,7 +13,6 @@ export const GameBoard = () => {
     isGameOver,
     settings,
     doublePointsActive,
-    moveSnake,
     changeDirection
   } = useGameStore();
 
@@ -26,6 +25,31 @@ export const GameBoard = () => {
   // Инициализация анимаций
   useEffect(() => {
     addAnimationStyles();
+  }, []);
+
+  // Состояние для отслеживания размеров окна
+  const [windowDimension, setWindowDimension] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+
+  // Обработка изменения размера окна
+  useEffect(() => {
+    const handleResize = () => {
+      // Форсируем ререндер при изменении размера окна
+      setWindowDimension({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Вызываем сразу для начальной настройки
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Обработка окончания игры
@@ -78,6 +102,65 @@ export const GameBoard = () => {
     };
   }, [changeDirection]);
 
+  // Обработка сенсорных жестов для мобильных устройств
+  useEffect(() => {
+    if (!boardRef.current) return;
+    
+    let touchStartX = 0;
+    let touchStartY = 0;
+    
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+    
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!touchStartX || !touchStartY) return;
+      
+      const touchEndX = e.touches[0].clientX;
+      const touchEndY = e.touches[0].clientY;
+      
+      const diffX = touchStartX - touchEndX;
+      const diffY = touchStartY - touchEndY;
+      
+      // Минимальное расстояние для обнаружения свайпа - уменьшаем чувствительность
+      const minSwipeDistance = 20;
+      
+      // Определяем направление свайпа
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
+        // Горизонтальный свайп
+        if (diffX > 0) {
+          // Свайп влево
+          changeDirection('LEFT');
+        } else {
+          // Свайп вправо
+          changeDirection('RIGHT');
+        }
+      } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > minSwipeDistance) {
+        // Вертикальный свайп
+        if (diffY > 0) {
+          // Свайп вверх
+          changeDirection('UP');
+        } else {
+          // Свайп вниз
+          changeDirection('DOWN');
+        }
+      }
+      
+      touchStartX = 0;
+      touchStartY = 0;
+    };
+    
+    const board = boardRef.current;
+    board.addEventListener('touchstart', handleTouchStart);
+    board.addEventListener('touchmove', handleTouchMove);
+    
+    return () => {
+      board.removeEventListener('touchstart', handleTouchStart);
+      board.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [changeDirection]);
+
   // Рендер сетки игрового поля
   const renderGrid = () => {
     const cells = [];
@@ -85,57 +168,82 @@ export const GameBoard = () => {
 
     for (let y = 0; y < gridSize; y++) {
       for (let x = 0; x < gridSize; x++) {
-        const isSnakeHead = snake.length > 0 && snake[0].x === x && snake[0].y === y;
-        const isSnakeBody = !isSnakeHead && snake.some((segment, idx) => segment.x === x && segment.y === y);
-        const isFood = foods.some(food => food.position.x === x && food.position.y === y);
+        // Определяем, является ли клетка "четной" для шахматного узора
+        // Используем для определения четности (x + y) % 2 === 0
+        const isEvenCell = (x + y) % 2 === 0;
         
+        // Базовый класс для ячейки
         let cellClass = styles.cell;
+        
         const cellStyle = {
           width: `${cellSize}%`,
           height: `${cellSize}%`
         };
 
-        // Стили для вращения головы змеи
-        const headStyle = {
-          ...cellStyle,
-          transform: `rotate(${getHeadRotationDegrees(direction)}deg)`
-        };
-
-        // Добавление классов для элементов змеи
-        if (isSnakeHead) {
-          cellClass = `${cellClass} ${styles.snakeHead} ${styles[snakeType]}`;
-        } else if (isSnakeBody) {
-          cellClass = `${cellClass} ${styles.snakeBody} ${styles[snakeType]}`;
-        }
-
-        // Добавление классов для еды
-        const currentFood = foods.find(food => food.position.x === x && food.position.y === y);
-        if (isFood && currentFood) {
-          const foodClass = `${styles.food} ${styles[`food_${currentFood.name}`] || styles[`food_${currentFood.type}`]}`;
-          const isSpecial = currentFood.type === 'special';
-          const isBadFood = currentFood.type === 'penalty';
-
-          // Добавление эффекта мигания для особой еды
-          if (isSpecial || isBadFood) {
-            cellClass = `${cellClass} ${foodClass} ${styles.blinking}`;
-          } else {
-            cellClass = `${cellClass} ${foodClass}`;
-          }
-        }
-
+        // Создаем базовую ячейку
         cells.push(
           <div
             key={`${x}-${y}`}
             className={cellClass}
-            style={isSnakeHead ? headStyle : cellStyle}
+            style={cellStyle}
             data-x={x}
             data-y={y}
-          />
+            data-is-even={isEvenCell.toString()}
+          >
+            {/* Элементы на клетке (змея или еда) */}
+            {renderCellContent(x, y)}
+          </div>
         );
       }
     }
 
     return cells;
+  };
+
+  // Рендер содержимого ячейки (змея или еда)
+  const renderCellContent = (x: number, y: number) => {
+    const isSnakeHead = snake.length > 0 && snake[0].x === x && snake[0].y === y;
+    const isSnakeBody = !isSnakeHead && snake.some((segment) => segment.x === x && segment.y === y);
+    const isFood = foods.some(food => food.position.x === x && food.position.y === y);
+    
+    // Если ячейка пустая
+    if (!isSnakeHead && !isSnakeBody && !isFood) {
+      return null;
+    }
+    
+    // Стили для вращения головы змеи
+    const headStyle = {
+      transform: `rotate(${getHeadRotationDegrees(direction)}deg)`
+    };
+
+    // Отображение головы змеи
+    if (isSnakeHead) {
+      return <div className={`${styles.snakeHead} ${styles[snakeType]}`} style={headStyle} />;
+    }
+    
+    // Отображение тела змеи
+    if (isSnakeBody) {
+      return <div className={`${styles.snakeBody} ${styles[snakeType]}`} />;
+    }
+    
+    // Отображение еды
+    if (isFood) {
+      const currentFood = foods.find(food => food.position.x === x && food.position.y === y);
+      if (currentFood) {
+        const foodClass = `${styles.food} ${styles[`food_${currentFood.name}`] || styles[`food_${currentFood.type}`]}`;
+        const isSpecial = currentFood.type === 'special';
+        const isBadFood = currentFood.type === 'penalty';
+
+        // Добавление эффекта мигания для особой еды
+        if (isSpecial || isBadFood) {
+          return <div className={`${foodClass} ${styles.blinking}`} />;
+        } else {
+          return <div className={foodClass} />;
+        }
+      }
+    }
+    
+    return null;
   };
 
   // Определение угла поворота головы змеи в градусах
@@ -153,19 +261,14 @@ export const GameBoard = () => {
   useEffect(() => {
     if (snake.length > 0 && boardRef.current) {
       // Создаем анимационный эффект для текущей позиции головы змеи
-      createAnimationEffect(
-        environment,
-        snake[0],
-        gridSize,
-        boardRef.current
-      );
+      createSnakeAnimation(snake[0], environment);
       
       // Воспроизводим звук движения (с меньшей частотой, чтобы не перегружать звуком)
       if (snake.length % 3 === 0) {
         playSound('move', environment);
       }
     }
-  }, [snake, environment, gridSize]);
+  }, [snake, environment, gridSize, direction]);
 
   // Обработка поедания еды
   useEffect(() => {
@@ -186,74 +289,42 @@ export const GameBoard = () => {
     }
   }, [snake, foods, environment]);
 
-  // Добавляем сенсорное управление для мобильных устройств
-  useEffect(() => {
+  // Отображение индикатора удвоения очков
+  const renderDoublePointsIndicator = () => {
+    if (doublePointsActive) {
+      return (
+        <div className={styles.doublePointsIndicator}>
+          x2 ОЧКИ УДВОЕНЫ!
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Функция для создания анимации при движении змеи
+  const createSnakeAnimation = (position: Position, environment: Environment) => {
     if (!boardRef.current) return;
     
-    let touchStartX = 0;
-    let touchStartY = 0;
-    
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    };
-    
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartX || !touchStartY) return;
-      
-      const touchEndX = e.touches[0].clientX;
-      const touchEndY = e.touches[0].clientY;
-      
-      const deltaX = touchEndX - touchStartX;
-      const deltaY = touchEndY - touchStartY;
-      
-      // Определяем направление свайпа
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // Горизонтальный свайп
-        if (deltaX > 30 && lastDirectionRef.current !== 'LEFT') {
-          changeDirection('RIGHT');
-        } else if (deltaX < -30 && lastDirectionRef.current !== 'RIGHT') {
-          changeDirection('LEFT');
-        }
-      } else {
-        // Вертикальный свайп
-        if (deltaY > 30 && lastDirectionRef.current !== 'UP') {
-          changeDirection('DOWN');
-        } else if (deltaY < -30 && lastDirectionRef.current !== 'DOWN') {
-          changeDirection('UP');
-        }
-      }
-      
-      // Сбрасываем начальные координаты, чтобы избежать множественных срабатываний
-      touchStartX = touchEndX;
-      touchStartY = touchEndY;
-    };
-    
-    const gameBoard = boardRef.current;
-    gameBoard.addEventListener('touchstart', handleTouchStart);
-    gameBoard.addEventListener('touchmove', handleTouchMove);
-    
-    return () => {
-      gameBoard.removeEventListener('touchstart', handleTouchStart);
-      gameBoard.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [changeDirection]);
+    createAnimationEffect(
+      environment,
+      position,
+      settings.gridSize,
+      boardRef.current,
+      direction // Передаем текущее направление движения змеи
+    );
+  };
 
   return (
     <div className={styles.boardContainer}>
-      {doublePointsActive && (
-        <div className={styles.doublePointsIndicator}>
-          Удвоение очков активно!
-        </div>
-      )}
-      <div
+      {renderDoublePointsIndicator()}
+      <div 
         ref={boardRef}
         className={`${styles.board} ${styles[environment]} ${styles[theme]} ${isGameOver ? styles.gameOver : ''}`}
-        data-testid="game-board"
-        data-grid-size={gridSize}
       >
         {renderGrid()}
       </div>
     </div>
   );
 }; 
+
+export default GameBoard; 

@@ -24,7 +24,8 @@ import {
   FOOD_SPAWN_PROBABILITIES,
   DOUBLE_POINTS_DURATION,
   INITIAL_SPEED,
-  SPEED_INCREASE_RATE
+  SPEED_INCREASE_RATE,
+  DEFAULT_FIELD_SELECTION_MODE
 } from '@/constants/game';
 import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils/storage';
 
@@ -163,7 +164,7 @@ const DEFAULT_SETTINGS: GameSettings = {
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
   soundEnabled: true,
-  fieldSelectionMode: 'random'
+  fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE
 };
 
 export const useGameStore = create<GameStore>((set, get) => {
@@ -189,6 +190,8 @@ export const useGameStore = create<GameStore>((set, get) => {
     isSettingsOpen: false,
     isAuthenticated: false,
     isRecordsOpen: false,
+    showLegend: false,
+    isPaused: false,
 
     // Методы для игровой логики
     startGame: () => {
@@ -197,11 +200,23 @@ export const useGameStore = create<GameStore>((set, get) => {
       
       // Выбираем окружение в зависимости от режима
       let environment = settings.environment;
-      if (settings.fieldSelectionMode === 'sequential') {
-        environment = getNextEnvironment();
-      }
       
-      const updatedSettings = { ...settings, environment, snakeType: getDefaultSnakeType(environment) };
+      if (settings.fieldSelectionMode === 'sequential') {
+        // Последовательная смена окружения
+        environment = getNextEnvironment();
+      } else if (settings.fieldSelectionMode === 'random') {
+        // Случайный выбор окружения
+        const environments: Environment[] = ['jungle', 'sea', 'forest', 'desert', 'steppe'];
+        const randomIndex = Math.floor(Math.random() * environments.length);
+        environment = environments[randomIndex];
+      }
+      // В режиме 'static' оставляем текущее окружение
+      
+      // Обновляем настройки, но сохраняем выбранный тип змеи
+      const updatedSettings = { 
+        ...settings, 
+        environment
+      };
       
       set({
         snake: initialSnake,
@@ -215,6 +230,35 @@ export const useGameStore = create<GameStore>((set, get) => {
         doublePointsEndTime: null,
         settings: updatedSettings
       });
+    },
+
+    setSnakeType: (snakeType: SnakeType) => {
+      // Проверяем, доступен ли этот тип змеи для текущего окружения
+      const { settings } = get();
+      const availableTypes = ENVIRONMENT_TO_SNAKE_TYPES[settings.environment];
+      
+      if (availableTypes.includes(snakeType)) {
+        set({
+          settings: {
+            ...settings,
+            snakeType
+          }
+        });
+      }
+    },
+
+    setFieldSelectionMode: (fieldSelectionMode: FieldSelectionMode) => {
+      const { settings } = get();
+      set({
+        settings: {
+          ...settings,
+          fieldSelectionMode
+        }
+      });
+    },
+
+    toggleLegend: () => {
+      set(state => ({ showLegend: !state.showLegend }));
     },
 
     moveSnake: () => {
@@ -411,16 +455,6 @@ export const useGameStore = create<GameStore>((set, get) => {
       get().saveSettings();
     },
     
-    setFieldSelectionMode: (mode: FieldSelectionMode) => {
-      set(state => ({
-        settings: {
-          ...state.settings,
-          fieldSelectionMode: mode
-        }
-      }));
-      get().saveSettings();
-    },
-
     toggleSettings: () => {
       set(state => ({
         isSettingsOpen: !state.isSettingsOpen
@@ -459,6 +493,35 @@ export const useGameStore = create<GameStore>((set, get) => {
     saveSettings: () => {
       const { settings } = get();
       saveSettings(settings);
+    },
+
+    updateSettings: (newSettings: {
+      playerName: string;
+      environment: Environment;
+      theme: Theme;
+      boardSize: BoardSize;
+      fieldSelectionMode: FieldSelectionMode;
+      soundEnabled: boolean;
+      snakeType: SnakeType;
+    }) => {
+      set(state => ({
+        ...state,
+        settings: {
+          ...state.settings,
+          ...newSettings
+        }
+      }));
+      
+      // Сохраняем настройки в localStorage
+      localStorage.setItem('snakeGameSettings', JSON.stringify(newSettings));
+    },
+
+    pauseGame: () => {
+      set({ isPaused: true });
+    },
+    
+    resumeGame: () => {
+      set({ isPaused: false });
     }
   };
 }); 

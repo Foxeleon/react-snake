@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './WelcomeScreen.module.css';
 
-export const WelcomeScreen: React.FC = () => {
+interface WelcomeScreenProps {
+  onStart?: () => void;
+}
+
+export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
   const { setPlayerName, startGame, settings } = useGameStore();
   const [name, setName] = useState(settings.playerName);
   const [showError, setShowError] = useState(false);
@@ -22,6 +26,7 @@ export const WelcomeScreen: React.FC = () => {
     
     setPlayerName(name);
     startGame();
+    if (onStart) onStart();
   };
   
   return (

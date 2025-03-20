@@ -8,17 +8,29 @@ const STORAGE_KEYS = {
 
 // Функция для шифрования данных
 const encryptData = (data: any): string => {
-  // Простое шифрование - в реальном приложении использовать более надежный метод
-  return btoa(JSON.stringify(data));
+  try {
+    // Используем encodeURIComponent для преобразования Unicode в URL-encoded строку,
+    // которая содержит только ASCII символы
+    return btoa(encodeURIComponent(JSON.stringify(data)));
+  } catch (e) {
+    console.error('Error encrypting data:', e);
+    return JSON.stringify(data); // Фолбэк без шифрования в случае ошибки
+  }
 };
 
 // Функция для дешифрования данных
 const decryptData = <T>(encryptedData: string): T | null => {
   try {
-    return JSON.parse(atob(encryptedData)) as T;
+    // Расшифровываем и декодируем URL-encoded строку обратно в Unicode
+    return JSON.parse(decodeURIComponent(atob(encryptedData))) as T;
   } catch (e) {
-    console.error('Error decrypting data:', e);
-    return null;
+    // Если не удалось дешифровать, возможно, данные сохранены без шифрования
+    try {
+      return JSON.parse(encryptedData) as T;
+    } catch (innerError) {
+      console.error('Error decrypting data:', e, innerError);
+      return null;
+    }
   }
 };
 
