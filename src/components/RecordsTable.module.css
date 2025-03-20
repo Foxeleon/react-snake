@@ -54,22 +54,25 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .recordsTable th, .recordsTable td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  color: #333;
 }
 
 .dark .recordsTable th, .dark .recordsTable td {
   border-bottom: 1px solid #444;
+  color: #f0f0f0;
 }
 
 .recordsTable th {
-  background-color: #f8f8f8;
+  background-color: #e8f5e9;
   font-weight: bold;
-  color: #333;
+  color: #2c5e2e;
 }
 
 .dark .recordsTable th {
@@ -78,7 +81,15 @@
 }
 
 .recordsTable tr:hover {
-  background-color: #f1f1f1;
+  background-color: #e8f5e9;
+}
+
+.recordsTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.dark .recordsTable tr:nth-child(even) {
+  background-color: #333;
 }
 
 .dark .recordsTable tr:hover {
@@ -86,30 +97,30 @@
 }
 
 .top1 {
-  background-color: rgba(255, 215, 0, 0.1);
+  background-color: rgba(255, 215, 0, 0.2) !important;
   font-weight: bold;
 }
 
 .top2 {
-  background-color: rgba(192, 192, 192, 0.1);
+  background-color: rgba(192, 192, 192, 0.2) !important;
   font-weight: bold;
 }
 
 .top3 {
-  background-color: rgba(205, 127, 50, 0.1);
+  background-color: rgba(205, 127, 50, 0.2) !important;
   font-weight: bold;
 }
 
 .dark .top1 {
-  background-color: rgba(255, 215, 0, 0.15);
+  background-color: rgba(255, 215, 0, 0.25) !important;
 }
 
 .dark .top2 {
-  background-color: rgba(192, 192, 192, 0.15);
+  background-color: rgba(192, 192, 192, 0.25) !important;
 }
 
 .dark .top3 {
-  background-color: rgba(205, 127, 50, 0.15);
+  background-color: rgba(205, 127, 50, 0.25) !important;
 }
 
 .noRecords {

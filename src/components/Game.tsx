@@ -15,7 +15,10 @@ const Game: React.FC = () => {
     isRecordsOpen,
     showLegend,
     settings,
-    loadSettings
+    loadSettings,
+    toggleSettings,
+    toggleRecords,
+    toggleLegend
   } = useGameStore();
 
   // Загрузка настроек при монтировании компонента
@@ -33,7 +36,24 @@ const Game: React.FC = () => {
 
   return (
     <div className={containerClasses}>
-      <h1 className={styles.gameTitle}>Змейка(snake_react v_alfa)</h1>
+      <div className={styles.header}>
+        <h1 className={styles.gameTitle}>Змейка(snake_react v_alfa)</h1>
+        <div className={styles.headerButtons}>
+          <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
+            ⚙️
+          </button>
+          <button onClick={toggleRecords} className={styles.iconButton} title="Таблица рекордов">
+            🏆
+          </button>
+          <button 
+            onClick={toggleLegend} 
+            className={`${styles.iconButton} ${showLegend ? styles.active : ''}`}
+            title={showLegend ? "Скрыть легенду" : "Показать легенду"}
+          >
+            ℹ️
+          </button>
+        </div>
+      </div>
       
       <div className={styles.boardBackground}>
         <div className={styles.scoreIndicator}>

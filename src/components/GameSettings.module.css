@@ -252,4 +252,15 @@
 
 .dark .hint {
   color: #aaa;
+}
+
+.disabledNote {
+  font-size: 0.8em;
+  color: #ff5252;
+  font-style: italic;
+}
+
+.disabledSelect {
+  opacity: 0.6;
+  cursor: not-allowed;
 } 

@@ -5,7 +5,7 @@ import { Environment, BoardSize, FieldSelectionMode } from '@/types/game';
 import { GRID_SIZES, ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
 
 export const GameSettings: React.FC = () => {
-  const { settings, updateSettings, toggleSettings } = useGameStore();
+  const { settings, updateSettings, toggleSettings, isPlaying, isPaused } = useGameStore();
   
   const [formData, setFormData] = useState({
     playerName: settings.playerName,
@@ -16,6 +16,9 @@ export const GameSettings: React.FC = () => {
     soundEnabled: settings.soundEnabled,
     snakeType: settings.snakeType
   });
+
+  // Определяем, заблокированы ли настройки размера поля
+  const isBoardSizeDisabled = isPlaying; // Блокируем изменение поля во время игры (и паузы)
 
   // Обновление формы при изменении настроек
   useEffect(() => {
@@ -38,6 +41,11 @@ export const GameSettings: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
+    
+    // Проверяем, не пытается ли пользователь изменить размер поля во время паузы
+    if (name === 'boardSize' && isBoardSizeDisabled) {
+      return; // Игнорируем изменение размера поля на паузе
+    }
     
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
@@ -97,12 +105,19 @@ export const GameSettings: React.FC = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="boardSize">Размер поля:</label>
+            <label htmlFor="boardSize">
+              Размер поля:
+              {isBoardSizeDisabled && (
+                <span className={styles.disabledNote}> (недоступно во время игры)</span>
+              )}
+            </label>
             <select
               id="boardSize"
               name="boardSize"
               value={formData.boardSize}
               onChange={handleChange}
+              disabled={isBoardSizeDisabled}
+              className={isBoardSizeDisabled ? styles.disabledSelect : ''}
             >
               <option value="mini">Мини ({GRID_SIZES.mini}x{GRID_SIZES.mini})</option>
               <option value="small">Малый ({GRID_SIZES.small}x{GRID_SIZES.small})</option>
