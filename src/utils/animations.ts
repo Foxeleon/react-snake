@@ -1,4 +1,5 @@
 import { Environment, Position, Direction } from "@/types/game";
+import styles from '@/components/GameBoard.module.css';
 
 /**
  * Создает элемент с анимационным эффектом на игровом поле
@@ -26,51 +27,46 @@ export const createAnimationEffect = (
   // Применение специфических эффектов в зависимости от окружения
   switch (environment) {
     case 'jungle':
-      // Улучшенный эффект ветра в джунглях
-      for (let i = 0; i < 8; i++) {
+      // Легкий эффект ветра в джунглях - почти белый, полупрозрачный
+      for (let i = 0; i < 6; i++) {
         const windEffect = document.createElement('div');
         windEffect.style.position = 'absolute';
         
-        // Яркие оттенки зеленого для эффекта ветра
-        const greenIntensity = 180 + Math.random() * 75;
-        windEffect.style.backgroundColor = `rgba(${100 + Math.random() * 50}, ${greenIntensity}, ${100 + Math.random() * 50}, ${0.4 + Math.random() * 0.3})`;
+        // Очень светлый, почти белый цвет для ветра
+        windEffect.style.backgroundColor = `rgba(250, 255, 250, ${0.15 + Math.random() * 0.15})`;
         windEffect.style.borderRadius = '50%';
         
-        // Размер и форма волны ветра
-        const windSize = 20 + Math.random() * 40;
+        // Маленькие завихрения
+        const windSize = 7 + Math.random() * 12;
         windEffect.style.width = `${windSize}%`;
-        windEffect.style.height = `${windSize * 0.6}%`;
+        windEffect.style.height = `${windSize * 0.4}%`;
         windEffect.style.transform = `rotate(${Math.random() * 360}deg)`;
         
-        // Позиционирование волн ветра вокруг змеи
+        // Позиционирование строго по бокам от головы змеи
         let windX, windY;
         
-        // Базируем позицию на направлении движения
-        switch (i % 4) {
-          case 0: // Впереди змеи
-            windX = direction === 'LEFT' ? 0 : direction === 'RIGHT' ? 100 - windSize : 50 - windSize/2;
-            windY = direction === 'UP' ? 0 : direction === 'DOWN' ? 100 - windSize : 50 - windSize/2;
-            break;
-          case 1: // Справа от змеи
-            windX = direction === 'UP' || direction === 'DOWN' ? 80 : 50;
-            windY = direction === 'LEFT' || direction === 'RIGHT' ? 20 : 50;
-            break;
-          case 2: // Слева от змеи
-            windX = direction === 'UP' || direction === 'DOWN' ? 20 : 50;
-            windY = direction === 'LEFT' || direction === 'RIGHT' ? 80 : 50;
-            break;
-          default: // Случайное расположение вокруг
-            windX = 30 + Math.random() * 40;
-            windY = 30 + Math.random() * 40;
-            break;
+        if (i < 3) { // Правая сторона головы
+          windX = direction === 'RIGHT' ? 60 + Math.random() * 25 : 
+                  direction === 'LEFT' ? 20 + Math.random() * 15 : 
+                  60 + Math.random() * 20;
+          windY = direction === 'UP' ? 30 + Math.random() * 15 : 
+                  direction === 'DOWN' ? 30 + Math.random() * 15 : 
+                  30 + Math.random() * 10;
+        } else { // Левая сторона головы
+          windX = direction === 'RIGHT' ? 10 + Math.random() * 15 : 
+                  direction === 'LEFT' ? 50 + Math.random() * 20 : 
+                  10 + Math.random() * 20;
+          windY = direction === 'UP' ? 30 + Math.random() * 15 : 
+                  direction === 'DOWN' ? 30 + Math.random() * 15 : 
+                  40 + Math.random() * 10;
         }
         
         windEffect.style.left = `${windX}%`;
         windEffect.style.top = `${windY}%`;
         
-        // Задержка для разнообразия анимации
-        const animationDelay = i * 0.08;
-        windEffect.style.animation = `jungleWind ${0.5 + Math.random() * 0.3}s ${animationDelay}s forwards`;
+        // Быстрая анимация для эффекта легкого ветерка
+        const animationDelay = i * 0.03;
+        windEffect.style.animation = `jungleWind ${0.2 + Math.random() * 0.2}s ${animationDelay}s forwards`;
         
         effectElement.appendChild(windEffect);
       }
@@ -375,16 +371,16 @@ export const addAnimationStyles = (): void => {
       
       @keyframes jungleWind {
         0% { 
-          opacity: 0.8;
-          transform: scale(0.2) rotate(0deg);
+          opacity: 0.4;
+          transform: scale(0.3) rotate(0deg);
         }
         50% {
-          opacity: 0.6;
-          transform: scale(1.2) rotate(120deg);
+          opacity: 0.25;
+          transform: scale(0.8) rotate(30deg);
         }
         100% { 
           opacity: 0;
-          transform: scale(1.8) rotate(240deg);
+          transform: scale(1.2) rotate(60deg);
         }
       }
       

@@ -93,4 +93,7 @@ export interface GameStore extends GameState {
   saveRecord: () => void;
   loadSettings: () => void;
   saveSettings: () => void;
+  isPaused: boolean;
+  pauseGame: () => void;
+  resumeGame: () => void;
 } 

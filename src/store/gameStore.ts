@@ -191,6 +191,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     isAuthenticated: false,
     isRecordsOpen: false,
     showLegend: false,
+    isPaused: false,
 
     // Методы для игровой логики
     startGame: () => {
@@ -513,6 +514,14 @@ export const useGameStore = create<GameStore>((set, get) => {
       
       // Сохраняем настройки в localStorage
       localStorage.setItem('snakeGameSettings', JSON.stringify(newSettings));
+    },
+
+    pauseGame: () => {
+      set({ isPaused: true });
+    },
+    
+    resumeGame: () => {
+      set({ isPaused: false });
     }
   };
 }); 
