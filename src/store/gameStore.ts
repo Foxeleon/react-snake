@@ -504,16 +504,33 @@ export const useGameStore = create<GameStore>((set, get) => {
       soundEnabled: boolean;
       snakeType: SnakeType;
     }) => {
+      const gridSize = GRID_SIZES[newSettings.boardSize];
+      const foodExpirationTime = FOOD_EXPIRATION_TIMES[newSettings.boardSize];
+      
+      // Обновляем настройки с правильным размером сетки и временем жизни еды
+      const updatedSettings: GameSettings = {
+        ...newSettings,
+        gridSize,
+        foodExpirationTime
+      };
+      
       set(state => ({
         ...state,
-        settings: {
-          ...state.settings,
-          ...newSettings
-        }
+        settings: updatedSettings
       }));
       
+      // Если игра не активна, пересоздаем змею с новым размером
+      const { isPlaying } = get();
+      if (!isPlaying) {
+        const initialSnake = getInitialSnake(gridSize);
+        set({
+          snake: initialSnake,
+          foods: [generateFood(initialSnake, gridSize, newSettings.environment)]
+        });
+      }
+      
       // Сохраняем настройки в localStorage
-      localStorage.setItem('snakeGameSettings', JSON.stringify(newSettings));
+      saveSettings(updatedSettings);
     },
 
     pauseGame: () => {

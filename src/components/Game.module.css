@@ -111,4 +111,129 @@
     font-size: 28px;
     margin: 5px 0 15px;
   }
+}
+
+/* Общие стили контейнера игры */
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Roboto', Arial, sans-serif;
+  transition: background 0.5s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Градиентные фоны для разных окружений - светлая тема */
+.jungle {
+  background: linear-gradient(135deg, #2d6a4f, #40916c, #52b788);
+  color: white;
+}
+
+.sea {
+  background: linear-gradient(135deg, #184e77, #1a759f, #34a0a4);
+  color: white;
+}
+
+.forest {
+  background: linear-gradient(135deg, #344e41, #3a5a40, #588157);
+  color: white;
+}
+
+.desert {
+  background: linear-gradient(135deg, #cb997e, #ddbea9, #ffe8d6);
+  color: #6b705c;
+}
+
+.steppe {
+  background: linear-gradient(135deg, #bc6c25, #dda15e, #fefae0);
+  color: #283618;
+}
+
+/* Градиентные фоны для разных окружений - темная тема */
+.dark.jungle {
+  background: linear-gradient(135deg, #1b4332, #2d6a4f, #40916c);
+  color: #d8f3dc;
+}
+
+.dark.sea {
+  background: linear-gradient(135deg, #03045e, #0077b6, #00b4d8);
+  color: #caf0f8;
+}
+
+.dark.forest {
+  background: linear-gradient(135deg, #081c15, #1b4332, #2d6a4f);
+  color: #b7e4c7;
+}
+
+.dark.desert {
+  background: linear-gradient(135deg, #7f5539, #9c6644, #b08968);
+  color: #ede0d4;
+}
+
+.dark.steppe {
+  background: linear-gradient(135deg, #6c584c, #a98467, #dde5b6);
+  color: #f0ead2;
+}
+
+/* Стилизация заголовка игры */
+.gameTitle {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Фон позади доски */
+.boardBackground {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  max-width: min(95vw, 95vh);
+}
+
+/* Стилизация указателя счета */
+.scoreIndicator {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 10px;
+  margin: 10px 0;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+/* Стилизация панели инструментов */
+.controlsPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 15px;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  width: min(500px, 95%);
+}
+
+/* Адаптация к мобильным устройствам */
+@media (max-width: 768px) {
+  .gameTitle {
+    font-size: 1.8rem;
+  }
+  
+  .boardBackground {
+    padding: 10px;
+  }
+  
+  .scoreIndicator {
+    font-size: 1.2rem;
+  }
 } 

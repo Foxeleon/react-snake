@@ -116,7 +116,6 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
       {isGameOver ? (
         <div className={styles.gameOverControls}>
           <h2>Игра окончена!</h2>
-          <p>Ваш счет: {useGameStore.getState().score}</p>
           <div className={styles.buttonGroup}>
             <button onClick={handlePlayAgain}>
               Играть снова
