@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { Position, Direction, Environment, Food } from '@/types/game';
+import { Position, Direction, Environment } from '@/types/game';
 import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils/sound';
@@ -262,13 +262,7 @@ export const GameBoard = () => {
   useEffect(() => {
     if (snake.length > 0 && boardRef.current) {
       // Создаем анимационный эффект для текущей позиции головы змеи
-      createAnimationEffect(
-        snake[0], 
-        environment, 
-        direction, 
-        gridSize, 
-        boardRef.current
-      );
+      createSnakeAnimation(snake[0], environment);
       
       // Воспроизводим звук движения (с меньшей частотой, чтобы не перегружать звуком)
       if (snake.length % 3 === 0) {
@@ -313,11 +307,11 @@ export const GameBoard = () => {
     if (!boardRef.current) return;
     
     createAnimationEffect(
-      position,
       environment,
-      direction,
+      position,
       settings.gridSize,
-      boardRef.current
+      boardRef.current,
+      direction // Передаем текущее направление движения змеи
     );
   };
 

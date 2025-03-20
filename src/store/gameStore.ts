@@ -27,6 +27,7 @@ import {
   SPEED_INCREASE_RATE,
   DEFAULT_FIELD_SELECTION_MODE
 } from '@/constants/game';
+import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils/storage';
 
 // Начальная позиция змейки
 const getInitialSnake = (gridSize: number): Position[] => {
@@ -166,42 +167,10 @@ const DEFAULT_SETTINGS: GameSettings = {
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE
 };
 
-// Функция для безопасной загрузки данных из localStorage
-const safeLoadFromLocalStorage = (key: string, defaultValue: any) => {
-  try {
-    const savedData = localStorage.getItem(key);
-    if (savedData) {
-      return JSON.parse(savedData);
-    }
-  } catch (error) {
-    console.warn(`Ошибка при загрузке ${key} из localStorage:`, error);
-  }
-  return defaultValue;
-};
-
-// Функция для безопасного сохранения данных в localStorage
-const safeSaveToLocalStorage = (key: string, data: any) => {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (error) {
-    console.warn(`Ошибка при сохранении ${key} в localStorage:`, error);
-  }
-};
-
-// Загрузка настроек из localStorage
-const getSavedSettings = () => {
-  return safeLoadFromLocalStorage('snakeGameSettings', DEFAULT_SETTINGS);
-};
-
-// Загрузка рекордов из localStorage
-const getSavedRecords = () => {
-  return safeLoadFromLocalStorage('snakeGameRecords', []);
-};
-
 export const useGameStore = create<GameStore>((set, get) => {
   // Загрузка настроек и рекордов при инициализации
-  const savedSettings = getSavedSettings() || DEFAULT_SETTINGS;
-  const savedRecords = getSavedRecords();
+  const savedSettings = loadSettings() || DEFAULT_SETTINGS;
+  const savedRecords = loadRecords();
   
   const initialSnake = getInitialSnake(savedSettings.gridSize);
   
@@ -222,7 +191,6 @@ export const useGameStore = create<GameStore>((set, get) => {
     isAuthenticated: false,
     isRecordsOpen: false,
     showLegend: false,
-    isPaused: false,
 
     // Методы для игровой логики
     startGame: () => {
@@ -290,14 +258,6 @@ export const useGameStore = create<GameStore>((set, get) => {
 
     toggleLegend: () => {
       set(state => ({ showLegend: !state.showLegend }));
-    },
-
-    togglePause: () => {
-      // Можно ставить на паузу только если игра активна и не окончена
-      const { isPlaying, isGameOver } = get();
-      if (isPlaying && !isGameOver) {
-        set(state => ({ isPaused: !state.isPaused }));
-      }
     },
 
     moveSnake: () => {
@@ -507,47 +467,31 @@ export const useGameStore = create<GameStore>((set, get) => {
     },
 
     saveRecord: () => {
-      const { score, settings, records } = get();
-      
+      const { score, settings } = get();
       if (score <= 0) return;
-      
-      const newRecord = {
-        name: settings.playerName || 'Игрок',
+
+      const newRecord: PlayerRecord = {
+        name: settings.playerName,
         score,
         environment: settings.environment,
         boardSize: settings.boardSize,
         date: new Date().toISOString()
       };
-      
-      const updatedRecords = [...records, newRecord]
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 10); // Сохраняем только топ-10 рекордов
-      
+
+      const updatedRecords = addRecord(newRecord);
       set({ records: updatedRecords });
-      safeSaveToLocalStorage('snakeGameRecords', updatedRecords);
     },
 
     loadSettings: () => {
-      try {
-        const savedSettings = safeLoadFromLocalStorage('snakeGameSettings', null);
-        
-        if (savedSettings) {
-          set(state => ({
-            ...state,
-            settings: {
-              ...state.settings,
-              ...savedSettings
-            }
-          }));
-        }
-      } catch (error) {
-        console.warn('Ошибка при загрузке настроек:', error);
+      const savedSettings = loadSettings();
+      if (savedSettings) {
+        set({ settings: savedSettings });
       }
     },
 
     saveSettings: () => {
       const { settings } = get();
-      safeSaveToLocalStorage('snakeGameSettings', settings);
+      saveSettings(settings);
     },
 
     updateSettings: (newSettings: {
@@ -568,7 +512,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       }));
       
       // Сохраняем настройки в localStorage
-      safeSaveToLocalStorage('snakeGameSettings', newSettings);
+      localStorage.setItem('snakeGameSettings', JSON.stringify(newSettings));
     }
   };
 }); 

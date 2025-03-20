@@ -4,11 +4,11 @@ import { Environment, Position, Direction } from "@/types/game";
  * Создает элемент с анимационным эффектом на игровом поле
  */
 export const createAnimationEffect = (
-  position: Position,
   environment: Environment,
-  direction: Direction = 'RIGHT',
-  gridSize: number = 15,
-  boardElement: HTMLElement = document.getElementById('gameBoard') as HTMLElement
+  position: Position,
+  gridSize: number,
+  boardElement: HTMLElement,
+  direction: Direction = 'RIGHT'
 ): void => {
   const effectElement = document.createElement('div');
   
@@ -26,49 +26,42 @@ export const createAnimationEffect = (
   // Применение специфических эффектов в зависимости от окружения
   switch (environment) {
     case 'jungle':
-      // Улучшенный эффект ветра в джунглях, меньше и аккуратнее
-      for (let i = 0; i < 6; i++) { // Уменьшил количество эффектов
+      // Улучшенный эффект ветра в джунглях
+      for (let i = 0; i < 8; i++) {
         const windEffect = document.createElement('div');
         windEffect.style.position = 'absolute';
         
-        // Приглушенные оттенки зеленого для эффекта ветра
+        // Яркие оттенки зеленого для эффекта ветра
         const greenIntensity = 180 + Math.random() * 75;
-        windEffect.style.backgroundColor = `rgba(${100 + Math.random() * 50}, ${greenIntensity}, ${100 + Math.random() * 50}, ${0.2 + Math.random() * 0.2})`; // Меньшая непрозрачность
+        windEffect.style.backgroundColor = `rgba(${100 + Math.random() * 50}, ${greenIntensity}, ${100 + Math.random() * 50}, ${0.4 + Math.random() * 0.3})`;
         windEffect.style.borderRadius = '50%';
         
-        // Меньший размер эффекта ветра
-        const windSize = 12 + Math.random() * 18; // Уменьшили максимальный размер
+        // Размер и форма волны ветра
+        const windSize = 20 + Math.random() * 40;
         windEffect.style.width = `${windSize}%`;
         windEffect.style.height = `${windSize * 0.6}%`;
         windEffect.style.transform = `rotate(${Math.random() * 360}deg)`;
         
-        // Позиционирование волн ветра вокруг змеи, но не на голове
+        // Позиционирование волн ветра вокруг змеи
         let windX, windY;
         
-        // Позиционирование в зависимости от направления движения
-        switch (i % 3) {
-          case 0: // Сбоку от змеи, а не впереди головы
-            if (direction === 'RIGHT') {
-              windX = -10 + Math.random() * 20; // Слева
-              windY = 20 + Math.random() * 60;
-            } else if (direction === 'LEFT') {
-              windX = 90 + Math.random() * 20; // Справа
-              windY = 20 + Math.random() * 60;
-            } else if (direction === 'UP') {
-              windX = 20 + Math.random() * 60;
-              windY = 90 + Math.random() * 20; // Снизу
-            } else { // DOWN
-              windX = 20 + Math.random() * 60;
-              windY = -10 + Math.random() * 20; // Сверху
-            }
+        // Базируем позицию на направлении движения
+        switch (i % 4) {
+          case 0: // Впереди змеи
+            windX = direction === 'LEFT' ? 0 : direction === 'RIGHT' ? 100 - windSize : 50 - windSize/2;
+            windY = direction === 'UP' ? 0 : direction === 'DOWN' ? 100 - windSize : 50 - windSize/2;
             break;
           case 1: // Справа от змеи
-            windX = direction === 'UP' || direction === 'DOWN' ? 80 + Math.random() * 15 : 50 + Math.random() * 20;
-            windY = direction === 'LEFT' || direction === 'RIGHT' ? 20 + Math.random() * 15 : 50 + Math.random() * 20;
+            windX = direction === 'UP' || direction === 'DOWN' ? 80 : 50;
+            windY = direction === 'LEFT' || direction === 'RIGHT' ? 20 : 50;
             break;
-          default: // Слева от змеи
-            windX = direction === 'UP' || direction === 'DOWN' ? 5 + Math.random() * 15 : 30 + Math.random() * 20;
-            windY = direction === 'LEFT' || direction === 'RIGHT' ? 65 + Math.random() * 15 : 30 + Math.random() * 20;
+          case 2: // Слева от змеи
+            windX = direction === 'UP' || direction === 'DOWN' ? 20 : 50;
+            windY = direction === 'LEFT' || direction === 'RIGHT' ? 80 : 50;
+            break;
+          default: // Случайное расположение вокруг
+            windX = 30 + Math.random() * 40;
+            windY = 30 + Math.random() * 40;
             break;
         }
         
@@ -76,8 +69,8 @@ export const createAnimationEffect = (
         windEffect.style.top = `${windY}%`;
         
         // Задержка для разнообразия анимации
-        const animationDelay = i * 0.06;
-        windEffect.style.animation = `jungleWind ${0.4 + Math.random() * 0.2}s ${animationDelay}s forwards`; // Быстрее исчезает
+        const animationDelay = i * 0.08;
+        windEffect.style.animation = `jungleWind ${0.5 + Math.random() * 0.3}s ${animationDelay}s forwards`;
         
         effectElement.appendChild(windEffect);
       }
@@ -382,16 +375,16 @@ export const addAnimationStyles = (): void => {
       
       @keyframes jungleWind {
         0% { 
-          opacity: 0.6;
+          opacity: 0.8;
           transform: scale(0.2) rotate(0deg);
         }
         50% {
-          opacity: 0.4;
-          transform: scale(0.9) rotate(120deg);
+          opacity: 0.6;
+          transform: scale(1.2) rotate(120deg);
         }
         100% { 
           opacity: 0;
-          transform: scale(1.2) rotate(240deg);
+          transform: scale(1.8) rotate(240deg);
         }
       }
       

@@ -7,8 +7,8 @@ const Legend: React.FC = () => {
   const { settings } = useGameStore();
   const { environment, theme } = settings;
 
-  // Безопасное получение описаний еды для текущего окружения
-  const foodItems = FOOD_DESCRIPTIONS[environment] || {};
+  // Получаем описания еды для текущего окружения
+  const foodItems = FOOD_DESCRIPTIONS[environment];
 
   return (
     <div className={`${styles.legend} ${styles[theme]}`}>
@@ -20,7 +20,7 @@ const Legend: React.FC = () => {
             <div className={styles.foodInfo}>
               <span className={styles.foodName}>{item.name}</span>
               <span className={styles.foodDescription}>{item.description}</span>
-              <span className={styles.foodPoints} data-negative={typeof item.points === 'number' && item.points < 0}>
+              <span className={styles.foodPoints}>
                 {typeof item.points === 'string' ? item.points : `${item.points > 0 ? '+' : ''}${item.points} очков`}
               </span>
             </div>
