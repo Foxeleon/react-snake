@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameSettings.module.css';
-import { Environment, BoardSize, FieldSelectionMode, SnakeType } from '@/types/game';
+import { Environment, SnakeType } from '@/types/game';
 import { GRID_SIZES, ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
 
 export const GameSettings: React.FC = () => {
-  const { settings, updateSettings, toggleSettings, isPlaying, isPaused } = useGameStore();
+  const { settings, updateSettings, toggleSettings, isPlaying } = useGameStore();
   
   const [formData, setFormData] = useState({
     playerName: settings.playerName,

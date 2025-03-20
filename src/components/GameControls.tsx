@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameControls.module.css';
 
-export interface GameControlsProps {
-  onStartGame?: () => void;
+interface GameControlsProps {
+  onStartGame: () => void;
 }
 // TODO проверить змей в легенде на соответствие со змеёй на поле
 export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
@@ -15,8 +15,13 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
     pauseGame,
     resumeGame,
     toggleLegend,
-    toggleSettings
+    toggleSettings,
+    changeDirection
   } = useGameStore();
+
+  const handleDirectionClick = (direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') => {
+    changeDirection(direction);
+  };
 
   return (
     <div className={styles.controls}>
@@ -69,6 +74,49 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
 
       <div className={styles.instructions}>
         <p>Используйте стрелки для управления змейкой</p>
+      </div>
+      
+      {/* Мобильные контроллеры */}
+      <div className={styles.mobileControls}>
+        <div className={styles.touchControls}>
+          {/* Кнопка "Вверх" */}
+          <button 
+            className={styles.touchButton} 
+            onClick={() => handleDirectionClick('UP')}
+            aria-label="Вверх"
+          >
+            ⬆️
+          </button>
+          
+          <div className={styles.middleRow}>
+            {/* Кнопка "Влево" */}
+            <button 
+              className={styles.touchButton} 
+              onClick={() => handleDirectionClick('LEFT')}
+              aria-label="Влево"
+            >
+              ⬅️
+            </button>
+            
+            {/* Кнопка "Вправо" */}
+            <button 
+              className={styles.touchButton} 
+              onClick={() => handleDirectionClick('RIGHT')}
+              aria-label="Вправо"
+            >
+              ➡️
+            </button>
+          </div>
+          
+          {/* Кнопка "Вниз" */}
+          <button 
+            className={styles.touchButton} 
+            onClick={() => handleDirectionClick('DOWN')}
+            aria-label="Вниз"
+          >
+            ⬇️
+          </button>
+        </div>
       </div>
     </div>
   );

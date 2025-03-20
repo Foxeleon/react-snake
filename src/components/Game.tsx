@@ -8,8 +8,7 @@ import Legend from './Legend';
 import styles from './Game.module.css';
 
 const Game: React.FC = () => {
-  const { 
-    isPlaying, 
+  const {
     startGame, 
     isSettingsOpen, 
     isRecordsOpen,
