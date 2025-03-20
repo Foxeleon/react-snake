@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { Position, Direction, Environment } from '@/types/game';
 import styles from './GameBoard.module.css';
@@ -13,7 +13,6 @@ export const GameBoard = () => {
     isGameOver,
     settings,
     doublePointsActive,
-    moveSnake,
     changeDirection
   } = useGameStore();
 
@@ -27,6 +26,12 @@ export const GameBoard = () => {
   useEffect(() => {
     addAnimationStyles();
   }, []);
+
+  // Состояние для отслеживания размеров окна
+  const [windowDimension, setWindowDimension] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
 
   // Обработка изменения размера окна
   useEffect(() => {
@@ -46,12 +51,6 @@ export const GameBoard = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  // Состояние для отслеживания размеров окна
-  const [windowDimension, setWindowDimension] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
 
   // Обработка окончания игры
   useEffect(() => {
@@ -204,7 +203,7 @@ export const GameBoard = () => {
   // Рендер содержимого ячейки (змея или еда)
   const renderCellContent = (x: number, y: number) => {
     const isSnakeHead = snake.length > 0 && snake[0].x === x && snake[0].y === y;
-    const isSnakeBody = !isSnakeHead && snake.some((segment, idx) => segment.x === x && segment.y === y);
+    const isSnakeBody = !isSnakeHead && snake.some((segment) => segment.x === x && segment.y === y);
     const isFood = foods.some(food => food.position.x === x && food.position.y === y);
     
     // Если ячейка пустая

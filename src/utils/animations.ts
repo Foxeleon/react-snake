@@ -1,5 +1,4 @@
 import { Environment, Position, Direction } from "@/types/game";
-import styles from '@/components/GameBoard.module.css';
 
 /**
  * Создает элемент с анимационным эффектом на игровом поле
@@ -27,51 +26,95 @@ export const createAnimationEffect = (
   // Применение специфических эффектов в зависимости от окружения
   switch (environment) {
     case 'jungle':
-      // Легкий эффект ветра в джунглях - почти белый, полупрозрачный
+      // Обновленный эффект ветра по бокам головы змеи
       for (let i = 0; i < 6; i++) {
-        const windEffect = document.createElement('div');
-        windEffect.style.position = 'absolute';
-        
-        // Очень светлый, почти белый цвет для ветра
-        windEffect.style.backgroundColor = `rgba(250, 255, 250, ${0.15 + Math.random() * 0.15})`;
-        windEffect.style.borderRadius = '50%';
-        
-        // Маленькие завихрения
-        const windSize = 7 + Math.random() * 12;
-        windEffect.style.width = `${windSize}%`;
-        windEffect.style.height = `${windSize * 0.4}%`;
-        windEffect.style.transform = `rotate(${Math.random() * 360}deg)`;
-        
-        // Позиционирование строго по бокам от головы змеи
-        let windX, windY;
-        
-        if (i < 3) { // Правая сторона головы
-          windX = direction === 'RIGHT' ? 60 + Math.random() * 25 : 
-                  direction === 'LEFT' ? 20 + Math.random() * 15 : 
-                  60 + Math.random() * 20;
-          windY = direction === 'UP' ? 30 + Math.random() * 15 : 
-                  direction === 'DOWN' ? 30 + Math.random() * 15 : 
-                  30 + Math.random() * 10;
-        } else { // Левая сторона головы
-          windX = direction === 'RIGHT' ? 10 + Math.random() * 15 : 
-                  direction === 'LEFT' ? 50 + Math.random() * 20 : 
-                  10 + Math.random() * 20;
-          windY = direction === 'UP' ? 30 + Math.random() * 15 : 
-                  direction === 'DOWN' ? 30 + Math.random() * 15 : 
-                  40 + Math.random() * 10;
+        const windCloud = document.createElement('div');
+        windCloud.style.position = 'absolute';
+
+        // Уменьшаем размер облаков - чтобы были чуть короче сегмента змеи
+        const cloudSize = 15 + Math.random() * 25; // Уменьшенный размер
+        windCloud.style.width = `${cloudSize}%`;
+        windCloud.style.height = `${cloudSize * 0.5}%`; // Более плоские
+
+        // Сохраняем хорошую видимость
+        const opacity = 0.4 + Math.random() * 0.3;
+        windCloud.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+        windCloud.style.borderRadius = '50%';
+
+        // Определяем, будет ли это облако слева или справа
+        const isLeftSide = i % 2 === 0;
+
+        // Позиционирование в зависимости от направления и стороны
+        let cloudX, cloudY;
+
+        if (direction === 'RIGHT') {
+          // При движении вправо - облака по бокам
+          cloudX = isLeftSide ? -20 + Math.random() * 30 : 70 + Math.random() * 30;
+          cloudY = 30 + Math.random() * 40; // Вертикальное распределение по бокам
+        } else if (direction === 'LEFT') {
+          // При движении влево - облака по бокам
+          cloudX = isLeftSide ? 70 + Math.random() * 30 : -20 + Math.random() * 30;
+          cloudY = 30 + Math.random() * 40;
+        } else if (direction === 'UP') {
+          // При движении вверх - облака слева и справа
+          cloudX = isLeftSide ? -20 + Math.random() * 30 : 70 + Math.random() * 30;
+          cloudY = 30 + Math.random() * 40;
+        } else if (direction === 'DOWN') {
+          // При движении вниз - облака слева и справа
+          cloudX = isLeftSide ? -20 + Math.random() * 30 : 70 + Math.random() * 30;
+          cloudY = 30 + Math.random() * 40;
+        } else {
+          // Запасной вариант, если направление не определено
+          cloudX = isLeftSide ? -10 + Math.random() * 20 : 80 + Math.random() * 20;
+          cloudY = 30 + Math.random() * 40;
         }
-        
-        windEffect.style.left = `${windX}%`;
-        windEffect.style.top = `${windY}%`;
-        
-        // Быстрая анимация для эффекта легкого ветерка
-        const animationDelay = i * 0.03;
-        windEffect.style.animation = `jungleWind ${0.2 + Math.random() * 0.2}s ${animationDelay}s forwards`;
-        
-        effectElement.appendChild(windEffect);
+
+        windCloud.style.left = `${cloudX}%`;
+        windCloud.style.top = `${cloudY}%`;
+        windCloud.style.zIndex = '15';
+
+        // Создаем уникальный id для keyframes анимации
+        const uniqueId = `cloud-${Math.floor(Math.random() * 10000)}`;
+
+        // Добавляем стилевой элемент с keyframes для текущего облака
+        const keyframesStyle = document.createElement('style');
+        keyframesStyle.textContent = `
+          @keyframes float-${uniqueId} {
+            0% { transform: translate(0, 0); opacity: ${opacity}; }
+            50% { transform: translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px); opacity: ${opacity + 0.1}; }
+            100% { transform: translate(0, 0); opacity: ${opacity}; }
+          }
+          
+          @keyframes fade-${uniqueId} {
+            0% { opacity: 0; }
+            20% { opacity: ${opacity}; }
+            80% { opacity: ${opacity}; }
+            100% { opacity: 0; }
+          }
+        `;
+        document.head.appendChild(keyframesStyle);
+
+        // Применяем анимации - сокращаем длительность
+        const animDuration = 0.6 + Math.random() * 0.3; // Уменьшенная длительность
+        windCloud.style.animation = `float-${uniqueId} ${animDuration}s infinite alternate, fade-${uniqueId} ${animDuration * 2}s forwards`;
+
+        // Добавляем тень для объемности
+        windCloud.style.boxShadow = `0 0 8px rgba(255, 255, 255, ${opacity * 0.7})`;
+
+        // Добавляем эффект размытия
+        windCloud.style.filter = `blur(${2 + Math.random() * 1.5}px)`;
+
+        effectElement.appendChild(windCloud);
+
+        // Удаляем стили после завершения анимации
+        setTimeout(() => {
+          if (document.head.contains(keyframesStyle)) {
+            document.head.removeChild(keyframesStyle);
+          }
+        }, animDuration * 2000);
       }
       break;
-      
+
     case 'sea':
       // Эффект пузырьков в воде
       for (let i = 0; i < 5; i++) {
@@ -90,7 +133,7 @@ export const createAnimationEffect = (
         bubble.style.bottom = '0';
         
         // Анимация пузырьков
-        bubble.style.animation = `bubbleRise ${Math.random() * 1 + 0.5}s linear forwards`;
+        bubble.style.animation = `bubbleRise ${Math.random() + 0.5}s linear forwards`;
         
         effectElement.appendChild(bubble);
       }

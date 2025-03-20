@@ -8,7 +8,7 @@ interface GameControlsProps {
 
 // Отдельный компонент для кнопок меню
 const MenuButtons: React.FC = () => {
-  const { toggleSettings, toggleRecords, toggleLegend, showLegend, settings } = useGameStore();
+  const { toggleSettings, toggleRecords, toggleLegend, showLegend } = useGameStore();
 
   return (
     <div className={styles.menuButtons}>
