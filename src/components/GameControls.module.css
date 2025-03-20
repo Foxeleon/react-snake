@@ -247,4 +247,45 @@
   .mobileControls {
     display: block;
   }
+}
+
+.additionalControls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.controlButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+.controlButton:hover {
+  transform: scale(1.1);
+  background-color: #388E3C;
+}
+
+.controlButton:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .controlButton {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
 } 

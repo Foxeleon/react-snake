@@ -105,4 +105,6 @@ export interface GameStore extends GameState {
   isPaused: boolean;
   pauseGame: () => void;
   resumeGame: () => void;
+  getNextEnvironment: () => Environment;
+  setRandomEnvironment: () => Environment;
 } 

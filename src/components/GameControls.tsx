@@ -5,7 +5,7 @@ import styles from './GameControls.module.css';
 export interface GameControlsProps {
   onStartGame?: () => void;
 }
-
+// TODO проверить змей в легенде на соответствие со змеёй на поле
 export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
   const { 
     isPlaying, 
@@ -13,7 +13,9 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
     resetGame,
     isPaused,
     pauseGame,
-    resumeGame
+    resumeGame,
+    toggleLegend,
+    toggleSettings
   } = useGameStore();
 
   return (
@@ -46,6 +48,24 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
           </div>
         </div>
       )}
+
+      <div className={styles.additionalControls}>
+        <button 
+          onClick={toggleSettings}
+          className={styles.controlButton}
+          title="Настройки"
+        >
+          ⚙️
+        </button>
+        
+        <button 
+          onClick={toggleLegend}
+          className={styles.controlButton}
+          title="Легенда"
+        >
+          📋
+        </button>
+      </div>
 
       <div className={styles.instructions}>
         <p>Используйте стрелки для управления змейкой</p>
