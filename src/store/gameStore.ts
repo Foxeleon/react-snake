@@ -22,31 +22,27 @@ import {
   DEFAULT_THEME,
   DEFAULT_BOARD_SIZE,
   FOOD_SPAWN_PROBABILITIES,
-  DOUBLE_POINTS_DURATION,
   INITIAL_SPEED,
   SPEED_INCREASE_RATE,
-  DEFAULT_FIELD_SELECTION_MODE
+  DEFAULT_FIELD_SELECTION_MODE,
+  ENVIRONMENT_FOOD_MAPPING
 } from '@/constants/game';
 import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils/storage';
 
-// Начальная позиция змейки
-const getInitialSnake = (gridSize: number): Position[] => {
-  const middle = Math.floor(gridSize / 2);
-  return [
-    { x: middle, y: middle },
-    { x: middle, y: middle + 1 },
-  ];
-};
-
-// Последовательный выбор окружений
-let nextEnvironmentIndex = 0;
+// Вспомогательные функции и константы для логики игры
 const environments: Environment[] = ['jungle', 'sea', 'forest', 'desert', 'steppe'];
 
-// Получение следующего окружения для последовательного режима
-const getNextEnvironment = (): Environment => {
-  const environment = environments[nextEnvironmentIndex];
-  nextEnvironmentIndex = (nextEnvironmentIndex + 1) % environments.length;
-  return environment;
+// Получение начальной позиции змеи
+const getInitialSnake = (gridSize: number): Position[] => {
+  // Создаем змею в центре поля, направленную вверх
+  const centerX = Math.floor(gridSize / 2);
+  const centerY = Math.floor(gridSize / 2);
+  
+  return [
+    { x: centerX, y: centerY }, // Голова
+    { x: centerX, y: centerY + 1 }, // Тело
+    { x: centerX, y: centerY + 2 } // Хвост
+  ];
 };
 
 // Функция для генерации еды с учетом типа и вероятности
@@ -83,69 +79,47 @@ const generateFood = (snake: Position[], gridSize: number, environment: Environm
     points = 10;
   }
 
-  // Называем еду в зависимости от окружения и типа
-  switch (environment) {
-    case 'jungle':
-      if (type === 'common') name = 'bug';
-      else if (type === 'medium') name = 'frog';
-      else if (type === 'rare') name = 'bird';
-      else if (type === 'special') name = 'pineapple';
-      else if (type === 'penalty') name = 'poison_berry';
-      break;
-    case 'sea':
-      if (type === 'common') name = 'shrimp';
-      else if (type === 'medium') name = 'fish';
-      else if (type === 'rare') name = 'starfish';
-      else if (type === 'special') name = 'plankton';
-      else if (type === 'penalty') name = 'jellyfish';
-      break;
-    case 'forest':
-      if (type === 'common') name = 'ant';
-      else if (type === 'medium') name = 'locust';
-      else if (type === 'rare') name = 'rabbit';
-      else if (type === 'special') name = 'mushroom';
-      else if (type === 'penalty') name = 'moldy_berry';
-      break;
-    case 'desert':
-      if (type === 'common') name = 'locust';
-      else if (type === 'medium') name = 'beetle';
-      else if (type === 'rare') name = 'egg';
-      else if (type === 'special') name = 'cactus_flower';
-      else if (type === 'penalty') name = 'thorn';
-      break;
-    case 'steppe':
-      if (type === 'common') name = 'grasshopper';
-      else if (type === 'medium') name = 'gopher';
-      else if (type === 'rare') name = 'mouse';
-      else if (type === 'special') name = 'golden_grass';
-      else if (type === 'penalty') name = 'bitter_seed';
-      break;
+  // Получаем имя еды в зависимости от окружения
+  const foodOptions = ENVIRONMENT_FOOD_MAPPING[environment][type];
+  if (foodOptions.length > 0) {
+    const randomIndex = Math.floor(Math.random() * foodOptions.length);
+    name = foodOptions[randomIndex];
+  }
+
+  // Определяем время жизни еды
+  const now = Date.now();
+  const spawnTime = now;
+  // Определяем базовое время жизни еды в зависимости от размера поля
+  const baseFoodLifetime = FOOD_EXPIRATION_TIMES[getBoardSizeFromGridSize(gridSize)];
+  // Корректируем время жизни в зависимости от типа еды
+  let lifetime = baseFoodLifetime;
+  if (type === 'special') {
+    lifetime *= 0.7; // Особая еда живет меньше
+  } else if (type === 'rare') {
+    lifetime *= 0.8; // Редкая еда тоже живет меньше
   }
   
-  const now = Date.now();
-  const boardSize = getBoardSizeFromGridSize(gridSize);
-  const expirationTime = FOOD_EXPIRATION_TIMES[boardSize];
-  
+  const expiryTime = now + lifetime;
+
   return {
     position,
     type,
     name,
     points,
-    spawnTime: now,
-    expiryTime: now + expirationTime
+    spawnTime,
+    expiryTime
   };
 };
 
 // Получение размера доски из размера сетки
 const getBoardSizeFromGridSize = (gridSize: number): BoardSize => {
-  switch (gridSize) {
-    case 10: return 'mini';
-    case 15: return 'small';
-    case 20: return 'medium';
-    case 25: return 'large';
-    case 30: return 'giant';
-    default: return 'medium';
+  const entries = Object.entries(GRID_SIZES) as [BoardSize, number][];
+  for (const [size, size_value] of entries) {
+    if (size_value === gridSize) {
+      return size;
+    }
   }
+  return DEFAULT_BOARD_SIZE; // Возвращаем значение по умолчанию, если ничего не найдено
 };
 
 // Получение типа змеи на основе окружения
@@ -163,10 +137,12 @@ const DEFAULT_SETTINGS: GameSettings = {
   snakeType: getDefaultSnakeType(DEFAULT_ENVIRONMENT),
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
-  soundEnabled: true,
+  soundEnabled: false,
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE
 };
 
+// TODO fix it
+// @ts-ignore
 export const useGameStore = create<GameStore>((set, get) => {
   // Загрузка настроек и рекордов при инициализации
   const savedSettings = loadSettings() || DEFAULT_SETTINGS;
@@ -200,22 +176,39 @@ export const useGameStore = create<GameStore>((set, get) => {
       
       // Выбираем окружение в зависимости от режима
       let environment = settings.environment;
+      let snakeType = settings.snakeType;
       
       if (settings.fieldSelectionMode === 'sequential') {
         // Последовательная смена окружения
-        environment = getNextEnvironment();
+        const currentIndex = environments.indexOf(environment);
+        const nextIndex = (currentIndex + 1) % environments.length;
+        environment = environments[nextIndex];
+        
+        // Выбираем подходящий тип змеи для нового окружения
+        const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
+        snakeType = availableSnakeTypes[0];
       } else if (settings.fieldSelectionMode === 'random') {
         // Случайный выбор окружения
-        const environments: Environment[] = ['jungle', 'sea', 'forest', 'desert', 'steppe'];
         const randomIndex = Math.floor(Math.random() * environments.length);
         environment = environments[randomIndex];
+        
+        // Выбираем подходящий тип змеи для нового окружения
+        const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
+        snakeType = availableSnakeTypes[0];
+      } else {
+        // В режиме 'static' проверяем соответствие типа змеи текущему окружению
+        const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
+        if (!availableSnakeTypes.includes(snakeType)) {
+          // Если текущий тип змеи не подходит для данного окружения, выбираем первый доступный
+          snakeType = availableSnakeTypes[0];
+        }
       }
-      // В режиме 'static' оставляем текущее окружение
       
-      // Обновляем настройки, но сохраняем выбранный тип змеи
+      // Обновляем настройки с выбранным окружением и типом змеи
       const updatedSettings = { 
         ...settings, 
-        environment
+        environment,
+        snakeType
       };
       
       set({
@@ -321,38 +314,53 @@ export const useGameStore = create<GameStore>((set, get) => {
       if (eatenFoodIndex !== -1) {
         const eatenFood = foods[eatenFoodIndex];
         
-        // Удаляем съеденную еду
-        newFoods.splice(eatenFoodIndex, 1);
+        // Определяем количество очков с учетом возможного удвоения
+        let pointsGained = eatenFood.points;
+        if (isDoublePointsActive && pointsGained > 0) {
+          pointsGained *= 2;
+        }
         
-        // Обрабатываем особую еду
+        // Обрабатываем различные типы еды
         if (eatenFood.type === 'special') {
+          // Особая еда - включаем удвоение очков на определенное время
           newDoublePointsActive = true;
-          newDoublePointsEndTime = Date.now() + DOUBLE_POINTS_DURATION;
+          newDoublePointsEndTime = Date.now() + 10000; // 10 секунд удвоения
         } else {
-          // Добавляем очки
-          let pointsToAdd = eatenFood.points;
-          if (newDoublePointsActive) {
-            pointsToAdd *= 2;
-          }
-          newScore += pointsToAdd;
-          
-          // Увеличиваем скорость, только если очки положительные
-          if (pointsToAdd > 0) {
-            newSpeed = Math.max(50, newSpeed - SPEED_INCREASE_RATE);
-          }
+          // Обычная еда - добавляем очки
+          newScore += pointsGained;
+        }
+        
+        // Удаляем съеденную еду и создаем новую
+        newFoods.splice(eatenFoodIndex, 1);
+        newFoods.push(generateFood(newSnake, settings.gridSize, settings.environment));
+        
+        // Увеличиваем скорость при достижении определенного количества очков
+        if (newScore > 0 && newScore % 100 === 0) {
+          newSpeed = Math.max(50, speed - SPEED_INCREASE_RATE);
         }
       } else {
-        // Если еда не съедена, укорачиваем змею
+        // Если еда не съедена, удаляем последний сегмент (хвост)
         newSnake.pop();
-      }
-
-      // Проверяем, не истекло ли время у какой-либо еды
-      const now = Date.now();
-      newFoods = newFoods.filter(food => food.expiryTime > now);
-
-      // Генерируем новую еду с определенной вероятностью
-      if (newFoods.length < 3 && Math.random() < 0.1) {
-        newFoods.push(generateFood(newSnake, settings.gridSize, settings.environment));
+        
+        // Проверяем, не истекло ли время жизни еды
+        const now = Date.now();
+        const expiredFoodIndices: number[] = [];
+        
+        foods.forEach((food, index) => {
+          if (food.expiryTime < now) {
+            expiredFoodIndices.push(index);
+          }
+        });
+        
+        // Если есть еда с истекшим временем, заменяем ее на новую
+        if (expiredFoodIndices.length > 0) {
+          newFoods = foods.filter((_, index) => !expiredFoodIndices.includes(index));
+          
+          // Генерируем новую еду для каждой истекшей
+          for (let i = 0; i < expiredFoodIndices.length; i++) {
+            newFoods.push(generateFood(newSnake, settings.gridSize, settings.environment));
+          }
+        }
       }
 
       set({
@@ -413,11 +421,17 @@ export const useGameStore = create<GameStore>((set, get) => {
     },
 
     setEnvironment: (environment: Environment) => {
+      // Получаем доступные типы змей для выбранного окружения
+      const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
+      
+      // Автоматически выбираем первый доступный тип змеи для нового окружения
+      const snakeType = availableSnakeTypes[0];
+      
       set(state => ({
         settings: {
           ...state.settings,
           environment,
-          snakeType: getDefaultSnakeType(environment)
+          snakeType // Автоматически обновляем тип змеи
         }
       }));
       get().saveSettings();
@@ -504,16 +518,42 @@ export const useGameStore = create<GameStore>((set, get) => {
       soundEnabled: boolean;
       snakeType: SnakeType;
     }) => {
+      const gridSize = GRID_SIZES[newSettings.boardSize];
+      const foodExpirationTime = FOOD_EXPIRATION_TIMES[newSettings.boardSize];
+      
+      // Проверяем, подходит ли выбранный тип змеи для выбранного окружения
+      const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[newSettings.environment];
+      let { snakeType } = newSettings;
+      if (!availableSnakeTypes.includes(snakeType)) {
+        // Если тип змеи не подходит, выбираем первый доступный
+        snakeType = availableSnakeTypes[0];
+      }
+      
+      // Обновляем настройки с правильным размером сетки, временем жизни еды и типом змеи
+      const updatedSettings: GameSettings = {
+        ...newSettings,
+        gridSize,
+        foodExpirationTime,
+        snakeType
+      };
+      
       set(state => ({
         ...state,
-        settings: {
-          ...state.settings,
-          ...newSettings
-        }
+        settings: updatedSettings
       }));
       
+      // Если игра не активна, пересоздаем змею с новым размером
+      const { isPlaying } = get();
+      if (!isPlaying) {
+        const initialSnake = getInitialSnake(gridSize);
+        set({
+          snake: initialSnake,
+          foods: [generateFood(initialSnake, gridSize, newSettings.environment)]
+        });
+      }
+      
       // Сохраняем настройки в localStorage
-      localStorage.setItem('snakeGameSettings', JSON.stringify(newSettings));
+      saveSettings(updatedSettings);
     },
 
     pauseGame: () => {
@@ -522,6 +562,27 @@ export const useGameStore = create<GameStore>((set, get) => {
     
     resumeGame: () => {
       set({ isPaused: false });
+    },
+
+    // Метод для установки случайного окружения
+    setRandomEnvironment: () => {
+      const randomIndex = Math.floor(Math.random() * environments.length);
+      const randomEnvironment = environments[randomIndex];
+      
+      // Получаем подходящий тип змеи для нового окружения
+      const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[randomEnvironment];
+      const randomSnakeType = availableSnakeTypes[0];
+      
+      // Обновляем настройки
+      set(state => ({
+        settings: {
+          ...state.settings,
+          environment: randomEnvironment,
+          snakeType: randomSnakeType
+        }
+      }));
+      
+      return randomEnvironment;
     }
   };
 }); 

@@ -195,6 +195,9 @@
 /* Стили для мобильных контроллеров */
 .mobileControls {
   display: none;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 300px;
 }
 
 .hidden {
@@ -205,37 +208,51 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 15px;
 }
 
 .middleRow {
   display: flex;
-  gap: 50px;
+  gap: 80px;
 }
 
 .touchButton {
-  width: 60px !important;
-  height: 60px !important;
+  width: 70px !important;
+  height: 70px !important;
   border-radius: 50% !important;
   padding: 0 !important;
-  font-size: 24px !important;
+  font-size: 30px !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(76, 175, 80, 0.7) !important;
+  background-color: rgba(76, 175, 80, 0.8) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.2s ease;
 }
 
 .touchButton:hover {
   background-color: rgba(76, 175, 80, 0.9) !important;
+  transform: scale(1.05);
+}
+
+.touchButton:active {
+  background-color: rgba(76, 175, 80, 1) !important;
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3) !important;
 }
 
 .dark .touchButton {
-  background-color: rgba(46, 125, 50, 0.7) !important;
+  background-color: rgba(46, 125, 50, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .dark .touchButton:hover {
   background-color: rgba(46, 125, 50, 0.9) !important;
+}
+
+.dark .touchButton:active {
+  background-color: rgba(46, 125, 50, 1) !important;
 }
 
 /* Медиа-запрос для мобильных устройств */
@@ -246,5 +263,64 @@
   
   .mobileControls {
     display: block;
+  }
+  
+  .controlButton {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Дополнительная адаптация для очень маленьких экранов */
+@media (max-width: 375px) {
+  .touchButton {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 24px !important;
+  }
+  
+  .middleRow {
+    gap: 60px;
+  }
+}
+
+.additionalControls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.controlButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+.controlButton:hover {
+  transform: scale(1.1);
+  background-color: #388E3C;
+}
+
+.controlButton:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .controlButton {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
   }
 } 

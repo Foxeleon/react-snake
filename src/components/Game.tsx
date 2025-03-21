@@ -1,84 +1,74 @@
-import { useEffect, useState } from 'react';
-import { useGameStore } from '@/store/gameStore';
+import React, { useEffect } from 'react';
 import { GameBoard } from './GameBoard';
-import styles from './Game.module.css';
-import { Score } from './Score';
 import { GameControls } from './GameControls';
 import { GameSettings } from './GameSettings';
-import { RecordsTable } from './RecordsTable';
-import { WelcomeScreen } from './WelcomeScreen';
+import { RecordsTable as Leaderboard } from './RecordsTable';
+import { useGameStore } from '@/store/gameStore';
 import Legend from './Legend';
-import { initAudio } from '@/utils/sound';
+import styles from './Game.module.css';
 
-const Game = () => {
-  const { 
-    isPlaying, 
-    isGameOver, 
+const Game: React.FC = () => {
+  const {
+    startGame, 
     isSettingsOpen, 
     isRecordsOpen,
     showLegend,
-    settings, 
-    loadSettings
+    settings,
+    loadSettings,
+    toggleSettings,
+    toggleRecords,
+    toggleLegend
   } = useGameStore();
-  
-  // Локальное состояние для отслеживания, нужно ли показывать экран приветствия
-  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
-  
-  // Загрузка настроек при первом рендере
+
+  // Загрузка настроек при монтировании компонента
   useEffect(() => {
     loadSettings();
-    
-    // Инициализация аудио при первом взаимодействии
-    const handleFirstInteraction = () => {
-      initAudio();
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-    };
-    
-    document.addEventListener('click', handleFirstInteraction);
-    document.addEventListener('keydown', handleFirstInteraction);
-    document.addEventListener('touchstart', handleFirstInteraction);
-    
-    return () => {
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-    };
   }, [loadSettings]);
-  
-  // Скрытие экрана приветствия при начале игры
-  useEffect(() => {
-    if (isPlaying) {
-      setShowWelcomeScreen(false);
-    }
-  }, [isPlaying]);
-  
-  // Обработчик для начала игры
+
+  // Обработчик для запуска игры
   const handleStartGame = () => {
-    setShowWelcomeScreen(false);
+    startGame();
   };
-  
+
+  // Определяем классы для фона в зависимости от темы и окружения
+  const containerClasses = `${styles.gameContainer} ${styles[settings.environment]} ${settings.theme === 'dark' ? styles.dark : ''}`;
+
   return (
-    <div 
-      className={`${styles.game} ${styles[settings.theme]}`}
-      data-testid="game-container"
-    >
-      <h1 className={styles.title}>Змейка(snake_react v_alfa)</h1>
+    <div className={containerClasses}>
+      <div className={styles.header}>
+        <h1 className={styles.gameTitle}>Змейка(Beta Version)</h1>
+        <div className={styles.headerButtons}>
+          <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
+            ⚙️
+          </button>
+          <button onClick={toggleRecords} className={styles.iconButton} title="Таблица рекордов">
+            🏆
+          </button>
+          <button 
+            onClick={toggleLegend} 
+            className={`${styles.iconButton} ${showLegend ? styles.active : ''}`}
+            title={showLegend ? "Скрыть легенду" : "Показать легенду"}
+          >
+            ℹ️
+          </button>
+        </div>
+      </div>
       
-      {(!isPlaying && !isGameOver && showWelcomeScreen) ? (
-        <WelcomeScreen onStart={handleStartGame} />
-      ) : (
-        <>
-          <Score />
-          <GameBoard />
-          <GameControls onStartGame={handleStartGame} />
-          {showLegend && <Legend />}
-        </>
-      )}
+      <div className={styles.boardBackground}>
+        <div className={styles.scoreIndicator}>
+          Счет: {useGameStore.getState().score}
+        </div>
+        
+        <GameBoard />
+      </div>
+      
+      <div className={styles.controlsPanel}>
+        <GameControls onStartGame={handleStartGame} />
+      </div>
       
       {isSettingsOpen && <GameSettings />}
-      {isRecordsOpen && <RecordsTable />}
+      {isRecordsOpen && <Leaderboard />}
+      {showLegend && <Legend />}
     </div>
   );
 };

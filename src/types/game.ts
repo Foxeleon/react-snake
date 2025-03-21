@@ -93,7 +93,18 @@ export interface GameStore extends GameState {
   saveRecord: () => void;
   loadSettings: () => void;
   saveSettings: () => void;
+  updateSettings: (settings: {
+    playerName: string;
+    environment: Environment;
+    theme: Theme;
+    boardSize: BoardSize;
+    fieldSelectionMode: FieldSelectionMode;
+    soundEnabled: boolean;
+    snakeType: SnakeType;
+  }) => void;
   isPaused: boolean;
   pauseGame: () => void;
   resumeGame: () => void;
+  getNextEnvironment: () => Environment;
+  setRandomEnvironment: () => Environment;
 } 

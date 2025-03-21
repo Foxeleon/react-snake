@@ -13,7 +13,11 @@ export const GameBoard = () => {
     isGameOver,
     settings,
     doublePointsActive,
-    changeDirection
+    changeDirection,
+    isPlaying,
+    isPaused,
+    moveSnake,
+    speed
   } = useGameStore();
 
   const { gridSize, environment, theme, snakeType } = settings;
@@ -66,43 +70,43 @@ export const GameBoard = () => {
     lastDirectionRef.current = direction;
   }, [direction]);
 
-  // Обработка нажатий клавиш
+  // Добавим обработку ввода с клавиатуры
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const keyToDirection: { [key: string]: Direction } = {
-        'ArrowUp': 'UP',
-        'ArrowDown': 'DOWN',
-        'ArrowLeft': 'LEFT',
-        'ArrowRight': 'RIGHT',
-        'KeyW': 'UP',
-        'KeyS': 'DOWN',
-        'KeyA': 'LEFT',
-        'KeyD': 'RIGHT'
-      };
+    if (!isPlaying) return;
 
-      const newDirection = keyToDirection[event.code];
-      if (newDirection) {
-        event.preventDefault();
-        
-        // Проверяем, чтобы змея не двигалась в противоположном направлении
-        const opposites: { [key in Direction]: Direction } = {
-          'UP': 'DOWN',
-          'DOWN': 'UP',
-          'LEFT': 'RIGHT',
-          'RIGHT': 'LEFT'
-        };
-        
-        if (newDirection !== opposites[lastDirectionRef.current]) {
-          changeDirection(newDirection);
-        }
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (isPaused) return;
+      
+      switch (event.key) {
+        case 'ArrowUp':
+          changeDirection('UP');
+          break;
+        case 'ArrowDown':
+          changeDirection('DOWN');
+          break;
+        case 'ArrowLeft':
+          changeDirection('LEFT');
+          break;
+        case 'ArrowRight':
+          changeDirection('RIGHT');
+          break;
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [changeDirection]);
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isPlaying, isPaused, changeDirection]);
+
+  // Игровой цикл
+  useEffect(() => {
+    if (!isPlaying || isGameOver || isPaused) return;
+
+    const gameLoop = setInterval(() => {
+      moveSnake();
+    }, speed);
+
+    return () => clearInterval(gameLoop);
+  }, [isPlaying, isGameOver, isPaused, moveSnake, speed]);
 
   // Обработка сенсорных жестов для мобильных устройств
   useEffect(() => {

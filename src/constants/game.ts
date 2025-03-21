@@ -64,6 +64,45 @@ export const INITIAL_SPEED = 200;
 // Снижение скорости при поедании еды (выше значение = быстрее игра)
 export const SPEED_INCREASE_RATE = 2;
 
+// Маппинг типов еды к именам еды для разных окружений
+export const ENVIRONMENT_FOOD_MAPPING: Record<Environment, Record<string, string[]>> = {
+  jungle: {
+    common: ['bug'],
+    medium: ['frog'],
+    rare: ['bird'],
+    special: ['pineapple'],
+    penalty: ['poison_berry']
+  },
+  sea: {
+    common: ['shrimp'],
+    medium: ['fish'],
+    rare: ['starfish'],
+    special: ['plankton'],
+    penalty: ['jellyfish']
+  },
+  forest: {
+    common: ['ant'],
+    medium: ['locust'],
+    rare: ['rabbit'],
+    special: ['mushroom'],
+    penalty: ['moldy_berry']
+  },
+  desert: {
+    common: ['locust'],
+    medium: ['beetle'],
+    rare: ['egg'],
+    special: ['cactus_flower'],
+    penalty: ['thorn']
+  },
+  steppe: {
+    common: ['grasshopper'],
+    medium: ['gopher'],
+    rare: ['mouse'],
+    special: ['golden_grass'],
+    penalty: ['bitter_seed']
+  }
+};
+
 // Описания пищи для разных окружений
 export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, { name: string; description: string; points: number | string }>> = {
   jungle: {
