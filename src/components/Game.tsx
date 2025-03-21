@@ -36,7 +36,7 @@ const Game: React.FC = () => {
   return (
     <div className={containerClasses}>
       <div className={styles.header}>
-        <h1 className={styles.gameTitle}>Змейка(snake_react v_alfa)</h1>
+        <h1 className={styles.gameTitle}>Змейка(Beta Version)</h1>
         <div className={styles.headerButtons}>
           <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
             ⚙️

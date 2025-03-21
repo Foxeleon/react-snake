@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameControls.module.css';
 
@@ -47,7 +47,6 @@ export const GameControls: React.FC<GameControlsProps> = ({ onStartGame }) => {
       {isGameOver && (
         <div className={styles.gameOverControls}>
           <h2>Игра окончена!</h2>
-          <p>Ваш счет: {useGameStore.getState().score}</p>
           <div className={styles.buttonGroup}>
             <button onClick={resetGame}>Играть снова</button>
           </div>
