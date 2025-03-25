@@ -247,52 +247,118 @@
   align-items: center;
 }
 
-/* Стилизация указателя счета */
+/* Стилизация индикатора счета */
 .scoreIndicator {
   font-size: 1.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 8px 16px;
-  border-radius: 10px;
-  margin: 10px 0;
-  backdrop-filter: blur(3px);
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin: 10px;
+  backdrop-filter: blur(4px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: inline-block;
+  display: inline-flex;
 }
 
-/* Стилизация панели инструментов */
+/* Панель управления */
 .controlsPanel {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   margin-top: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 15px;
-  border-radius: 12px;
-  backdrop-filter: blur(5px);
-  width: min(500px, 95%);
 }
 
-/* Адаптация к мобильным устройствам */
+/* Мобильные контроллеры над игровым полем */
+.mobileGameControls {
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+/* Контейнер для мобильных кнопок игры */
+.mobileGameButtons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Стили для мобильной кнопки "Начать игру" */
+.mobileStartButton {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mobileStartButton:hover,
+.mobileStartButton:active {
+  background-color: #3e8e41;
+}
+
+/* Стили для мобильной кнопки "Пауза"/"Продолжить" */
+.mobilePauseButton {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #2196F3;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mobilePauseButton:hover,
+.mobilePauseButton:active {
+  background-color: #0b7dda;
+}
+
+/* Медиа-запросы для адаптации под мобильные устройства */
 @media (max-width: 768px) {
   .gameTitle {
     font-size: 1.5rem;
+    margin-bottom: 5px;
   }
   
   .header {
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
   }
   
-  .headerButtons {
-    width: 100%;
-    justify-content: center;
+  /* Отображаем мобильные контроллеры */
+  .mobileGameControls {
+    display: flex;
   }
   
-  .boardBackground {
-    padding: 10px;
+  /* Уменьшаем размер индикатора счета */
+  .scoreIndicator {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+  }
+  
+  /* Скрываем десктопные контроллеры */
+  .desktopGameControls {
+    display: none;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 380px) {
+  .mobileGameButtons button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
   }
   
   .scoreIndicator {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding: 4px 8px;
   }
 } 

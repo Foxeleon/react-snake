@@ -28,6 +28,7 @@
 
 .dark button {
   background-color: #2e7d32;
+  color: white;
 }
 
 .dark button:hover {
@@ -41,11 +42,11 @@
 .instructions {
   margin-top: 10px;
   text-align: center;
-  color: #666;
+  color: #000;
 }
 
 .dark .instructions {
-  color: #aaa;
+  color: #eaeaea;
 }
 
 .gameOverControls {
@@ -192,95 +193,115 @@
   }
 }
 
-/* Стили для мобильных контроллеров */
+/* Мобильные контроллеры */
 .mobileControls {
   display: none;
-  margin: 20px auto;
+}
+
+/* Контейнер для мобильных контроллеров */
+.mobileControlsContainer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
 }
 
-.hidden {
-  display: none !important;
+.dark .mobileControlsContainer {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
+/* Уменьшаем расстояние между кнопками в мобильной версии */
 .touchControls {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 
+/* Добавляем расстояние в среднем ряду */
 .middleRow {
   display: flex;
-  gap: 80px;
+  gap: 70px;
 }
 
+/* Изменяем размер кнопок для мобильной версии */
 .touchButton {
-  width: 70px !important;
-  height: 70px !important;
-  border-radius: 50% !important;
-  padding: 0 !important;
-  font-size: 30px !important;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(76, 175, 80, 0.8) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
-  transition: all 0.2s ease;
+  background-color: rgba(76, 175, 80, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .touchButton:hover {
-  background-color: rgba(76, 175, 80, 0.9) !important;
-  transform: scale(1.05);
+  background-color: rgba(76, 175, 80, 0.9);
 }
 
 .touchButton:active {
-  background-color: rgba(76, 175, 80, 1) !important;
   transform: scale(0.95);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(76, 175, 80, 1);
 }
 
 .dark .touchButton {
-  background-color: rgba(46, 125, 50, 0.8) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(46, 125, 50, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .dark .touchButton:hover {
-  background-color: rgba(46, 125, 50, 0.9) !important;
+  background-color: rgba(46, 125, 50, 0.9);
 }
 
 .dark .touchButton:active {
-  background-color: rgba(46, 125, 50, 1) !important;
+  background-color: rgba(46, 125, 50, 1);
 }
 
-/* Медиа-запрос для мобильных устройств */
+/* Показываем мобильные контроллеры на маленьких экранах */
 @media (max-width: 768px) {
-  .instructions {
-    display: none;
-  }
-  
   .mobileControls {
     display: block;
   }
   
-  .controlButton {
-    width: 44px;
-    height: 44px;
+  /* Скрываем дополнительные кнопки на мобильных устройствах */
+  .additionalControls {
+    display: none;
+  }
+  
+  .instructions {
+    display: none;
   }
 }
 
-/* Дополнительная адаптация для очень маленьких экранов */
-@media (max-width: 375px) {
+/* Для очень маленьких экранов делаем кнопки еще меньше */
+@media (max-width: 380px) {
   .touchButton {
-    width: 60px !important;
-    height: 60px !important;
-    font-size: 24px !important;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
   }
   
   .middleRow {
-    gap: 60px;
+    gap: 50px;
+  }
+  
+  .mobileControlsContainer {
+    bottom: 15px;
+    max-width: 250px;
   }
 }
 

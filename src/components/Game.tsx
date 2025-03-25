@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GameBoard } from './GameBoard';
 import { GameControls } from './GameControls';
 import { GameSettings } from './GameSettings';
@@ -9,7 +9,14 @@ import styles from './Game.module.css';
 
 const Game: React.FC = () => {
   const {
+    isPlaying,
+    isGameOver,
+    score,
     startGame, 
+    isPaused,
+    pauseGame,
+    resumeGame,
+    resetGame,
     isSettingsOpen, 
     isRecordsOpen,
     showLegend,
@@ -19,6 +26,27 @@ const Game: React.FC = () => {
     toggleRecords,
     toggleLegend
   } = useGameStore();
+
+  // Определяем, на мобильном ли устройстве
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Обновляем состояние isMobile при изменении размера окна
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Проверяем при монтировании компонента
+    checkIfMobile();
+    
+    // Добавляем обработчик изменения размера окна
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Удаляем обработчик при размонтировании компонента
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
 
   // Загрузка настроек при монтировании компонента
   useEffect(() => {
@@ -55,16 +83,57 @@ const Game: React.FC = () => {
       </div>
       
       <div className={styles.boardBackground}>
-        <div className={styles.scoreIndicator}>
-          Счет: {useGameStore.getState().score}
+        {/* Панель над игровым полем */}
+        <div className={isMobile ? styles.mobileGameControls : styles.desktopGameControls}>
+          <div className={styles.scoreIndicator}>
+            Счет: {score}
+          </div>
+          
+          {/* Кнопки управления игрой для мобильной версии */}
+          {isMobile && (
+            <div className={styles.mobileGameButtons}>
+              {!isPlaying && !isGameOver && (
+                <button 
+                  onClick={handleStartGame} 
+                  className={styles.mobileStartButton}
+                >
+                  Начать игру
+                </button>
+              )}
+
+              {isPlaying && !isGameOver && (
+                <button 
+                  onClick={isPaused ? resumeGame : pauseGame}
+                  className={styles.mobilePauseButton}
+                >
+                  {isPaused ? 'Продолжить' : 'Пауза'}
+                </button>
+              )}
+
+              {isGameOver && (
+                <button 
+                  onClick={resetGame}
+                  className={styles.mobileStartButton}
+                >
+                  Играть снова
+                </button>
+              )}
+            </div>
+          )}
         </div>
         
         <GameBoard />
       </div>
       
-      <div className={styles.controlsPanel}>
-        <GameControls onStartGame={handleStartGame} />
-      </div>
+      {/* Для десктопной версии сохраняем исходную панель управления */}
+      {!isMobile && (
+        <div className={styles.controlsPanel}>
+          <GameControls onStartGame={handleStartGame} />
+        </div>
+      )}
+      
+      {/* Отображаем мобильные кнопки управления всегда на мобильном устройстве */}
+      {isMobile && <GameControls onStartGame={handleStartGame} />}
       
       {isSettingsOpen && <GameSettings />}
       {isRecordsOpen && <Leaderboard />}
