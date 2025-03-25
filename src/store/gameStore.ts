@@ -25,7 +25,8 @@ import {
   INITIAL_SPEED,
   SPEED_INCREASE_RATE,
   DEFAULT_FIELD_SELECTION_MODE,
-  ENVIRONMENT_FOOD_MAPPING
+  ENVIRONMENT_FOOD_MAPPING,
+  DOUBLE_POINTS_DURATION
 } from '@/constants/game';
 import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils/storage';
 
@@ -324,7 +325,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         if (eatenFood.type === 'special') {
           // Особая еда - включаем удвоение очков на определенное время
           newDoublePointsActive = true;
-          newDoublePointsEndTime = Date.now() + 10000; // 10 секунд удвоения
+          newDoublePointsEndTime = Date.now() + DOUBLE_POINTS_DURATION; // 15 секунд удвоения согласно константе
         } else {
           // Обычная еда - добавляем очки
           newScore += pointsGained;

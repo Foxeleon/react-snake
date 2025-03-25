@@ -12,7 +12,6 @@ export const GameBoard = () => {
     direction,
     isGameOver,
     settings,
-    doublePointsActive,
     changeDirection,
     isPlaying,
     isPaused,
@@ -295,18 +294,6 @@ export const GameBoard = () => {
     }
   }, [snake, foods, environment]);
 
-  // Отображение индикатора удвоения очков
-  const renderDoublePointsIndicator = () => {
-    if (doublePointsActive) {
-      return (
-        <div className={styles.doublePointsIndicator}>
-          x2 ОЧКИ УДВОЕНЫ!
-        </div>
-      );
-    }
-    return null;
-  };
-
   // Функция для создания анимации при движении змеи
   const createSnakeAnimation = (position: Position, environment: Environment) => {
     if (!boardRef.current) return;
@@ -322,7 +309,6 @@ export const GameBoard = () => {
 
   return (
     <div className={styles.boardContainer}>
-      {renderDoublePointsIndicator()}
       <div 
         ref={boardRef}
         className={`${styles.board} ${styles[environment]} ${styles[theme]} ${isGameOver ? styles.gameOver : ''}`}

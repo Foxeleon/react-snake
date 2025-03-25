@@ -247,6 +247,21 @@
   align-items: center;
 }
 
+/* Верхняя панель с игровыми элементами управления */
+.gameTopPanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
 /* Стилизация индикатора счета */
 .scoreIndicator {
   font-size: 1.5rem;
@@ -254,10 +269,22 @@
   background: rgba(255, 255, 255, 0.15);
   padding: 10px 15px;
   border-radius: 8px;
-  margin: 10px;
   backdrop-filter: blur(4px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: inline-flex;
+  flex-shrink: 0;
+  height: 26px;
+  align-items: center;
+}
+
+/* Контейнер для индикатора удвоения очков */
+.doublePointsContainer {
+  min-width: 145px; /* Фиксированная ширина для десктопной версии */
+  min-height: 46px; /* Минимальная высота для сохранения пространства */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 /* Панель управления */
@@ -270,21 +297,62 @@
 /* Мобильные контроллеры над игровым полем */
 .mobileGameControls {
   display: none;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  backdrop-filter: blur(5px);
 }
 
 /* Контейнер для мобильных кнопок игры */
 .mobileGameButtons {
   display: flex;
   gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Индикатор удвоения очков */
+.doublePointsIndicator {
+  background-color: rgba(255, 215, 0, 0.8);
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  border: 2px solid #ffd700;
+  flex-shrink: 0;
+  white-space: nowrap;
+  height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+/* Мобильная версия индикатора удвоения очков */
+.mobileDoublePointsIndicator {
+  background-color: rgba(255, 215, 0, 0.8);
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  border: 2px solid #ffd700;
+  flex-shrink: 0;
+  height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Таймер удвоения очков */
+.doublePointsTimer {
+  font-size: 0.9em;
+  margin-top: 2px;
 }
 
 /* Стили для мобильной кнопки "Начать игру" */
@@ -333,20 +401,23 @@
     align-items: center;
   }
   
-  /* Отображаем мобильные контроллеры */
-  .mobileGameControls {
-    display: flex;
-  }
-  
   /* Уменьшаем размер индикатора счета */
   .scoreIndicator {
     font-size: 1.2rem;
     padding: 5px 10px;
+    margin: 0;
   }
   
-  /* Скрываем десктопные контроллеры */
-  .desktopGameControls {
-    display: none;
+  /* Корректировка для мобильного индикатора удвоения очков */
+  .mobileDoublePointsIndicator {
+    font-size: 0.9rem;
+    padding: 3px 6px;
+  }
+  
+  /* Уменьшаем зарезервированное пространство для мобильной версии */
+  .doublePointsContainer {
+    min-width: 80px;
+    min-height: 30px;
   }
 }
 
@@ -360,5 +431,16 @@
   .scoreIndicator {
     font-size: 1rem;
     padding: 4px 8px;
+  }
+  
+  /* Уменьшаем еще сильнее для очень маленьких экранов */
+  .doublePointsContainer {
+    min-width: 60px;
+    min-height: 26px;
+  }
+  
+  .mobileDoublePointsIndicator {
+    font-size: 0.8rem;
+    padding: 2px 5px;
   }
 } 
