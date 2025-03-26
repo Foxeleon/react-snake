@@ -175,20 +175,12 @@ export const useGameStore = create<GameStore>((set, get) => {
       const { settings } = get();
       const initialSnake = getInitialSnake(settings.gridSize);
       
-      // Выбираем окружение в зависимости от режима
+      // В режиме sequential окружение уже выбрано в resetGame
       let environment = settings.environment;
       let snakeType = settings.snakeType;
       
-      if (settings.fieldSelectionMode === 'sequential') {
-        // Последовательная смена окружения
-        const currentIndex = environments.indexOf(environment);
-        const nextIndex = (currentIndex + 1) % environments.length;
-        environment = environments[nextIndex];
-        
-        // Выбираем подходящий тип змеи для нового окружения
-        const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
-        snakeType = availableSnakeTypes[0];
-      } else if (settings.fieldSelectionMode === 'random') {
+      // Обрабатываем только random режим
+      if (settings.fieldSelectionMode === 'random') {
         // Случайный выбор окружения
         const randomIndex = Math.floor(Math.random() * environments.length);
         environment = environments[randomIndex];
@@ -196,13 +188,6 @@ export const useGameStore = create<GameStore>((set, get) => {
         // Выбираем подходящий тип змеи для нового окружения
         const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
         snakeType = availableSnakeTypes[0];
-      } else {
-        // В режиме 'static' проверяем соответствие типа змеи текущему окружению
-        const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[environment];
-        if (!availableSnakeTypes.includes(snakeType)) {
-          // Если текущий тип змеи не подходит для данного окружения, выбираем первый доступный
-          snakeType = availableSnakeTypes[0];
-        }
       }
       
       // Обновляем настройки с выбранным окружением и типом змеи
@@ -364,19 +349,43 @@ export const useGameStore = create<GameStore>((set, get) => {
 
     resetGame: () => {
       const { settings } = get();
-      const initialSnake = getInitialSnake(settings.gridSize);
+      
+      // Обновляем окружение если режим sequential
+      let updatedSettings = settings;
+      if (settings.fieldSelectionMode === 'sequential') {
+        // Последовательная смена окружения
+        const currentIndex = environments.indexOf(settings.environment);
+        const nextIndex = (currentIndex + 1) % environments.length;
+        const nextEnvironment = environments[nextIndex];
+        
+        // Выбираем подходящий тип змеи для нового окружения
+        const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[nextEnvironment];
+        const nextSnakeType = availableSnakeTypes[0];
+        
+        updatedSettings = {
+          ...settings,
+          environment: nextEnvironment,
+          snakeType: nextSnakeType
+        };
+      }
+      
+      const initialSnake = getInitialSnake(updatedSettings.gridSize);
       
       set({
         snake: initialSnake,
-        foods: [generateFood(initialSnake, settings.gridSize, settings.environment)],
+        foods: [generateFood(initialSnake, updatedSettings.gridSize, updatedSettings.environment)],
         direction: 'UP',
         isGameOver: false,
         score: 0,
         speed: INITIAL_SPEED,
         isPlaying: false,
         doublePointsActive: false,
-        doublePointsEndTime: null
+        doublePointsEndTime: null,
+        settings: updatedSettings
       });
+      
+      // Сохраняем обновленные настройки
+      saveSettings(updatedSettings);
     },
 
     increaseSpeed: () => {

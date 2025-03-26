@@ -27,24 +27,12 @@ export const ENVIRONMENT_TO_SNAKE_TYPES: Record<Environment, SnakeType[]> = {
   steppe: ['mouse_hunter']
 };
 
-// Режимы выбора поля
-export const FIELD_SELECTION_MODES: Record<string, FieldSelectionMode> = {
-  static: 'static',         // Не менять поле
-  sequential: 'sequential', // Последовательно менять поле
-  random: 'random'          // Случайно менять поле
-};
-
-// Порядок смены окружений для последовательного режима
-export const ENVIRONMENT_SEQUENCE: Environment[] = [
-  'jungle', 'sea', 'forest', 'desert', 'steppe'
-];
-
 // Настройки игры по умолчанию
 export const DEFAULT_PLAYER_NAME = 'Игрок';
 export const DEFAULT_ENVIRONMENT: Environment = 'jungle';
 export const DEFAULT_THEME = 'light';
 export const DEFAULT_BOARD_SIZE: BoardSize = 'medium';
-export const DEFAULT_FIELD_SELECTION_MODE: FieldSelectionMode = 'static';
+export const DEFAULT_FIELD_SELECTION_MODE: FieldSelectionMode = 'sequential';
 
 // Вероятности появления еды
 export const FOOD_SPAWN_PROBABILITIES = {
