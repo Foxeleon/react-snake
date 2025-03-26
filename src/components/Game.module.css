@@ -121,7 +121,7 @@
   justify-content: flex-start;
   min-height: 100vh;
   width: 100%;
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   transition: background 0.5s ease;
   padding: 10px;
   box-sizing: border-box;
@@ -134,7 +134,7 @@
   align-items: center;
   width: 100%;
   max-width: 800px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   padding: 10px;
   box-sizing: border-box;
   border-radius: 12px;
@@ -231,6 +231,7 @@
   text-align: center;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* Фон позади доски */
@@ -247,52 +248,297 @@
   align-items: center;
 }
 
-/* Стилизация указателя счета */
+/* Верхняя панель с игровыми элементами управления */
+.gameTopPanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
+/* Стилизация индикатора счета */
 .scoreIndicator {
   font-size: 1.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 8px 16px;
-  border-radius: 10px;
-  margin: 10px 0;
-  backdrop-filter: blur(3px);
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 15px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: inline-block;
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 26px;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Стилизация панели инструментов */
+/* Контейнер для индикатора удвоения очков */
+.doublePointsContainer {
+  min-width: 145px; /* Фиксированная ширина для десктопной версии */
+  min-height: 46px; /* Минимальная высота для сохранения пространства */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Панель управления */
 .controlsPanel {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   margin-top: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 15px;
-  border-radius: 12px;
-  backdrop-filter: blur(5px);
-  width: min(500px, 95%);
 }
 
-/* Адаптация к мобильным устройствам */
+/* Мобильные контроллеры над игровым полем */
+.mobileGameControls {
+  display: none;
+}
+
+/* Контейнер для мобильных кнопок игры */
+.mobileGameButtons {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Индикатор удвоения очков */
+.doublePointsIndicator {
+  background-color: rgba(255, 215, 0, 0.8);
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  border: 2px solid #ffd700;
+  flex-shrink: 0;
+  white-space: nowrap;
+  height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+/* Мобильная версия индикатора удвоения очков */
+.mobileDoublePointsIndicator {
+  background-color: rgba(255, 215, 0, 0.8);
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  border: 2px solid #ffd700;
+  flex-shrink: 0;
+  height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Таймер удвоения очков */
+.doublePointsTimer {
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+
+/* Стили для мобильной кнопки "Начать игру" */
+.mobileStartButton {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.mobileStartButton:hover,
+.mobileStartButton:active {
+  background-color: #3e8e41;
+}
+
+/* Стили для мобильной кнопки "Пауза"/"Продолжить" */
+.mobilePauseButton {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #2196F3;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.mobilePauseButton:hover,
+.mobilePauseButton:active {
+  background-color: #0b7dda;
+}
+
+/* Медиа-запросы для адаптации под мобильные устройства */
 @media (max-width: 768px) {
   .gameTitle {
     font-size: 1.5rem;
+    margin-bottom: 5px;
   }
   
   .header {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    align-items: center;
   }
   
-  .headerButtons {
-    width: 100%;
-    justify-content: center;
+  /* Уменьшаем размер индикатора счета */
+  .scoreIndicator {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    margin: 0;
   }
   
-  .boardBackground {
-    padding: 10px;
+  /* Корректировка для мобильного индикатора удвоения очков */
+  .mobileDoublePointsIndicator {
+    font-size: 0.9rem;
+    padding: 3px 6px;
+  }
+  
+  /* Уменьшаем зарезервированное пространство для мобильной версии */
+  .doublePointsContainer {
+    min-width: 80px;
+    min-height: 30px;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 380px) {
+  .mobileGameButtons button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
   }
   
   .scoreIndicator {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding: 4px 8px;
+  }
+  
+  /* Уменьшаем еще сильнее для очень маленьких экранов */
+  .doublePointsContainer {
+    min-width: 60px;
+    min-height: 26px;
+  }
+  
+  .mobileDoublePointsIndicator {
+    font-size: 0.8rem;
+    padding: 2px 5px;
+  }
+}
+
+/* Мобильные контроллеры */
+.mobileControls {
+  display: none;
+  width: 100%;
+  max-width: min(95vw, 95vh);
+  margin: 10px auto;
+  padding: 10px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+}
+
+/* Контейнер для кнопок управления */
+.mobileControlButtons {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+/* Стили для кнопок управления */
+.mobileControlButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobileControlButton:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Позиционирование кнопок */
+.mobileControlButton[data-direction="UP"] { grid-area: up; }
+.mobileControlButton[data-direction="DOWN"] { grid-area: down; }
+.mobileControlButton[data-direction="LEFT"] { grid-area: left; }
+.mobileControlButton[data-direction="RIGHT"] { grid-area: right; }
+
+/* Медиа-запросы для мобильных устройств */
+@media (max-width: 768px) {
+  .mobileControls {
+    display: block;
+  }
+  
+  .controlsPanel {
+    display: none;
+  }
+  
+  /* Корректировка отступов для мобильной версии */
+  .boardBackground {
+    margin: 5px 0;
+    padding: 10px;
+  }
+  
+  /* Уменьшаем размер кнопок для маленьких экранов */
+  @media (max-height: 700px) {
+    .mobileControlButton {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+    }
+  }
+  
+  @media (max-height: 600px) {
+    .mobileControlButton {
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+    }
+    
+    .mobileControlButtons {
+      gap: 3px;
+      padding: 5px;
+    }
   }
 } 

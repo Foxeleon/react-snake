@@ -408,6 +408,28 @@
     font-size: 14px;
     padding: 6px 12px;
   }
+
+  /* Уменьшаем толщину границ змеи для мобильной версии */
+  .snakeHead, .snakeBody {
+    border-width: 2px !important;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Уменьшаем толщину границ для всех типов еды */
+  .food {
+    border-width: 2px !important;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Обновляем границы для всех типов еды */
+  .food_bug, .food_frog, .food_bird, .food_pineapple, .food_poison_berry,
+  .food_shrimp, .food_fish, .food_starfish, .food_plankton, .food_jellyfish,
+  .food_ant, .food_locust, .food_rabbit, .food_mushroom, .food_moldy_berry,
+  .food_beetle, .food_egg, .food_cactus_flower, .food_thorn,
+  .food_grasshopper, .food_gopher, .food_mouse, .food_golden_grass, .food_bitter_seed,
+  .food_common, .food_medium, .food_rare, .food_special, .food_penalty {
+    border-width: 2px !important;
+  }
 }
 
 @media (max-width: 480px) {
