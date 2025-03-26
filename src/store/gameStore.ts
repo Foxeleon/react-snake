@@ -256,121 +256,95 @@ export const useGameStore = create<GameStore>((set, get) => {
     },
 
     moveSnake: () => {
-      const { snake, foods, direction, score, speed, settings, doublePointsActive, doublePointsEndTime } = get();
-      const head = { ...snake[0] };
-
-      // Проверяем, не закончилось ли время удвоения очков
-      let isDoublePointsActive = doublePointsActive;
-      if (doublePointsActive && doublePointsEndTime && Date.now() > doublePointsEndTime) {
-        isDoublePointsActive = false;
-      }
-
-      // Движение головы змеи
+      const { snake, foods, direction, isGameOver, isPlaying, isPaused } = get();
+      
+      if (isGameOver || !isPlaying || isPaused) return;
+      
+      // Получаем новую позицию головы змеи
+      const head = snake[0];
+      const newHead = { ...head };
+      const gridSize = get().settings.gridSize;
+      
       switch (direction) {
         case 'UP':
-          head.y--;
+          newHead.y = newHead.y - 1;
           break;
         case 'DOWN':
-          head.y++;
+          newHead.y = newHead.y + 1;
           break;
         case 'LEFT':
-          head.x--;
+          newHead.x = newHead.x - 1;
           break;
         case 'RIGHT':
-          head.x++;
+          newHead.x = newHead.x + 1;
           break;
       }
-
-      // Проверка столкновения со стенами
-      if (
-        head.x < 0 ||
-        head.x >= settings.gridSize ||
-        head.y < 0 ||
-        head.y >= settings.gridSize
-      ) {
-        set({ isGameOver: true, isPlaying: false });
-        get().saveRecord();
+      
+      // Проверяем столкновение со стенами
+      if (newHead.x < 0 || newHead.x >= gridSize || newHead.y < 0 || newHead.y >= gridSize) {
+        set({ isGameOver: true });
         return;
       }
-
-      // Проверка столкновения с собой
-      if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-        set({ isGameOver: true, isPlaying: false });
-        get().saveRecord();
+      
+      // Проверяем столкновение с самой собой
+      if (snake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
+        set({ isGameOver: true });
         return;
       }
-
-      const newSnake = [head, ...snake];
-      let newFoods = [...foods];
-      let newScore = score;
-      let newSpeed = speed;
-      let newDoublePointsActive = isDoublePointsActive;
-      let newDoublePointsEndTime = doublePointsEndTime;
-
-      // Проверка съедания еды
+      
+      // Проверяем столкновение с едой
+      const now = Date.now();
       const eatenFoodIndex = foods.findIndex(food => 
-        food.position.x === head.x && food.position.y === head.y
+        food.position.x === newHead.x && 
+        food.position.y === newHead.y &&
+        food.expiryTime > now
       );
-
+      
+      let newFoods = [...foods];
+      let newSnake = [newHead, ...snake];
+      
       if (eatenFoodIndex !== -1) {
         const eatenFood = foods[eatenFoodIndex];
         
-        // Определяем количество очков с учетом возможного удвоения
-        let pointsGained = eatenFood.points;
-        if (isDoublePointsActive && pointsGained > 0) {
-          pointsGained *= 2;
-        }
+        // Обрабатываем столкновение с едой
+        get().handleFoodCollision(eatenFood);
         
-        // Обрабатываем различные типы еды
-        if (eatenFood.type === 'special') {
-          // Особая еда - включаем удвоение очков на определенное время
-          newDoublePointsActive = true;
-          newDoublePointsEndTime = Date.now() + DOUBLE_POINTS_DURATION; // 15 секунд удвоения согласно константе
-        } else {
-          // Обычная еда - добавляем очки
-          newScore += pointsGained;
-        }
+        // Удаляем съеденную еду и генерируем новую
+        newFoods = [
+          ...foods.slice(0, eatenFoodIndex),
+          ...foods.slice(eatenFoodIndex + 1),
+          generateFood(newSnake, get().settings.gridSize, get().settings.environment)
+        ];
         
-        // Удаляем съеденную еду и создаем новую
-        newFoods.splice(eatenFoodIndex, 1);
-        newFoods.push(generateFood(newSnake, settings.gridSize, settings.environment));
-        
-        // Увеличиваем скорость при достижении определенного количества очков
-        if (newScore > 0 && newScore % 100 === 0) {
-          newSpeed = Math.max(50, speed - SPEED_INCREASE_RATE);
-        }
+        // Увеличиваем скорость
+        get().increaseSpeed();
       } else {
-        // Если еда не съедена, удаляем последний сегмент (хвост)
-        newSnake.pop();
+        // Если еда не съедена, удаляем хвост
+        newSnake = newSnake.slice(0, -1);
         
-        // Проверяем, не истекло ли время жизни еды
-        const now = Date.now();
-        const expiredFoodIndices: number[] = [];
+        // Удаляем просроченную еду и генерируем новую
+        const expiredFoodIndexes = foods
+          .map((food, index) => ({ index, expired: food.expiryTime <= now }))
+          .filter(item => item.expired)
+          .map(item => item.index);
         
-        foods.forEach((food, index) => {
-          if (food.expiryTime < now) {
-            expiredFoodIndices.push(index);
-          }
-        });
-        
-        // Если есть еда с истекшим временем, заменяем ее на новую
-        if (expiredFoodIndices.length > 0) {
-          newFoods = foods.filter((_, index) => !expiredFoodIndices.includes(index));
-          
-          // Генерируем новую еду для каждой истекшей
-          for (let i = 0; i < expiredFoodIndices.length; i++) {
-            newFoods.push(generateFood(newSnake, settings.gridSize, settings.environment));
+        if (expiredFoodIndexes.length > 0) {
+          newFoods = foods.filter((_, index) => !expiredFoodIndexes.includes(index));
+          for (let i = 0; i < expiredFoodIndexes.length; i++) {
+            newFoods.push(generateFood(newSnake, get().settings.gridSize, get().settings.environment));
           }
         }
       }
-
+      
+      // Проверяем, не истекло ли время действия удвоения очков
+      const { doublePointsActive, doublePointsEndTime } = get();
+      if (doublePointsActive && doublePointsEndTime && now >= doublePointsEndTime) {
+        get().deactivateDoublePoints();
+      }
+      
       set({
         snake: newSnake,
-        foods: newFoods,
-        score: newScore,
-        speed: newSpeed,
-        doublePointsActive: newDoublePointsActive,
-        doublePointsEndTime: newDoublePointsEndTime
+        foods: newFoods
       });
     },
 
@@ -584,6 +558,42 @@ export const useGameStore = create<GameStore>((set, get) => {
       }));
       
       return randomEnvironment;
+    },
+
+    // Добавляем метод для активации удвоения очков
+    activateDoublePoints: () => {
+      const now = Date.now();
+      set({
+        doublePointsActive: true,
+        doublePointsEndTime: now + DOUBLE_POINTS_DURATION
+      });
+    },
+
+    // Добавляем метод для деактивации удвоения очков
+    deactivateDoublePoints: () => {
+      set({
+        doublePointsActive: false,
+        doublePointsEndTime: null
+      });
+    },
+
+    // Обновляем метод обработки столкновения с едой
+    handleFoodCollision: (food: Food) => {
+      const { score, doublePointsActive } = get();
+      let newScore = score;
+
+      // Обрабатываем очки в зависимости от типа еды
+      if (food.type === 'special') {
+        // Активируем удвоение очков
+        get().activateDoublePoints();
+      } else {
+        // Для всех остальных типов еды учитываем множитель очков
+        const pointsMultiplier = doublePointsActive ? 2 : 1;
+        newScore += food.points * pointsMultiplier;
+      }
+
+      // Обновляем состояние
+      set({ score: newScore });
     }
   };
 }); 

@@ -97,21 +97,27 @@ const Game: React.FC = () => {
     }
     
     const timeLeft = Math.max(0, adjustedEndTime - now);
-    return Math.ceil(timeLeft / 1000); // округляем до секунд
+    return Math.floor(timeLeft / 1000); // Используем floor вместо ceil для более точного отображения
   }, [doublePointsActive, doublePointsEndTime, isPaused]);
 
   // Обновление таймера каждую секунду
-  const [timeLeft, setTimeLeft] = useState<number>(getDoublePointsTimeLeft());
+  const [timeLeft, setTimeLeft] = useState<number>(0); // Инициализируем с 0
 
   useEffect(() => {
-    if (!doublePointsActive) return;
+    // Немедленно устанавливаем начальное значение
+    setTimeLeft(getDoublePointsTimeLeft());
     
-    // Не запускаем интервал, если игра на паузе
-    if (isPaused) return;
+    if (!doublePointsActive || isPaused) return;
     
     const timerId = setInterval(() => {
-      setTimeLeft(getDoublePointsTimeLeft());
-    }, 1000);
+      const newTimeLeft = getDoublePointsTimeLeft();
+      setTimeLeft(newTimeLeft);
+      
+      // Если время истекло, очищаем интервал
+      if (newTimeLeft <= 0) {
+        clearInterval(timerId);
+      }
+    }, 100); // Обновляем чаще для более точного отображения
     
     return () => clearInterval(timerId);
   }, [doublePointsActive, getDoublePointsTimeLeft, isPaused]);

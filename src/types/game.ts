@@ -107,4 +107,7 @@ export interface GameStore extends GameState {
   resumeGame: () => void;
   getNextEnvironment: () => Environment;
   setRandomEnvironment: () => Environment;
+  activateDoublePoints: () => void;
+  deactivateDoublePoints: () => void;
+  handleFoodCollision: (food: Food) => void;
 } 
