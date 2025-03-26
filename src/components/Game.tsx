@@ -140,7 +140,7 @@ const Game: React.FC = () => {
   return (
     <div className={containerClasses}>
       <div className={styles.header}>
-        <h1 className={styles.gameTitle}>Змейка(Beta Version)</h1>
+        <h1 className={styles.gameTitle}>🐍(β)</h1>
         <div className={styles.headerButtons}>
           <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
             ⚙️
@@ -148,8 +148,8 @@ const Game: React.FC = () => {
           <button onClick={toggleRecords} className={styles.iconButton} title="Таблица рекордов">
             🏆
           </button>
-          <button 
-            onClick={toggleLegend} 
+          <button
+            onClick={toggleLegend}
             className={`${styles.iconButton} ${showLegend ? styles.active : ''}`}
             title={showLegend ? "Скрыть легенду" : "Показать легенду"}
           >
@@ -157,7 +157,7 @@ const Game: React.FC = () => {
           </button>
         </div>
       </div>
-      
+
       <div className={styles.boardBackground}>
         {/* Панель с общими элементами для всех версий */}
         <div className={styles.gameTopPanel}>
