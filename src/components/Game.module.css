@@ -443,4 +443,98 @@
     font-size: 0.8rem;
     padding: 2px 5px;
   }
+}
+
+/* Мобильные контроллеры */
+.mobileControls {
+  display: none;
+  width: 100%;
+  max-width: min(95vw, 95vh);
+  margin: 10px auto;
+  padding: 10px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+}
+
+/* Контейнер для кнопок управления */
+.mobileControlButtons {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+/* Стили для кнопок управления */
+.mobileControlButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobileControlButton:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Позиционирование кнопок */
+.mobileControlButton[data-direction="UP"] { grid-area: up; }
+.mobileControlButton[data-direction="DOWN"] { grid-area: down; }
+.mobileControlButton[data-direction="LEFT"] { grid-area: left; }
+.mobileControlButton[data-direction="RIGHT"] { grid-area: right; }
+
+/* Медиа-запросы для мобильных устройств */
+@media (max-width: 768px) {
+  .mobileControls {
+    display: block;
+  }
+  
+  .controlsPanel {
+    display: none;
+  }
+  
+  /* Корректировка отступов для мобильной версии */
+  .boardBackground {
+    margin: 5px 0;
+    padding: 10px;
+  }
+  
+  /* Уменьшаем размер кнопок для маленьких экранов */
+  @media (max-height: 700px) {
+    .mobileControlButton {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+    }
+  }
+  
+  @media (max-height: 600px) {
+    .mobileControlButton {
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+    }
+    
+    .mobileControlButtons {
+      gap: 3px;
+      padding: 5px;
+    }
+  }
 } 

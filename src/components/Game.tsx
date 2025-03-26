@@ -26,7 +26,8 @@ const Game: React.FC = () => {
     toggleRecords,
     toggleLegend,
     doublePointsActive,
-    doublePointsEndTime
+    doublePointsEndTime,
+    changeDirection
   } = useGameStore();
 
   // Определяем, на мобильном ли устройстве
@@ -213,8 +214,41 @@ const Game: React.FC = () => {
         </div>
       )}
       
-      {/* Отображаем мобильные кнопки управления всегда на мобильном устройстве */}
-      {isMobile && <GameControls onStartGame={handleStartGame} />}
+      {/* Новая мобильная панель управления */}
+      {isMobile && (
+        <div className={styles.mobileControls}>
+          <div className={styles.mobileControlButtons}>
+            <button 
+              className={styles.mobileControlButton}
+              data-direction="UP"
+              onClick={() => changeDirection('UP')}
+            >
+              ⬆️
+            </button>
+            <button 
+              className={styles.mobileControlButton}
+              data-direction="LEFT"
+              onClick={() => changeDirection('LEFT')}
+            >
+              ⬅️
+            </button>
+            <button 
+              className={styles.mobileControlButton}
+              data-direction="RIGHT"
+              onClick={() => changeDirection('RIGHT')}
+            >
+              ➡️
+            </button>
+            <button 
+              className={styles.mobileControlButton}
+              data-direction="DOWN"
+              onClick={() => changeDirection('DOWN')}
+            >
+              ⬇️
+            </button>
+          </div>
+        </div>
+      )}
       
       {isSettingsOpen && <GameSettings />}
       {isRecordsOpen && <Leaderboard />}
