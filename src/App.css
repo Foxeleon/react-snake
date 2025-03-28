@@ -53,6 +53,41 @@ button:focus {
   body {
     font-size: 14px;
   }
+
+  .game-container {
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+  }
+
+  .controls-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .mobile-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Адаптация размера игрового поля */
+  .game-board {
+    width: 100%;
+    max-width: 100vmin;
+    aspect-ratio: 1;
+  }
+
+  /* Адаптация размера ячеек */
+  .cell {
+    font-size: 0.8em;
+  }
+
+  /* Стили для мобильных кнопок */
+  button {
+    min-height: 44px; /* Минимальная высота для удобного нажатия */
+    padding: 12px 20px;
+  }
 }
 
 /* Анимация для 8-битного стиля */

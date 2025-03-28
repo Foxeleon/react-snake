@@ -1,4 +1,6 @@
 import { GameSettings, PlayerRecord } from '@/types/game';
+import { Capacitor } from '@capacitor/core';
+import { lockToPortrait } from '@/utils/capacitorUtils.ts';
 
 // Ключи для локального хранилища
 const STORAGE_KEYS = {
@@ -40,6 +42,13 @@ export const saveSettings = (settings: GameSettings): void => {
     localStorage.setItem(STORAGE_KEYS.SETTINGS, encryptData(settings));
   } catch (e) {
     console.error('Error saving settings:', e);
+  }
+};
+
+export const initCapacitor = async () => {
+  // Проверяем, запущено ли приложение на мобильном устройстве через Capacitor
+  if (Capacitor.isNativePlatform()) {
+    await lockToPortrait();
   }
 };
 
