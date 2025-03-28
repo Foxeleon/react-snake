@@ -6,6 +6,9 @@ import { WelcomeScreen } from './components/WelcomeScreen';
 import { useGameStore } from './store/gameStore';
 import { usePlatform } from './hooks/usePlatform';
 import './App.css';
+import { initCapacitor } from '@/utils/storage.ts';
+import { Capacitor } from '@capacitor/core';
+import { unlockOrientation } from '@/utils/capacitorUtils.ts';
 
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
@@ -13,6 +16,12 @@ function App() {
   const { isIOS, isNative } = usePlatform();
   
   useEffect(() => {
+
+    initCapacitor().then(() => {
+      if (Capacitor.isNativePlatform()) {
+            unlockOrientation().then(() => {});
+          }
+    });
     // Загружаем настройки при первом монтировании компонента
     loadSettings();
     
