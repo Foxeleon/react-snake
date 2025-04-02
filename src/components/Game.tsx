@@ -6,6 +6,7 @@ import { RecordsTable as Leaderboard } from './RecordsTable';
 import { useGameStore } from '@/store/gameStore';
 import Legend from './Legend';
 import styles from './Game.module.css';
+import { usePlatform } from '@/hooks/usePlatform.ts';
 
 const Game: React.FC = () => {
   const {
@@ -36,6 +37,7 @@ const Game: React.FC = () => {
   // Отслеживаем время паузы для корректировки таймера удвоения очков
   const pauseStartTimeRef = useRef<number | null>(null);
   const pauseTotalDurationRef = useRef<number>(0);
+  const { isNative } = usePlatform();
   
   // Обновляем состояние isMobile при изменении размера окна
   useEffect(() => {
@@ -214,7 +216,7 @@ const Game: React.FC = () => {
       </div>
       
       {/* Для десктопной версии сохраняем исходную панель управления */}
-      {!isMobile && (
+      {!isMobile || isNative && (
         <div className={styles.controlsPanel}>
           <GameControls onStartGame={handleStartGame} />
         </div>

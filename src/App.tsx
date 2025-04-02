@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
 import Game from './components/Game';
-import Legend from './components/Legend';
-import { GameSettings } from './components/GameSettings';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { useGameStore } from './store/gameStore';
-import { usePlatform } from './hooks/usePlatform';
 import './App.css';
 import { initCapacitor } from '@/utils/storage.ts';
 import { Capacitor } from '@capacitor/core';
 import { unlockOrientation } from '@/utils/capacitorUtils.ts';
+import { usePlatform } from '@/hooks/usePlatform.ts';
 
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
   const { loadSettings, settings } = useGameStore();
-  const { isIOS, isNative } = usePlatform();
+  const { isIOS } = usePlatform();
   
   useEffect(() => {
 
@@ -39,13 +37,7 @@ function App() {
       {isFirstLaunch ? (
         <WelcomeScreen onStart={handleStart} />
       ) : (
-        <div className="game-container">
           <Game />
-          <div className={`controls-container ${isNative ? 'mobile-controls' : ''}`}>
-            <Legend />
-            <GameSettings />
-          </div>
-        </div>
       )}
     </div>
   );
