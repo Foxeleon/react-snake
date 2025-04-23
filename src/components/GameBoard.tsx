@@ -169,35 +169,80 @@ export const GameBoard = () => {
   // Рендер сетки игрового поля
   const renderGrid = () => {
     const cells = [];
+
+    // Базовая ширина клетки в процентах
     const cellSize = 100 / gridSize;
 
-    for (let y = 0; y < gridSize; y++) {
-      for (let x = 0; x < gridSize; x++) {
-        // Определяем, является ли клетка "четной" для шахматного узора
-        // Используем для определения четности (x + y) % 2 === 0
-        const isEvenCell = (x + y) % 2 === 0;
-        
-        // Базовый класс для ячейки
-        let cellClass = styles.cell;
-        
-        const cellStyle = {
+    // Стратегия фиксированной ширины поля для разных размеров сетки
+    let cellStyles = {};
+
+    switch(gridSize) {
+      case 10: // mini
+        cellStyles = {
+          width: `${cellSize}%`,
+          height: `${cellSize}%`,
+          fontSize: '1.4rem'  // Увеличенный шрифт для мини-сетки
+        };
+        break;
+      case 15: // small
+        cellStyles = {
+          width: `${cellSize}%`,
+          height: `${cellSize}%`,
+          fontSize: '1.2rem',
+          // Предотвращаем сжатие для 15×15
+          minWidth: `calc(100% / 15)`,
+          minHeight: `calc(100% / 15)`
+        };
+        break;
+      case 20: // medium
+        cellStyles = {
+          width: `${cellSize}%`,
+          height: `${cellSize}%`,
+          fontSize: '1rem',
+          // Предотвращаем сжатие для 20×20
+          minWidth: `calc(100% / 20)`,
+          minHeight: `calc(100% / 20)`
+        };
+        break;
+      case 25: // large
+        cellStyles = {
+          width: `${cellSize}%`,
+          height: `${cellSize}%`,
+          fontSize: '0.9rem'
+        };
+        break;
+      case 30: // giant
+        cellStyles = {
+          width: `${cellSize}%`,
+          height: `${cellSize}%`,
+          fontSize: '0.8rem'
+        };
+        break;
+      default:
+        cellStyles = {
           width: `${cellSize}%`,
           height: `${cellSize}%`
         };
+    }
 
-        // Создаем базовую ячейку
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const isEvenCell = (x + y) % 2 === 0;
+        let cellClass = styles.cell;
+
+        // Создаем базовую ячейку с обновленными стилями
         cells.push(
-          <div
-            key={`${x}-${y}`}
-            className={cellClass}
-            style={cellStyle}
-            data-x={x}
-            data-y={y}
-            data-is-even={isEvenCell.toString()}
-          >
-            {/* Элементы на клетке (змея или еда) */}
-            {renderCellContent(x, y)}
-          </div>
+            <div
+                key={`${x}-${y}`}
+                className={cellClass}
+                style={cellStyles}
+                data-x={x}
+                data-y={y}
+                data-is-even={isEvenCell.toString()}
+                data-grid-size={gridSize}
+            >
+              {renderCellContent(x, y)}
+            </div>
         );
       }
     }
@@ -308,15 +353,17 @@ export const GameBoard = () => {
   };
 
   return (
-    <div className={styles.boardContainer}>
-      <div 
-        ref={boardRef}
-        className={`${styles.board} ${styles[environment]} ${styles[theme]} ${isGameOver ? styles.gameOver : ''}`}
-      >
-        {renderGrid()}
+      <div className={styles.boardContainer}>
+        <div
+            ref={boardRef}
+            className={`${styles.board} ${styles[environment]} ${styles[theme]} ${isGameOver ? styles.gameOver : ''}`}
+            data-grid-size={gridSize}
+        >
+          {renderGrid()}
+        </div>
       </div>
-    </div>
   );
+
 }; 
 
 export default GameBoard; 

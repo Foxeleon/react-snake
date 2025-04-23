@@ -47,6 +47,14 @@
   background-color: transparent;
 }
 
+.board[data-grid-size="15"],
+.board[data-grid-size="20"] {
+  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 /* Стили для ячеек */
 .cell {
   display: inline-block;
