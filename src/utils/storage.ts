@@ -1,6 +1,6 @@
 import { GameSettings, PlayerRecord } from '@/types/game';
 import { Capacitor } from '@capacitor/core';
-import { lockToPortrait } from '@/utils/capacitorUtils.ts';
+import { lockToPortrait } from '@/utils';
 
 // Ключи для локального хранилища
 const STORAGE_KEYS = {

@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { GameBoard } from './GameBoard';
-import { GameControls } from './GameControls';
 import { GameSettings } from './GameSettings';
-import { RecordsTable as Leaderboard } from './RecordsTable';
 import { useGameStore } from '@/store/gameStore';
 import Legend from './Legend';
 import styles from './Game.module.css';
+import desktopStyles from './DesktopGameControls.module.css';
 import { usePlatform } from '@/hooks/usePlatform.ts';
 
 const Game: React.FC = () => {
@@ -18,13 +17,11 @@ const Game: React.FC = () => {
     pauseGame,
     resumeGame,
     resetGame,
-    isSettingsOpen, 
-    isRecordsOpen,
+    isSettingsOpen,
     showLegend,
     settings,
     loadSettings,
     toggleSettings,
-    toggleRecords,
     toggleLegend,
     doublePointsActive,
     doublePointsEndTime,
@@ -108,19 +105,19 @@ const Game: React.FC = () => {
   useEffect(() => {
     // Немедленно устанавливаем начальное значение
     setTimeLeft(getDoublePointsTimeLeft());
-    
+
     if (!doublePointsActive || isPaused) return;
-    
+
     const timerId = setInterval(() => {
       const newTimeLeft = getDoublePointsTimeLeft();
       setTimeLeft(newTimeLeft);
-      
+
       // Если время истекло, очищаем интервал
       if (newTimeLeft <= 0) {
         clearInterval(timerId);
       }
     }, 100); // Обновляем чаще для более точного отображения
-    
+
     return () => clearInterval(timerId);
   }, [doublePointsActive, getDoublePointsTimeLeft, isPaused]);
 
@@ -146,122 +143,159 @@ const Game: React.FC = () => {
     );
   };
 
-  return (
-    <div className={containerClasses}>
-      <div className={styles.header}>
-        <h1 className={styles.gameTitle}>🐍(β)</h1>
-        <div className={styles.headerButtons}>
-          <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
-            ⚙️
-          </button>
-          <button onClick={toggleRecords} className={styles.iconButton} title="Таблица рекордов">
-            🏆
-          </button>
-          <button
-            onClick={toggleLegend}
-            className={`${styles.iconButton} ${showLegend ? styles.active : ''}`}
-            title={showLegend ? "Скрыть легенду" : "Показать легенду"}
-          >
-            ℹ️
-          </button>
-        </div>
-      </div>
+  // Классы в зависимости от темы
+  const themeClass = settings.theme === 'dark' ? styles.dark : '';
 
-      <div className={styles.boardBackground}>
-        {/* Панель с общими элементами для всех версий */}
-        <div className={styles.gameTopPanel}>
-          <div className={styles.scoreIndicator}>
-            Счет: {score}
+  return (
+      <div className={containerClasses}>
+        <div className={styles.header}>
+          <h1 className={styles.gameTitle}>🐍(β)</h1>
+          <div className={styles.headerButtons}>
+            <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
+              ⚙️
+            </button>
+            {/* TODO fix records
+            <button onClick={toggleRecords} className={styles.iconButton} title="Таблица рекордов">
+              🏆
+            </button>
+            */}
+            <button
+                onClick={toggleLegend}
+                className={`${styles.iconButton} ${showLegend ? styles.active : ''}`}
+                title={showLegend ? "Скрыть легенду" : "Показать легенду"}
+            >
+              ℹ️
+            </button>
           </div>
-          
-          {/* Зарезервированное место для индикатора удвоения очков */}
-          <div className={styles.doublePointsContainer}>
-            {renderDoublePointsIndicator()}
+        </div>
+
+        <div className={styles.boardBackground}>
+          {/* Панель с общими элементами для всех версий */}
+          <div className={styles.gameTopPanel}>
+            <div className={styles.scoreIndicator}>
+              Счет: {score}
+            </div>
+
+            {/* Зарезервированное место для индикатора удвоения очков */}
+            <div className={styles.doublePointsContainer}>
+              {renderDoublePointsIndicator()}
+            </div>
+
+            {/* Кнопки управления игрой для мобильной версии */}
+            {isMobile && (
+                <div className={styles.mobileGameButtons}>
+                  {!isPlaying && !isGameOver && (
+                      <button
+                          onClick={handleStartGame}
+                          className={styles.mobileStartButton}
+                      >
+                        Начать игру
+                      </button>
+                  )}
+
+                  {isPlaying && !isGameOver && (
+                      <button
+                          onClick={isPaused ? resumeGame : pauseGame}
+                          className={styles.mobilePauseButton}
+                      >
+                        {isPaused ? 'Продолжить' : 'Пауза'}
+                      </button>
+                  )}
+
+                  {isGameOver && (
+                      <button
+                          onClick={resetGame}
+                          className={styles.mobileStartButton}
+                      >
+                        Играть снова
+                      </button>
+                  )}
+                </div>
+            )}
           </div>
-          
-          {/* Кнопки управления игрой для мобильной версии */}
-          {isMobile && (
-            <div className={styles.mobileGameButtons}>
+
+          <GameBoard/>
+        </div>
+
+        {!(isMobile || isNative) && (
+            <div className={`${desktopStyles.controls} ${themeClass}`}>
               {!isPlaying && !isGameOver && (
-                <button 
-                  onClick={handleStartGame} 
-                  className={styles.mobileStartButton}
-                >
-                  Начать игру
-                </button>
+                  <button
+                      onClick={handleStartGame}
+                      className={desktopStyles.startButton}
+                      data-testid="start-button"
+                  >
+                    Начать игру
+                  </button>
               )}
 
               {isPlaying && !isGameOver && (
-                <button 
-                  onClick={isPaused ? resumeGame : pauseGame}
-                  className={styles.mobilePauseButton}
-                >
-                  {isPaused ? 'Продолжить' : 'Пауза'}
-                </button>
+                  <button
+                      onClick={isPaused ? resumeGame : pauseGame}
+                      className={desktopStyles.pauseButton}
+                  >
+                    {isPaused ? 'Продолжить' : 'Пауза'}
+                  </button>
               )}
 
               {isGameOver && (
-                <button 
-                  onClick={resetGame}
-                  className={styles.mobileStartButton}
-                >
-                  Играть снова
-                </button>
+                  <div className={desktopStyles.gameOverControls}>
+                    <h2>Игра окончена!</h2>
+                    <div className={desktopStyles.buttonGroup}>
+                      <button onClick={resetGame}>Играть снова</button>
+                    </div>
+                  </div>
               )}
+
+              <div className={desktopStyles.instructions}>
+                <p>Используйте стрелки для управления змейкой</p>
+              </div>
             </div>
-          )}
-        </div>
-        
-        <GameBoard />
+        )}
+
+
+        {/* Мобильная панель управления */}
+        {(isMobile || isNative) && settings.showMobileControls && (
+            <div className={styles.mobileControls}>
+              <div className={styles.mobileControlButtons}>
+                <button
+                    className={styles.mobileControlButton}
+                    data-direction="UP"
+                    onClick={() => changeDirection('UP')}
+                >
+                  ⬆️
+                </button>
+                <button
+                    className={styles.mobileControlButton}
+                    data-direction="LEFT"
+                    onClick={() => changeDirection('LEFT')}
+                >
+                  ⬅️
+                </button>
+                <button
+                    className={styles.mobileControlButton}
+                    data-direction="RIGHT"
+                    onClick={() => changeDirection('RIGHT')}
+                >
+                  ➡️
+                </button>
+                <button
+                    className={styles.mobileControlButton}
+                    data-direction="DOWN"
+                    onClick={() => changeDirection('DOWN')}
+                >
+                  ⬇️
+                </button>
+              </div>
+            </div>
+        )}
+
+        {isSettingsOpen && <GameSettings/>}
+        {/* TODO fix records
+          {isRecordsOpen && <Leaderboard/>}
+        */}
+        {showLegend && <Legend/>}
       </div>
-      
-      {/* Для десктопной версии сохраняем исходную панель управления */}
-      {!isMobile || isNative && (
-        <div className={styles.controlsPanel}>
-          <GameControls onStartGame={handleStartGame} />
-        </div>
-      )}
-      
-      {/* Новая мобильная панель управления */}
-      {isMobile && (
-        <div className={styles.mobileControls}>
-          <div className={styles.mobileControlButtons}>
-            <button 
-              className={styles.mobileControlButton}
-              data-direction="UP"
-              onClick={() => changeDirection('UP')}
-            >
-              ⬆️
-            </button>
-            <button 
-              className={styles.mobileControlButton}
-              data-direction="LEFT"
-              onClick={() => changeDirection('LEFT')}
-            >
-              ⬅️
-            </button>
-            <button 
-              className={styles.mobileControlButton}
-              data-direction="RIGHT"
-              onClick={() => changeDirection('RIGHT')}
-            >
-              ➡️
-            </button>
-            <button 
-              className={styles.mobileControlButton}
-              data-direction="DOWN"
-              onClick={() => changeDirection('DOWN')}
-            >
-              ⬇️
-            </button>
-          </div>
-        </div>
-      )}
-      
-      {isSettingsOpen && <GameSettings />}
-      {isRecordsOpen && <Leaderboard />}
-      {showLegend && <Legend />}
-    </div>
   );
 };
 

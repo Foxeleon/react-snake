@@ -3,13 +3,14 @@ import Game from './components/Game';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { useGameStore } from './store/gameStore';
 import './App.css';
-import { initCapacitor } from '@/utils/storage.ts';
+import { debounce, initCapacitor } from '@/utils';
 import { Capacitor } from '@capacitor/core';
-import { unlockOrientation } from '@/utils/capacitorUtils.ts';
+import { unlockOrientation } from '@/utils';
 import { usePlatform } from '@/hooks/usePlatform.ts';
 
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const { loadSettings, settings } = useGameStore();
   const { isIOS } = usePlatform();
   
@@ -27,6 +28,26 @@ function App() {
     const hasPlayerName = settings.playerName !== 'Игрок';
     setIsFirstLaunch(!hasPlayerName);
   }, [loadSettings, settings.playerName]);
+
+  // Обновляем состояние isMobile при изменении размера окна
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Проверяем при монтировании компонента
+    checkIfMobile();
+
+    const debouncedCheckIfMobile = debounce(checkIfMobile, 500);
+
+    // Добавляем обработчик изменения размера окна
+    window.addEventListener('resize', debouncedCheckIfMobile);
+
+    // Удаляем обработчик при размонтировании компонента
+    return () => {
+      window.removeEventListener('resize', debouncedCheckIfMobile);
+    };
+  }, [isMobile]);
   
   const handleStart = () => {
     setIsFirstLaunch(false);

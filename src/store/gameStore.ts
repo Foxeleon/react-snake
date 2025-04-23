@@ -28,7 +28,7 @@ import {
   ENVIRONMENT_FOOD_MAPPING,
   DOUBLE_POINTS_DURATION
 } from '@/constants/game';
-import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils/storage';
+import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils';
 
 // Вспомогательные функции и константы для логики игры
 const environments: Environment[] = ['jungle', 'sea', 'forest', 'desert', 'steppe'];
@@ -139,7 +139,8 @@ const DEFAULT_SETTINGS: GameSettings = {
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
   soundEnabled: false,
-  fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE
+  fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE,
+  showMobileControls: true
 };
 
 // TODO fix it
@@ -501,6 +502,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       fieldSelectionMode: FieldSelectionMode;
       soundEnabled: boolean;
       snakeType: SnakeType;
+      showMobileControls: boolean;
     }) => {
       const gridSize = GRID_SIZES[newSettings.boardSize];
       const foodExpirationTime = FOOD_EXPIRATION_TIMES[newSettings.boardSize];
@@ -520,7 +522,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         foodExpirationTime,
         snakeType
       };
-      
+
       set(state => ({
         ...state,
         settings: updatedSettings

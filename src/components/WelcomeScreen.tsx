@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './WelcomeScreen.module.css';
+import { GameSettings } from '@/components/GameSettings.tsx';
 
 interface WelcomeScreenProps {
   onStart?: () => void;
 }
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
-  const { setPlayerName, startGame, settings } = useGameStore();
+  const { setPlayerName, startGame, settings, toggleSettings, isSettingsOpen } = useGameStore();
   const [name, setName] = useState(settings.playerName);
   const [showError, setShowError] = useState(false);
   
@@ -56,20 +57,23 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
             <button 
               type="button" 
               className={styles.settingsButton}
-              onClick={() => useGameStore.getState().toggleSettings()}
+              onClick={toggleSettings}
             >
               Настройки
             </button>
-            <button 
-              type="button" 
-              className={styles.recordsButton}
+            {/* TODO fix Records
+            <button
+              type="button"
+              className={styles.Button}
               onClick={() => useGameStore.getState().toggleRecords()}
             >
               Рекорды
             </button>
+            */}
           </div>
         </form>
       </div>
+      {isSettingsOpen && <GameSettings/>}
     </div>
   );
 }; 

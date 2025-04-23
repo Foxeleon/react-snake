@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.foxeleon.reactsnake',
-  appName: 'React Snake',
+  appName: 'Snake',
   webDir: 'dist',
   server: {
     androidScheme: 'https',

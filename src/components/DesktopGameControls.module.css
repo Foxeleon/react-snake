@@ -1,0 +1,403 @@
+.controls {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.controls button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.controls button:hover {
+    background-color: #3e8e41;
+}
+
+.controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.dark button {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.dark button:hover {
+    background-color: #1b5e20;
+}
+
+.dark {
+    color: #f0f0f0;
+}
+
+.instructions {
+    margin-top: 10px;
+    text-align: center;
+    color: #000;
+}
+
+.dark .instructions {
+    color: #eaeaea;
+}
+
+.gameOverControls {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .gameOverControls {
+        /* Уменьшаем отступы и лучше используем пространство */
+        padding: 15px 10px;
+        /* Больше прозрачности для лучшей видимости игрового поля */
+        background-color: rgba(255, 255, 255, 0.95);
+        /* Уменьшаем тень для лучшей производительности */
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        /* Уменьшаем радиус границы */
+        border-radius: 8px;
+        /* Максимальная ширина для центрирования на экране */
+        max-width: 280px;
+        margin: 0 auto;
+        /* Фиксированное позиционирование для мобильных устройств */
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+
+    .gameOverControls h2 {
+        font-size: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .buttonGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buttonGroup button {
+        /* Увеличенный размер для удобного нажатия пальцем */
+        padding: 12px 15px;
+        font-size: 1.1rem;
+        /* Минимальная высота для удобства касания */
+        min-height: 50px;
+        border-radius: 8px;
+        background-color: #4a6da7;
+        color: white;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.2s, transform 0.1s;
+        width: 100%;
+        /* Улучшаем доступность с активным состоянием */
+        touch-action: manipulation;
+    }
+
+    .buttonGroup button:active {
+        background-color: #3a5a8a;
+        transform: translateY(1px);
+    }
+}
+
+.dark .gameOverControls {
+    background-color: rgba(44, 44, 44, 0.9);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.gameOverControls h2 {
+    color: #f44336;
+    margin-bottom: 10px;
+}
+
+.dark .gameOverControls h2 {
+    color: #ef5350;
+}
+
+.gameOverControls p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.startButton {
+    margin-bottom: 10px;
+    padding: 15px 30px !important;
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.menuButtons {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.settingsButton,
+.recordsButton,
+.legendButton {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.settingsButton:hover,
+.recordsButton:hover,
+.legendButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.settingsButton {
+    background: #2196F3;
+    color: white;
+}
+
+.recordsButton {
+    background: #FFC107;
+    color: #333;
+}
+
+.legendButton {
+    background: #4CAF50;
+    color: white;
+}
+
+.legendButton.active {
+    background: #2E7D32;
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(46, 125, 50, 0.5);
+}
+
+/* Темная тема */
+.dark .settingsButton,
+.dark .recordsButton,
+.dark .legendButton {
+    background: rgba(50, 50, 50, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .settingsButton {
+    background: #1976D2;
+}
+
+.dark .recordsButton {
+    background: #FFA000;
+}
+
+.dark .legendButton {
+    background: #388E3C;
+}
+
+.dark .legendButton.active {
+    background: #1B5E20;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(27, 94, 32, 0.5);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .menuButtons {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+
+    .settingsButton,
+    .recordsButton,
+    .legendButton {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+}
+
+/* Мобильные контроллеры */
+.mobileControls {
+    display: none;
+}
+
+/* Контейнер для мобильных контроллеров */
+.mobileControlsContainer {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 280px;
+}
+
+.dark .mobileControlsContainer {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Уменьшаем расстояние между кнопками в мобильной версии */
+.touchControls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Добавляем расстояние в среднем ряду */
+.middleRow {
+    display: flex;
+    gap: 70px;
+}
+
+/* Изменяем размер кнопок для мобильной версии */
+.touchButton {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(76, 175, 80, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.touchButton:hover {
+    background-color: rgba(76, 175, 80, 0.9);
+}
+
+.touchButton:active {
+    transform: scale(0.95);
+    background-color: rgba(76, 175, 80, 1);
+}
+
+.dark .touchButton {
+    background-color: rgba(46, 125, 50, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .touchButton:hover {
+    background-color: rgba(46, 125, 50, 0.9);
+}
+
+.dark .touchButton:active {
+    background-color: rgba(46, 125, 50, 1);
+}
+
+/* Показываем мобильные контроллеры на маленьких экранах */
+@media (max-width: 768px) {
+    .mobileControls {
+        display: block;
+    }
+
+    /* Скрываем дополнительные кнопки на мобильных устройствах */
+    .additionalControls {
+        display: none;
+    }
+
+    .instructions {
+        display: none;
+    }
+}
+
+/* Для очень маленьких экранов делаем кнопки еще меньше */
+@media (max-width: 380px) {
+    .touchButton {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .middleRow {
+        gap: 50px;
+    }
+
+    .mobileControlsContainer {
+        bottom: 15px;
+        max-width: 250px;
+    }
+}
+
+.additionalControls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.controlButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0;
+}
+
+.controlButton:hover {
+    transform: scale(1.1);
+    background-color: #388E3C;
+}
+
+.controlButton:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .controlButton {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+} 
