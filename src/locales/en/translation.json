@@ -4,13 +4,35 @@
     "description": "Modern version of the classic \"Snake\" game with 8-bit style"
   },
   "game": {
-    "start": "Start game",
+    "start": "Start Game",
     "pause": "Pause",
     "resume": "Resume",
-    "restart": "Restart",
-    "gameOver": "Game over",
+    "restart": "Play Again",
+    "gameOver": "Game Over!",
     "score": "Score: {{score}}",
-    "highScore": "High score: {{score}}"
+    "doublePoints": {
+      "desktop": "DOUBLE POINTS! ({{seconds}}s)",
+      "mobile": "x2 ({{seconds}}s)"
+    },
+    "controls": {
+      "arrows": "Use arrow keys to control the snake"
+    },
+    "buttons": {
+      "settings": "Settings",
+      "records": "Leaderboard",
+      "showLegend": "Show Legend",
+      "hideLegend": "Hide Legend"
+    }
+  },
+  "welcome": {
+    "title": "Welcome to Snake Game!",
+    "description": "Exciting 8-bit game with various snake types and environments",
+    "nameLabel": "What is your name?",
+    "namePlaceholder": "Enter your name",
+    "nameError": "Please enter your name",
+    "startButton": "Start Game",
+    "settingsButton": "Settings",
+    "recordsButton": "Records"
   },
   "settings": {
     "title": "Game settings",

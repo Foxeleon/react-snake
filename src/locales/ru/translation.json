@@ -7,12 +7,33 @@
     "start": "Начать игру",
     "pause": "Пауза",
     "resume": "Продолжить",
-    "restart": "Начать заново",
-    "gameOver": "Игра окончена",
-    "score": "Очки: {{score}}",
-    "highScore": "Рекорд: {{score}}"
+    "restart": "Играть снова",
+    "gameOver": "Игра окончена!",
+    "score": "Счет: {{score}}",
+    "doublePoints": {
+      "desktop": "ОЧКИ УДВОЕНЫ! ({{seconds}}с)",
+      "mobile": "x2 ({{seconds}}с)"
+    },
+    "controls": {
+      "arrows": "Используйте стрелки для управления змейкой"
+    },
+    "buttons": {
+      "settings": "Настройки",
+      "records": "Таблица рекордов",
+      "showLegend": "Показать легенду",
+      "hideLegend": "Скрыть легенду"
+    }
   },
-
+  "welcome": {
+    "title": "Добро пожаловать в игру \"Змейка\"!",
+    "description": "Захватывающая 8-битная игра с различными типами змей и окружений",
+    "nameLabel": "Как вас зовут?",
+    "namePlaceholder": "Введите ваше имя",
+    "nameError": "Пожалуйста, введите ваше имя",
+    "startButton": "Начать игру",
+    "settingsButton": "Настройки",
+    "recordsButton": "Рекорды"
+  },
   "settings": {
     "title": "Настройки игры",
     "playerName": "Имя игрока",

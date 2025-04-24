@@ -7,10 +7,32 @@
     "start": "Spiel starten",
     "pause": "Pause",
     "resume": "Fortsetzen",
-    "restart": "Neu starten",
-    "gameOver": "Spiel vorbei",
+    "restart": "Erneut spielen",
+    "gameOver": "Spiel vorbei!",
     "score": "Punkte: {{score}}",
-    "highScore": "Höchste Punktzahl: {{score}}"
+    "doublePoints": {
+      "desktop": "DOPPELTE PUNKTE! ({{seconds}}s)",
+      "mobile": "x2 ({{seconds}}s)"
+    },
+    "controls": {
+      "arrows": "Benutze die Pfeiltasten, um die Schlange zu steuern"
+    },
+    "buttons": {
+      "settings": "Einstellungen",
+      "records": "Bestenliste",
+      "showLegend": "Legende anzeigen",
+      "hideLegend": "Legende ausblenden"
+    }
+  },
+  "welcome": {
+    "title": "Willkommen beim Schlangenspiel!",
+    "description": "Aufregendes 8-Bit-Spiel mit verschiedenen Schlangentypen und Umgebungen",
+    "nameLabel": "Wie heißen Sie?",
+    "namePlaceholder": "Geben Sie Ihren Namen ein",
+    "nameError": "Bitte geben Sie Ihren Namen ein",
+    "startButton": "Spiel starten",
+    "settingsButton": "Einstellungen",
+    "recordsButton": "Rekorde"
   },
   "settings": {
     "title": "Spieleinstellungen",
