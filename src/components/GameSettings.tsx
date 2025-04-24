@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameSettings.module.css';
-import { BoardSize, Environment, FieldSelectionMode, SnakeType, Theme } from '@/types/game';
+import { BoardSize, Environment, FieldSelectionMode, Language, SnakeType, Theme } from '@/types/game';
 import { GRID_SIZES, ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
+import { useTranslation } from 'react-i18next';
 
 export const GameSettings: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const { settings, updateSettings, toggleSettings, isPlaying } = useGameStore();
 
   const [isMobile] = useState(false);
@@ -18,7 +20,8 @@ export const GameSettings: React.FC = () => {
     fieldSelectionMode: settings.fieldSelectionMode,
     soundEnabled: settings.soundEnabled,
     snakeType: settings.snakeType,
-    showMobileControls: settings.showMobileControls
+    showMobileControls: settings.showMobileControls,
+    language: settings.language // Добавляем язык в состояние формы
   });
 
   // Определяем, заблокированы ли настройки размера поля
@@ -34,20 +37,21 @@ export const GameSettings: React.FC = () => {
       fieldSelectionMode: settings.fieldSelectionMode,
       soundEnabled: settings.soundEnabled,
       snakeType: settings.snakeType,
-      showMobileControls: settings.showMobileControls
+      showMobileControls: settings.showMobileControls,
+      language: settings.language // Обновляем язык при изменении настроек
     });
   }, [settings, isPlaying]); // Добавляем isPlaying чтобы форма обновилась если настройки изменились
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Перед сохранением настроек убедимся, что тип змеи соответствует окружению
     const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[formData.environment as Environment];
     if (!availableSnakeTypes.includes(formData.snakeType as SnakeType)) {
       // Если текущий тип змеи не подходит для выбранного окружения, установим первый доступный
       formData.snakeType = availableSnakeTypes[0];
     }
-    
+
     // Явно передаем все поля, чтобы убедиться, что showMobileControls включено
     updateSettings({
       playerName: formData.playerName,
@@ -57,9 +61,10 @@ export const GameSettings: React.FC = () => {
       fieldSelectionMode: formData.fieldSelectionMode as FieldSelectionMode,
       soundEnabled: formData.soundEnabled,
       snakeType: formData.snakeType as SnakeType,
-      showMobileControls: formData.showMobileControls
+      showMobileControls: formData.showMobileControls,
+      language: formData.language as Language // Добавляем язык в обновление настроек
     });
-    
+
     toggleSettings(); // Закрываем окно настроек после сохранения
   };
 
@@ -70,12 +75,12 @@ export const GameSettings: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
+
     // Проверяем, не пытается ли пользователь изменить размер поля во время паузы
     if (name === 'boardSize' && isBoardSizeDisabled) {
       return; // Игнорируем изменение размера поля на паузе
     }
-    
+
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
@@ -84,13 +89,17 @@ export const GameSettings: React.FC = () => {
       if (name === 'environment') {
         const newEnvironment = value as Environment;
         const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[newEnvironment];
-        
+
         // Выбираем первый доступный тип змеи для нового окружения
-        setFormData(prev => ({ 
-          ...prev, 
+        setFormData(prev => ({
+          ...prev,
           environment: newEnvironment,
-          snakeType: availableSnakeTypes[0] 
+          snakeType: availableSnakeTypes[0]
         }));
+      } else if (name === 'language') {
+        // Если меняется язык, обновляем интерфейс моментально
+        i18n.changeLanguage(value);
+        setFormData(prev => ({ ...prev, language: value as Language }));
       } else {
         setFormData(prev => ({ ...prev, [name]: value }));
       }
@@ -100,153 +109,167 @@ export const GameSettings: React.FC = () => {
   // Получаем доступные типы змей для выбранного окружения
   const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[formData.environment as Environment];
 
+  // Словарь для отображения понятных названий змей
+  const snakeDisplayNames: Record<string, string> = {
+    'tropical_green': t('snakes.tropical_green'),
+    'red_sea': t('snakes.red_sea'),
+    'blue_green_sea': t('snakes.blue_green_sea'),
+    'forest_boa': t('snakes.forest_boa'),
+    'rattlesnake': t('snakes.rattlesnake'),
+    'striped_viper': t('snakes.striped_viper'),
+    'mouse_hunter': t('snakes.mouse_hunter')
+  };
+
   return (
-    <div className={`${styles.settingsOverlay} ${styles[settings.theme]}`}>
-      <div className={styles.settingsContainer}>
-        <h2 className={styles.settingsTitle}>Настройки игры</h2>
-        <form onSubmit={handleSubmit} className={styles.settingsForm}>
-          <div className={styles.formGroup}>
-            <label htmlFor="playerName">Имя игрока:</label>
-            <input
-              type="text"
-              id="playerName"
-              name="playerName"
-              value={formData.playerName}
-              onChange={handleChange}
-              maxLength={20}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="environment">Окружение:</label>
-            <select
-              id="environment"
-              name="environment"
-              value={formData.environment}
-              onChange={handleChange}
-            >
-              <option value="jungle">Джунгли</option>
-              <option value="sea">Море</option>
-              <option value="forest">Лес</option>
-              <option value="desert">Пустыня</option>
-              <option value="steppe">Степь</option>
-            </select>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="theme">Тема:</label>
-            <select
-              id="theme"
-              name="theme"
-              value={formData.theme}
-              onChange={handleChange}
-            >
-              <option value="light">Светлая</option>
-              <option value="dark">Тёмная</option>
-            </select>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="boardSize">
-              Размер поля:
-              {isBoardSizeDisabled && (
-                <span className={styles.disabledNote}> (недоступно во время игры)</span>
-              )}
-            </label>
-            <select
-              id="boardSize"
-              name="boardSize"
-              value={formData.boardSize}
-              onChange={handleChange}
-              disabled={isBoardSizeDisabled}
-              className={isBoardSizeDisabled ? styles.disabledSelect : ''}
-            >
-              <option value="mini">Мини ({GRID_SIZES.mini}x{GRID_SIZES.mini})</option>
-              <option value="small">Малый ({GRID_SIZES.small}x{GRID_SIZES.small})</option>
-              <option value="medium">Средний ({GRID_SIZES.medium}x{GRID_SIZES.medium})</option>
-              <option value="large">Большой ({GRID_SIZES.large}x{GRID_SIZES.large})</option>
-              <option value="giant">Гигантский ({GRID_SIZES.giant}x{GRID_SIZES.giant})</option>
-            </select>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="fieldSelectionMode">Режим выбора поля:</label>
-            <select
-              id="fieldSelectionMode"
-              name="fieldSelectionMode"
-              value={formData.fieldSelectionMode}
-              onChange={handleChange}
-            >
-              <option value="static">Статичный</option>
-              <option value="sequential">Последовательный</option>
-              <option value="random">Случайный</option>
-            </select>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>
+      <div className={`${styles.settingsOverlay} ${styles[settings.theme]}`}>
+        <div className={styles.settingsContainer}>
+          <h2 className={styles.settingsTitle}>{t('settings.title')}</h2>
+          <form onSubmit={handleSubmit} className={styles.settingsForm}>
+            <div className={styles.formGroup}>
+              <label htmlFor="playerName">{t('settings.playerName')}:</label>
               <input
-                type="checkbox"
-                name="soundEnabled"
-                checked={formData.soundEnabled}
-                onChange={handleChange}
+                  type="text"
+                  id="playerName"
+                  name="playerName"
+                  value={formData.playerName}
+                  onChange={handleChange}
+                  maxLength={20}
               />
-              Включить звук
-            </label>
-          </div>
+            </div>
 
-          {isMobile && (
-              <div className={styles.formGroup}>
-                <label>
-                  <input
-                      type="checkbox"
-                      name="showMobileControls"
-                      checked={formData.showMobileControls}
-                      onChange={handleChange}
-                  />
-                  Показывать кнопки управления на мобильных устройствах
-                </label>
-              </div>
-          )}
+            <div className={styles.formGroup}>
+              <label htmlFor="environment">{t('settings.environment')}:</label>
+              <select
+                  id="environment"
+                  name="environment"
+                  value={formData.environment}
+                  onChange={handleChange}
+              >
+                <option value="jungle">{t('environments.jungle')}</option>
+                <option value="sea">{t('environments.sea')}</option>
+                <option value="forest">{t('environments.forest')}</option>
+                <option value="desert">{t('environments.desert')}</option>
+                <option value="steppe">{t('environments.steppe')}</option>
+              </select>
+            </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="snakeType">Тип змеи:</label>
-            <select
-                id="snakeType"
-                name="snakeType"
-                value={formData.snakeType}
-                onChange={handleChange}
-            >
-              {availableSnakeTypes.map(type => {
-                // Словарь для отображения понятных названий змей
-                const snakeDisplayNames: Record<string, string> = {
-                  'tropical_green': 'Зеленая змея',
-                  'red_sea': 'Морская змея',
-                  'blue_green_sea': 'Угорь',
-                  'forest_boa': 'Лесная змея',
-                  'rattlesnake': 'Песчаная змея',
-                  'striped_viper': 'Гремучая змея',
-                  'mouse_hunter': 'Степная гадюка'
-                };
-                return (
-                  <option key={type} value={type}>
-                    {snakeDisplayNames[type] || type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="theme">{t('settings.theme')}:</label>
+              <select
+                  id="theme"
+                  name="theme"
+                  value={formData.theme}
+                  onChange={handleChange}
+              >
+                <option value="light">{t('themes.light')}</option>
+                <option value="dark">{t('themes.dark')}</option>
+              </select>
+            </div>
 
-          <div className={styles.buttonGroup}>
-            <button type="button" onClick={handleCancel} className={styles.cancelButton}>
-              Отмена
-            </button>
-            <button type="submit" className={styles.saveButton}>
-              Сохранить
-            </button>
-          </div>
-        </form>
+            <div className={styles.formGroup}>
+              <label htmlFor="boardSize">
+                {t('settings.boardSize')}:
+                {isBoardSizeDisabled && (
+                    <span className={styles.disabledNote}> ({t('settings.notAvailableDuringGame')})</span>
+                )}
+              </label>
+              <select
+                  id="boardSize"
+                  name="boardSize"
+                  value={formData.boardSize}
+                  onChange={handleChange}
+                  disabled={isBoardSizeDisabled}
+                  className={isBoardSizeDisabled ? styles.disabledSelect : ''}
+              >
+                <option value="mini">{t('boardSizes.mini')} ({GRID_SIZES.mini}x{GRID_SIZES.mini})</option>
+                <option value="small">{t('boardSizes.small')} ({GRID_SIZES.small}x{GRID_SIZES.small})</option>
+                <option value="medium">{t('boardSizes.medium')} ({GRID_SIZES.medium}x{GRID_SIZES.medium})</option>
+                <option value="large">{t('boardSizes.large')} ({GRID_SIZES.large}x{GRID_SIZES.large})</option>
+                <option value="giant">{t('boardSizes.giant')} ({GRID_SIZES.giant}x{GRID_SIZES.giant})</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="fieldSelectionMode">{t('settings.fieldSelectionMode')}:</label>
+              <select
+                  id="fieldSelectionMode"
+                  name="fieldSelectionMode"
+                  value={formData.fieldSelectionMode}
+                  onChange={handleChange}
+              >
+                <option value="static">{t('fieldSelectionModes.static')}</option>
+                <option value="sequential">{t('fieldSelectionModes.sequential')}</option>
+                <option value="random">{t('fieldSelectionModes.random')}</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>
+                <input
+                    type="checkbox"
+                    name="soundEnabled"
+                    checked={formData.soundEnabled}
+                    onChange={handleChange}
+                />
+                {t('settings.enableSound')}
+              </label>
+            </div>
+
+            {isMobile && (
+                <div className={styles.formGroup}>
+                  <label>
+                    <input
+                        type="checkbox"
+                        name="showMobileControls"
+                        checked={formData.showMobileControls}
+                        onChange={handleChange}
+                    />
+                    {t('settings.showMobileControls')}
+                  </label>
+                </div>
+            )}
+
+            <div className={styles.formGroup}>
+              <label htmlFor="snakeType">{t('settings.snakeType')}:</label>
+              <select
+                  id="snakeType"
+                  name="snakeType"
+                  value={formData.snakeType}
+                  onChange={handleChange}
+              >
+                {availableSnakeTypes.map(type => (
+                    <option key={type} value={type}>
+                      {snakeDisplayNames[type] || type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Добавляем переключатель языка */}
+            <div className={styles.formGroup}>
+              <label htmlFor="language">{t('settings.language')}:</label>
+              <select
+                  id="language"
+                  name="language"
+                  value={formData.language}
+                  onChange={handleChange}
+              >
+                <option value="ru">{t('languages.russian')}</option>
+                <option value="en">{t('languages.english')}</option>
+                <option value="de">{t('languages.german')}</option>
+              </select>
+            </div>
+
+            <div className={styles.buttonGroup}>
+              <button type="button" onClick={handleCancel} className={styles.cancelButton}>
+                {t('common.cancel')}
+              </button>
+              <button type="submit" className={styles.saveButton}>
+                {t('common.save')}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
   );
-}; 
+};

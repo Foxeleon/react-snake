@@ -1,0 +1,106 @@
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Modern version of the classic \"Snake\" game with 8-bit style"
+  },
+  "game": {
+    "start": "Start game",
+    "pause": "Pause",
+    "resume": "Resume",
+    "restart": "Restart",
+    "gameOver": "Game over",
+    "score": "Score: {{score}}",
+    "highScore": "High score: {{score}}"
+  },
+  "settings": {
+    "title": "Game settings",
+    "playerName": "Player name",
+    "boardSize": "Board size",
+    "fieldSelectionMode": "Field selection mode",
+    "enableSound": "Enable sound",
+    "showMobileControls": "Show control buttons on mobile devices",
+    "snakeType": "Snake type",
+    "notAvailableDuringGame": "not available during game",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "gridSize": {
+      "title": "Grid size",
+      "mini": "Mini (10×10)",
+      "small": "Small (15×15)",
+      "medium": "Medium (20×20)",
+      "large": "Large (25×25)",
+      "giant": "Giant (30×30)"
+    },
+    "environment": {
+      "title": "Environment",
+      "jungle": "Jungle",
+      "sea": "Sea",
+      "forest": "Forest",
+      "desert": "Desert",
+      "grassland": "Grassland"
+    },
+    "language": {
+      "title": "Language",
+      "ru": "Russian",
+      "en": "English",
+      "de": "German"
+    }
+  },
+  "controls": {
+    "up": "Up",
+    "down": "Down",
+    "left": "Left",
+    "right": "Right",
+    "keyboard": {
+      "arrows": "Arrow keys - control the snake",
+      "enter": "Enter/Space - start/restart game",
+      "pause": "P - pause",
+      "settings": "Esc - open settings menu",
+      "records": "R - show high scores"
+    }
+  },
+  "environments": {
+    "jungle": "Jungle",
+    "sea": "Sea",
+    "forest": "Forest",
+    "desert": "Desert",
+    "steppe": "Steppe"
+  },
+  "themes": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "giant": "Giant"
+  },
+  "fieldSelectionModes": {
+    "static": "Static",
+    "sequential": "Sequential",
+    "random": "Random"
+  },
+  "snakes": {
+    "tropical_green": "Green Snake",
+    "red_sea": "Sea Snake",
+    "blue_green_sea": "Eel",
+    "forest_boa": "Forest Boa",
+    "rattlesnake": "Desert Snake",
+    "striped_viper": "Rattlesnake",
+    "mouse_hunter": "Prairie Viper"
+  },
+  "languages": {
+    "russian": "Russian",
+    "english": "English",
+    "german": "German"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save"
+  }
+}

@@ -1,4 +1,6 @@
-import { BoardSize, Environment, SnakeType, FieldSelectionMode } from '@/types/game';
+import { BoardSize, Environment, SnakeType, FieldSelectionMode, Language } from '@/types/game';
+
+export const DEFAULT_LANGUAGE: Language = 'en';
 
 // Константы для размеров игрового поля
 export const GRID_SIZES: Record<BoardSize, number> = {

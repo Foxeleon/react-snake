@@ -1,0 +1,107 @@
+{
+  "app": {
+    "title": "Змейка 8-бит",
+    "description": "Современная версия классической игры \"Змейка\" с 8-битной стилистикой"
+  },
+  "game": {
+    "start": "Начать игру",
+    "pause": "Пауза",
+    "resume": "Продолжить",
+    "restart": "Начать заново",
+    "gameOver": "Игра окончена",
+    "score": "Очки: {{score}}",
+    "highScore": "Рекорд: {{score}}"
+  },
+
+  "settings": {
+    "title": "Настройки игры",
+    "playerName": "Имя игрока",
+    "boardSize": "Размер поля",
+    "fieldSelectionMode": "Режим выбора поля",
+    "enableSound": "Включить звук",
+    "showMobileControls": "Показывать кнопки управления на мобильных устройствах",
+    "snakeType": "Тип змеи",
+    "notAvailableDuringGame": "недоступно во время игры",
+    "theme": {
+      "title": "Тема",
+      "light": "Светлая",
+      "dark": "Темная"
+    },
+    "gridSize": {
+      "title": "Размер поля",
+      "mini": "Мини (10×10)",
+      "small": "Малый (15×15)",
+      "medium": "Средний (20×20)",
+      "large": "Большой (25×25)",
+      "giant": "Гигантский (30×30)"
+    },
+    "environment": {
+      "title": "Окружение",
+      "jungle": "Джунгли",
+      "sea": "Море",
+      "forest": "Лес",
+      "desert": "Пустыня",
+      "grassland": "Степь"
+    },
+    "language": {
+      "title": "Язык",
+      "ru": "Русский",
+      "en": "English",
+      "de": "Deutsch"
+    }
+  },
+  "controls": {
+    "up": "Вверх",
+    "down": "Вниз",
+    "left": "Влево",
+    "right": "Вправо",
+    "keyboard": {
+      "arrows": "Клавиши стрелок - управление змейкой",
+      "enter": "Enter/Пробел - начать/перезапустить игру",
+      "pause": "P - пауза",
+      "settings": "Esc - вызов меню настроек",
+      "records": "R - показать таблицу рекордов"
+    }
+  },
+  "environments": {
+    "jungle": "Джунгли",
+    "sea": "Море",
+    "forest": "Лес",
+    "desert": "Пустыня",
+    "steppe": "Степь"
+  },
+  "themes": {
+    "light": "Светлая",
+    "dark": "Тёмная"
+  },
+  "boardSizes": {
+    "mini": "Мини",
+    "small": "Малый",
+    "medium": "Средний",
+    "large": "Большой",
+    "giant": "Гигантский"
+  },
+  "fieldSelectionModes": {
+    "static": "Статичный",
+    "sequential": "Последовательный",
+    "random": "Случайный"
+  },
+  "snakes": {
+    "tropical_green": "Зеленая змея",
+    "red_sea": "Морская змея",
+    "blue_green_sea": "Угорь",
+    "forest_boa": "Лесная змея",
+    "rattlesnake": "Песчаная змея",
+    "striped_viper": "Гремучая змея",
+    "mouse_hunter": "Степная гадюка"
+  },
+  "languages": {
+    "russian": "Русский",
+    "english": "Английский",
+    "german": "Немецкий"
+  },
+  "common": {
+    "cancel": "Отмена",
+    "save": "Сохранить"
+  }
+}

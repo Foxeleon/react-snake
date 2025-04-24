@@ -1,0 +1,106 @@
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Moderne Version des klassischen \"Snake\"-Spiels im 8-Bit-Stil"
+  },
+  "game": {
+    "start": "Spiel starten",
+    "pause": "Pause",
+    "resume": "Fortsetzen",
+    "restart": "Neu starten",
+    "gameOver": "Spiel vorbei",
+    "score": "Punkte: {{score}}",
+    "highScore": "Höchste Punktzahl: {{score}}"
+  },
+  "settings": {
+    "title": "Spieleinstellungen",
+    "playerName": "Spielername",
+    "boardSize": "Spielfeldgröße",
+    "fieldSelectionMode": "Feldauswahlmodus",
+    "enableSound": "Ton aktivieren",
+    "showMobileControls": "Steuerungstasten auf Mobilgeräten anzeigen",
+    "snakeType": "Schlangentyp",
+    "notAvailableDuringGame": "während des Spiels nicht verfügbar",
+    "theme": {
+      "title": "Thema",
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "gridSize": {
+      "title": "Rastergröße",
+      "mini": "Mini (10×10)",
+      "small": "Klein (15×15)",
+      "medium": "Mittel (20×20)",
+      "large": "Groß (25×25)",
+      "giant": "Riesig (30×30)"
+    },
+    "environment": {
+      "title": "Umgebung",
+      "jungle": "Dschungel",
+      "sea": "Meer",
+      "forest": "Wald",
+      "desert": "Wüste",
+      "grassland": "Steppe"
+    },
+    "language": {
+      "title": "Sprache",
+      "ru": "Russisch",
+      "en": "Englisch",
+      "de": "Deutsch"
+    }
+  },
+  "controls": {
+    "up": "Oben",
+    "down": "Unten",
+    "left": "Links",
+    "right": "Rechts",
+    "keyboard": {
+      "arrows": "Pfeiltasten - Schlange steuern",
+      "enter": "Enter/Leertaste - Spiel starten/neu starten",
+      "pause": "P - Pause",
+      "settings": "Esc - Einstellungsmenü öffnen",
+      "records": "R - Bestenliste anzeigen"
+    }
+  },
+  "environments": {
+    "jungle": "Dschungel",
+    "sea": "Meer",
+    "forest": "Wald",
+    "desert": "Wüste",
+    "steppe": "Steppe"
+  },
+  "themes": {
+    "light": "Hell",
+    "dark": "Dunkel"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Klein",
+    "medium": "Mittel",
+    "large": "Groß",
+    "giant": "Riesig"
+  },
+  "fieldSelectionModes": {
+    "static": "Statisch",
+    "sequential": "Sequentiell",
+    "random": "Zufällig"
+  },
+  "snakes": {
+    "tropical_green": "Grüne Schlange",
+    "red_sea": "Meerschlange",
+    "blue_green_sea": "Aal",
+    "forest_boa": "Waldboa",
+    "rattlesnake": "Wüstenschlange",
+    "striped_viper": "Klapperschlange",
+    "mouse_hunter": "Steppenotter"
+  },
+  "languages": {
+    "russian": "Russisch",
+    "english": "Englisch",
+    "german": "Deutsch"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "save": "Speichern"
+  }
+}
