@@ -11,7 +11,7 @@ export const GameSettings: React.FC = () => {
 
   const [isMobile] = useState(false);
 
-  // Создаем локальное состояние для формы, которое не влияет на основные настройки
+  // Локальное состояние для формы
   const [formData, setFormData] = useState({
     playerName: settings.playerName,
     environment: settings.environment,
@@ -21,13 +21,13 @@ export const GameSettings: React.FC = () => {
     soundEnabled: settings.soundEnabled,
     snakeType: settings.snakeType,
     showMobileControls: settings.showMobileControls,
-    language: settings.language // Добавляем язык в состояние формы
+    language: settings.language
   });
 
-  // Определяем, заблокированы ли настройки размера поля
-  const isBoardSizeDisabled = isPlaying; // Блокируем изменение поля во время игры (и паузы)
+  // Блокировка размера поля во время игры
+  const isBoardSizeDisabled = isPlaying;
 
-  // Обновление формы при изменении настроек (это происходит при открытии окна настроек)
+  // Обновление формы при изменении настроек
   useEffect(() => {
     setFormData({
       playerName: settings.playerName,
@@ -38,13 +38,12 @@ export const GameSettings: React.FC = () => {
       soundEnabled: settings.soundEnabled,
       snakeType: settings.snakeType,
       showMobileControls: settings.showMobileControls,
-      language: settings.language // Обновляем язык при изменении настроек
+      language: settings.language
     });
-  }, [settings, isPlaying]); // Добавляем isPlaying чтобы форма обновилась если настройки изменились
+  }, [settings, isPlaying]);
 
   // Обработка изменения языка
   const handleLanguageChange = (value: string) => {
-    // Здесь используем корректную форму вызова i18n.changeLanguage
     i18n.changeLanguage(value, () => {
       setFormData(prev => ({ ...prev, language: value as Language }));
     });
@@ -53,14 +52,12 @@ export const GameSettings: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Перед сохранением настроек убедимся, что тип змеи соответствует окружению
+    // Проверка типа змеи для выбранного окружения
     const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[formData.environment as Environment];
     if (!availableSnakeTypes.includes(formData.snakeType as SnakeType)) {
-      // Если текущий тип змеи не подходит для выбранного окружения, установим первый доступный
       formData.snakeType = availableSnakeTypes[0];
     }
 
-    // Явно передаем все поля, чтобы убедиться, что showMobileControls включено
     updateSettings({
       playerName: formData.playerName,
       environment: formData.environment as Environment,
@@ -70,42 +67,36 @@ export const GameSettings: React.FC = () => {
       soundEnabled: formData.soundEnabled,
       snakeType: formData.snakeType as SnakeType,
       showMobileControls: formData.showMobileControls,
-      language: formData.language as Language // Добавляем язык в обновление настроек
+      language: formData.language as Language
     });
 
-    toggleSettings(); // Закрываем окно настроек после сохранения
+    toggleSettings();
   };
 
   const handleCancel = () => {
-    // При отмене просто закрываем окно настроек без сохранения изменений
     toggleSettings();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
-    // Проверяем, не пытается ли пользователь изменить размер поля во время паузы
     if (name === 'boardSize' && isBoardSizeDisabled) {
-      return; // Игнорируем изменение размера поля на паузе
+      return;
     }
 
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
     } else {
-      // Если меняется окружение, нужно обновить и тип змеи
       if (name === 'environment') {
         const newEnvironment = value as Environment;
         const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[newEnvironment];
-
-        // Выбираем первый доступный тип змеи для нового окружения
         setFormData(prev => ({
           ...prev,
           environment: newEnvironment,
           snakeType: availableSnakeTypes[0]
         }));
       } else if (name === 'language') {
-        // Для смены языка используем отдельный обработчик
         handleLanguageChange(value);
       } else {
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -113,7 +104,6 @@ export const GameSettings: React.FC = () => {
     }
   };
 
-  // Получаем доступные типы змей для выбранного окружения
   const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[formData.environment as Environment];
 
   return (
@@ -141,11 +131,11 @@ export const GameSettings: React.FC = () => {
                   value={formData.environment}
                   onChange={handleChange}
               >
-                <option value="jungle">{t('environments.jungle')}</option>
-                <option value="sea">{t('environments.sea')}</option>
-                <option value="forest">{t('environments.forest')}</option>
-                <option value="desert">{t('environments.desert')}</option>
-                <option value="steppe">{t('environments.steppe')}</option>
+                <option value="jungle">{t('settings.environment.jungle')}</option>
+                <option value="sea">{t('settings.environment.sea')}</option>
+                <option value="forest">{t('settings.environment.forest')}</option>
+                <option value="desert">{t('settings.environment.desert')}</option>
+                <option value="grassland">{t('settings.environment.grassland')}</option>
               </select>
             </div>
 
@@ -241,18 +231,17 @@ export const GameSettings: React.FC = () => {
               </select>
             </div>
 
-            {/* Добавляем переключатель языка */}
             <div className={styles.formGroup}>
-              <label htmlFor="language">{t('settings.language')}:</label>
+              <label htmlFor="language">{t('settings.language.title')}:</label>
               <select
                   id="language"
                   name="language"
                   value={formData.language}
                   onChange={handleChange}
               >
-                <option value="ru">{t('languages.russian')}</option>
-                <option value="en">{t('languages.english')}</option>
-                <option value="de">{t('languages.german')}</option>
+                <option value="ru">{t('settings.language.ru')}</option>
+                <option value="en">{t('settings.language.en')}</option>
+                <option value="de">{t('settings.language.de')}</option>
               </select>
             </div>
 
