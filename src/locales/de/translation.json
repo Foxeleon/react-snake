@@ -50,6 +50,7 @@
     },
     "gridSize": {
       "title": "Feldgröße",
+      "mini": "Mini (10×10)",
       "small": "Klein (15×15)",
       "medium": "Mittel (20×20)",
       "large": "Groß (25×25)",
@@ -196,7 +197,8 @@
     "small": "Klein",
     "medium": "Mittel",
     "large": "Groß",
-    "giant": "Riesig"
+    "giant": "Riesig",
+    "epic": "Episch"
   },
   "fieldSelectionModes": {
     "static": "Statisch",
@@ -220,5 +222,142 @@
   "common": {
     "cancel": "Abbrechen",
     "save": "Speichern"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Käfer",
+        "description": "Gewöhnliche Nahrung im Dschungel",
+        "points": 10
+      },
+      "frog": {
+        "name": "Frosch",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "bird": {
+        "name": "Vogel",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Ananas",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Giftbeere",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Garnele",
+        "description": "Gewöhnliche Nahrung im Meer",
+        "points": 10
+      },
+      "fish": {
+        "name": "Fisch",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Seestern",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plankton",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Qualle",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Ameise",
+        "description": "Gewöhnliche Nahrung im Wald",
+        "points": 10
+      },
+      "locust": {
+        "name": "Heuschrecke",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Kaninchen",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Pilz",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Schimmelige Beere",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "desert": {
+      "locust": {
+        "name": "Heuschrecke",
+        "description": "Gewöhnliche Nahrung in der Wüste",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Skarabäus-Käfer",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "egg": {
+        "name": "Ei",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Kaktusblüte",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Dorn",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Grashüpfer",
+        "description": "Gewöhnliche Nahrung in der Steppe",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Taschenratte",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Maus",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Goldenes Gras",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Bitterer Samen",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    }
   }
 }

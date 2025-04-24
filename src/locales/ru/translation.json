@@ -50,6 +50,7 @@
     },
     "gridSize": {
       "title": "Размер поля",
+      "mini": "Мини (10×10)",
       "small": "Малый (15×15)",
       "medium": "Средний (20×20)",
       "large": "Большой (25×25)",
@@ -196,7 +197,8 @@
     "small": "Малый",
     "medium": "Средний",
     "large": "Большой",
-    "giant": "Гигантский"
+    "giant": "Гигантский",
+    "epic": "Эпический"
   },
   "fieldSelectionModes": {
     "static": "Статичный",
@@ -220,5 +222,142 @@
   "common": {
     "cancel": "Отмена",
     "save": "Сохранить"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Жук",
+        "description": "Обычная еда в джунглях",
+        "points": 10
+      },
+      "frog": {
+        "name": "Лягушка",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "bird": {
+        "name": "Птица",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Ананас",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Ядовитая ягода",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Креветка",
+        "description": "Обычная еда в море",
+        "points": 10
+      },
+      "fish": {
+        "name": "Рыба",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Морская звезда",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Планктон",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Медуза",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Муравей",
+        "description": "Обычная еда в лесу",
+        "points": 10
+      },
+      "locust": {
+        "name": "Саранча",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Кролик",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Гриб",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Плесневелая ягода",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "desert": {
+      "locust": {
+        "name": "Саранча",
+        "description": "Обычная еда в пустыне",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Жук-скарабей",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "egg": {
+        "name": "Яйцо",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Цветок кактуса",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Колючка",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Кузнечик",
+        "description": "Обычная еда в степи",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Суслик",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Мышь",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Золотистая трава",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Горькое семя",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    }
   }
 }

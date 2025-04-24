@@ -11,7 +11,7 @@ export type SnakeType =
   | 'rattlesnake' | 'striped_viper' // пустыня
   | 'mouse_hunter'; // степь
 
-export type BoardSize = 'mini' | 'small' | 'medium' | 'large' | 'giant';
+export type BoardSize = 'mini' | 'small' | 'medium' | 'large' | 'giant' | 'epic';
 
 export type FoodType = 
   | 'common' // 10 очков
@@ -104,7 +104,7 @@ export interface GameStore extends GameState {
     showMobileControls: boolean;
     snakeType: "tropical_green" | "red_sea" | "blue_green_sea" | "forest_boa" | "rattlesnake" | "striped_viper" | "mouse_hunter";
     playerName: string;
-    boardSize: "mini" | "small" | "medium" | "large" | "giant";
+    boardSize: "mini" | "small" | "medium" | "large" | "giant" | "epic";
     fieldSelectionMode: "static" | "sequential" | "random";
     theme: "light" | "dark";
     language: "ru" | "en" | "de";

@@ -182,27 +182,28 @@ const Legend: React.FC = () => {
         <div className={styles.foodInfo}>
           <h3>{t('legend.food')}</h3>
           <ul className={styles.foodList}>
-            {Object.entries(FOOD_DESCRIPTIONS[environment] || {}).map(([foodName, description]) => {
-              const isSpecial = typeof description.points === 'string';
-              const isPenalty = typeof description.points === 'number' && description.points < 0;
-
+            {Object.entries(FOOD_DESCRIPTIONS[environment] || {}).map(([foodName, _]) => {
               return (
                   <li key={foodName} className={styles.foodItem}>
                     <div
                         className={styles.foodImage}
                         style={{ backgroundColor: getFoodColor(foodName) }}
-                        data-special={isSpecial ? "true" : undefined}
-                        data-penalty={isPenalty ? "true" : undefined}
+                        data-special={t(`food.${environment}.${foodName}.points`) === 'x2' ? "true" : undefined}
+                        data-penalty={Number(t(`food.${environment}.${foodName}.points`)) < 0 ? "true" : undefined}
                     ></div>
                     <div className={styles.foodDescription}>
-                      <strong>{description.name}</strong>: {description.description}
+                      <strong>{t(`food.${environment}.${foodName}.name`)}</strong>: {t(`food.${environment}.${foodName}.description`)}
                       <div
                           className={styles.foodPoints}
-                          style={{ color: isPenalty ? '#e74c3c' : (isSpecial ? '#f39c12' : '#4CAF50') }}
+                          style={{
+                            color: Number(t(`food.${environment}.${foodName}.points`)) < 0
+                                ? '#e74c3c'
+                                : (t(`food.${environment}.${foodName}.points`) === 'x2' ? '#f39c12' : '#4CAF50')
+                          }}
                       >
-                        {typeof description.points === 'string'
-                            ? description.points
-                            : t('legend.points', { count: description.points })}
+                        {t(`food.${environment}.${foodName}.points`) === 'x2'
+                            ? 'x2'
+                            : t('legend.points', { count: Number(t(`food.${environment}.${foodName}.points`)) })}
                       </div>
                     </div>
                   </li>

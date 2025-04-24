@@ -50,6 +50,7 @@
     },
     "gridSize": {
       "title": "Grid Size",
+      "mini": "Mini (10×10)",
       "small": "Small (15×15)",
       "medium": "Medium (20×20)",
       "large": "Large (25×25)",
@@ -196,7 +197,8 @@
     "small": "Small",
     "medium": "Medium",
     "large": "Large",
-    "giant": "Giant"
+    "giant": "Giant",
+    "epic": "Epic"
   },
   "fieldSelectionModes": {
     "static": "Static",
@@ -220,5 +222,142 @@
   "common": {
     "cancel": "Cancel",
     "save": "Save"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Bug",
+        "description": "Common food in the jungle",
+        "points": 10
+      },
+      "frog": {
+        "name": "Frog",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "bird": {
+        "name": "Bird",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Pineapple",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Poison Berry",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Shrimp",
+        "description": "Common food in the sea",
+        "points": 10
+      },
+      "fish": {
+        "name": "Fish",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Starfish",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plankton",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Jellyfish",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Ant",
+        "description": "Common food in the forest",
+        "points": 10
+      },
+      "locust": {
+        "name": "Locust",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Rabbit",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Mushroom",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Moldy Berry",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "desert": {
+      "locust": {
+        "name": "Locust",
+        "description": "Common food in the desert",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Scarab Beetle",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "egg": {
+        "name": "Egg",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Cactus Flower",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Thorn",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Grasshopper",
+        "description": "Common food in the steppe",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Gopher",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Mouse",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Golden Grass",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Bitter Seed",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    }
   }
 }

@@ -218,6 +218,13 @@ export const GameBoard = () => {
           fontSize: '0.8rem'
         };
         break;
+      case 35: // epic
+        cellStyles = {
+          width: `${cellSize}%`,
+          height: `${cellSize}%`,
+          fontSize: '0.8rem'
+        };
+        break;
       default:
         cellStyles = {
           width: `${cellSize}%`,

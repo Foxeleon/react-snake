@@ -4,20 +4,22 @@ export const DEFAULT_LANGUAGE: Language = 'en';
 
 // Константы для размеров игрового поля
 export const GRID_SIZES: Record<BoardSize, number> = {
-  mini: 15,      // Было 10
-  small: 20,     // Было 15
-  medium: 25,    // Было 20
-  large: 30,     // Было 25
-  giant: 35      // Было 30
+  mini: 10,
+  small: 15,
+  medium: 20,
+  large: 25,
+  giant: 30,
+  epic:  35,
 };
 
 // Константы для времени исчезновения еды (в миллисекундах)
 export const FOOD_EXPIRATION_TIMES: Record<BoardSize, number> = {
-  mini: 12000,    // 12 секунд
-  small: 10000,   // 10 секунд
-  medium: 8000,   // 8 секунд
-  large: 6000,    // 6 секунд
-  giant: 4000     // 4 секунды
+  mini: 12000,
+  small: 10000,
+  medium: 8000,
+  large: 6000,
+  giant: 4000,
+  epic:  4000,
 };
 
 // Соотношение типов змей к окружению
@@ -94,140 +96,145 @@ export const ENVIRONMENT_FOOD_MAPPING: Record<Environment, Record<string, string
 };
 
 // Описания пищи для разных окружений
-export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, { name: string; description: string; points: number | string }>> = {
+// constants/game.ts
+export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, {
+  nameKey: string;
+  descriptionKey: string;
+  points: number | string
+}>> = {
   jungle: {
-    bug: { 
-      name: 'Жук', 
-      description: 'Обычная еда в джунглях', 
-      points: 10 
+    bug: {
+      nameKey: 'food.jungle.bug.name',
+      descriptionKey: 'food.jungle.bug.description',
+      points: 10
     },
-    frog: { 
-      name: 'Лягушка', 
-      description: 'Средняя добыча', 
-      points: 25 
+    frog: {
+      nameKey: 'food.jungle.frog.name',
+      descriptionKey: 'food.jungle.frog.description',
+      points: 25
     },
-    bird: { 
-      name: 'Птица', 
-      description: 'Редкая добыча', 
-      points: 50 
+    bird: {
+      nameKey: 'food.jungle.bird.name',
+      descriptionKey: 'food.jungle.bird.description',
+      points: 50
     },
-    pineapple: { 
-      name: 'Ананас', 
-      description: 'Удваивает получаемые очки на 15 секунд', 
-      points: 'x2' 
+    pineapple: {
+      nameKey: 'food.jungle.pineapple.name',
+      descriptionKey: 'food.jungle.pineapple.description',
+      points: 'x2'
     },
-    poison_berry: { 
-      name: 'Ядовитая ягода', 
-      description: 'Штрафная еда, избегайте её', 
-      points: -20 
+    poison_berry: {
+      nameKey: 'food.jungle.poison_berry.name',
+      descriptionKey: 'food.jungle.poison_berry.description',
+      points: -20
     }
   },
   sea: {
-    shrimp: { 
-      name: 'Креветка', 
-      description: 'Обычная еда в море', 
-      points: 10 
+    shrimp: {
+      nameKey: 'food.sea.shrimp.name',
+      descriptionKey: 'food.sea.shrimp.description',
+      points: 10
     },
-    fish: { 
-      name: 'Рыба', 
-      description: 'Средняя добыча', 
-      points: 25 
+    fish: {
+      nameKey: 'food.sea.fish.name',
+      descriptionKey: 'food.sea.fish.description',
+      points: 25
     },
-    starfish: { 
-      name: 'Морская звезда', 
-      description: 'Редкая добыча', 
-      points: 50 
+    starfish: {
+      nameKey: 'food.sea.starfish.name',
+      descriptionKey: 'food.sea.starfish.description',
+      points: 50
     },
-    plankton: { 
-      name: 'Планктон', 
-      description: 'Удваивает получаемые очки на 15 секунд', 
-      points: 'x2' 
+    plankton: {
+      nameKey: 'food.sea.plankton.name',
+      descriptionKey: 'food.sea.plankton.description',
+      points: 'x2'
     },
-    jellyfish: { 
-      name: 'Медуза', 
-      description: 'Штрафная еда, избегайте её', 
-      points: -20 
+    jellyfish: {
+      nameKey: 'food.sea.jellyfish.name',
+      descriptionKey: 'food.sea.jellyfish.description',
+      points: -20
     }
   },
   forest: {
-    ant: { 
-      name: 'Муравей', 
-      description: 'Обычная еда в лесу', 
-      points: 10 
+    ant: {
+      nameKey: 'food.forest.ant.name',
+      descriptionKey: 'food.forest.ant.description',
+      points: 10
     },
-    locust: { 
-      name: 'Саранча', 
-      description: 'Средняя добыча', 
-      points: 25 
+    locust: {
+      nameKey: 'food.forest.locust.name',
+      descriptionKey: 'food.forest.locust.description',
+      points: 25
     },
-    rabbit: { 
-      name: 'Кролик', 
-      description: 'Редкая добыча', 
-      points: 50 
+    rabbit: {
+      nameKey: 'food.forest.rabbit.name',
+      descriptionKey: 'food.forest.rabbit.description',
+      points: 50
     },
-    mushroom: { 
-      name: 'Гриб', 
-      description: 'Удваивает получаемые очки на 15 секунд', 
-      points: 'x2' 
+    mushroom: {
+      nameKey: 'food.forest.mushroom.name',
+      descriptionKey: 'food.forest.mushroom.description',
+      points: 'x2'
     },
-    moldy_berry: { 
-      name: 'Плесневелая ягода', 
-      description: 'Штрафная еда, избегайте её', 
-      points: -20 
+    moldy_berry: {
+      nameKey: 'food.forest.moldy_berry.name',
+      descriptionKey: 'food.forest.moldy_berry.description',
+      points: -20
     }
   },
   desert: {
-    locust: { 
-      name: 'Саранча', 
-      description: 'Обычная еда в пустыне', 
-      points: 10 
+    locust: {
+      nameKey: 'food.desert.locust.name',
+      descriptionKey: 'food.desert.locust.description',
+      points: 10
     },
-    beetle: { 
-      name: 'Жук-скарабей', 
-      description: 'Средняя добыча', 
-      points: 25 
+    beetle: {
+      nameKey: 'food.desert.beetle.name',
+      descriptionKey: 'food.desert.beetle.description',
+      points: 25
     },
-    egg: { 
-      name: 'Яйцо', 
-      description: 'Редкая добыча', 
-      points: 50 
+    egg: {
+      nameKey: 'food.desert.egg.name',
+      descriptionKey: 'food.desert.egg.description',
+      points: 50
     },
-    cactus_flower: { 
-      name: 'Цветок кактуса', 
-      description: 'Удваивает получаемые очки на 15 секунд', 
-      points: 'x2' 
+    cactus_flower: {
+      nameKey: 'food.desert.cactus_flower.name',
+      descriptionKey: 'food.desert.cactus_flower.description',
+      points: 'x2'
     },
-    thorn: { 
-      name: 'Колючка', 
-      description: 'Штрафная еда, избегайте её', 
-      points: -20 
+    thorn: {
+      nameKey: 'food.desert.thorn.name',
+      descriptionKey: 'food.desert.thorn.description',
+      points: -20
     }
   },
   steppe: {
-    grasshopper: { 
-      name: 'Кузнечик', 
-      description: 'Обычная еда в степи', 
-      points: 10 
+    grasshopper: {
+      nameKey: 'food.steppe.grasshopper.name',
+      descriptionKey: 'food.steppe.grasshopper.description',
+      points: 10
     },
-    gopher: { 
-      name: 'Суслик', 
-      description: 'Средняя добыча', 
-      points: 25 
+    gopher: {
+      nameKey: 'food.steppe.gopher.name',
+      descriptionKey: 'food.steppe.gopher.description',
+      points: 25
     },
-    mouse: { 
-      name: 'Мышь', 
-      description: 'Редкая добыча', 
-      points: 50 
+    mouse: {
+      nameKey: 'food.steppe.mouse.name',
+      descriptionKey: 'food.steppe.mouse.description',
+      points: 50
     },
-    golden_grass: { 
-      name: 'Золотистая трава', 
-      description: 'Удваивает получаемые очки на 15 секунд', 
-      points: 'x2' 
+    golden_grass: {
+      nameKey: 'food.steppe.golden_grass.name',
+      descriptionKey: 'food.steppe.golden_grass.description',
+      points: 'x2'
     },
-    bitter_seed: { 
-      name: 'Горькое семя', 
-      description: 'Штрафная еда, избегайте её', 
-      points: -20 
+    bitter_seed: {
+      nameKey: 'food.steppe.bitter_seed.name',
+      descriptionKey: 'food.steppe.bitter_seed.description',
+      points: -20
     }
   }
-}; 
+};
