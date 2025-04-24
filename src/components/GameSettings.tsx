@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameSettings.module.css';
-import { Environment, SnakeType } from '@/types/game';
+import { BoardSize, Environment, FieldSelectionMode, SnakeType, Theme } from '@/types/game';
 import { GRID_SIZES, ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
 
 export const GameSettings: React.FC = () => {
   const { settings, updateSettings, toggleSettings, isPlaying } = useGameStore();
-  
+
+  const [isMobile] = useState(false);
+
+  // Создаем локальное состояние для формы, которое не влияет на основные настройки
   const [formData, setFormData] = useState({
     playerName: settings.playerName,
     environment: settings.environment,
@@ -14,13 +17,14 @@ export const GameSettings: React.FC = () => {
     boardSize: settings.boardSize,
     fieldSelectionMode: settings.fieldSelectionMode,
     soundEnabled: settings.soundEnabled,
-    snakeType: settings.snakeType
+    snakeType: settings.snakeType,
+    showMobileControls: settings.showMobileControls
   });
 
   // Определяем, заблокированы ли настройки размера поля
   const isBoardSizeDisabled = isPlaying; // Блокируем изменение поля во время игры (и паузы)
 
-  // Обновление формы при изменении настроек
+  // Обновление формы при изменении настроек (это происходит при открытии окна настроек)
   useEffect(() => {
     setFormData({
       playerName: settings.playerName,
@@ -29,9 +33,10 @@ export const GameSettings: React.FC = () => {
       boardSize: settings.boardSize,
       fieldSelectionMode: settings.fieldSelectionMode,
       soundEnabled: settings.soundEnabled,
-      snakeType: settings.snakeType
+      snakeType: settings.snakeType,
+      showMobileControls: settings.showMobileControls
     });
-  }, [settings]);
+  }, [settings, isPlaying]); // Добавляем isPlaying чтобы форма обновилась если настройки изменились
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +48,23 @@ export const GameSettings: React.FC = () => {
       formData.snakeType = availableSnakeTypes[0];
     }
     
-    updateSettings(formData);
+    // Явно передаем все поля, чтобы убедиться, что showMobileControls включено
+    updateSettings({
+      playerName: formData.playerName,
+      environment: formData.environment as Environment,
+      theme: formData.theme as Theme,
+      boardSize: formData.boardSize as BoardSize,
+      fieldSelectionMode: formData.fieldSelectionMode as FieldSelectionMode,
+      soundEnabled: formData.soundEnabled,
+      snakeType: formData.snakeType as SnakeType,
+      showMobileControls: formData.showMobileControls
+    });
+    
+    toggleSettings(); // Закрываем окно настроек после сохранения
+  };
+
+  const handleCancel = () => {
+    // При отмене просто закрываем окно настроек без сохранения изменений
     toggleSettings();
   };
 
@@ -174,13 +195,27 @@ export const GameSettings: React.FC = () => {
             </label>
           </div>
 
+          {isMobile && (
+              <div className={styles.formGroup}>
+                <label>
+                  <input
+                      type="checkbox"
+                      name="showMobileControls"
+                      checked={formData.showMobileControls}
+                      onChange={handleChange}
+                  />
+                  Показывать кнопки управления на мобильных устройствах
+                </label>
+              </div>
+          )}
+
           <div className={styles.formGroup}>
             <label htmlFor="snakeType">Тип змеи:</label>
             <select
-              id="snakeType"
-              name="snakeType"
-              value={formData.snakeType}
-              onChange={handleChange}
+                id="snakeType"
+                name="snakeType"
+                value={formData.snakeType}
+                onChange={handleChange}
             >
               {availableSnakeTypes.map(type => {
                 // Словарь для отображения понятных названий змей
@@ -203,7 +238,7 @@ export const GameSettings: React.FC = () => {
           </div>
 
           <div className={styles.buttonGroup}>
-            <button type="button" onClick={toggleSettings} className={styles.cancelButton}>
+            <button type="button" onClick={handleCancel} className={styles.cancelButton}>
               Отмена
             </button>
             <button type="submit" className={styles.saveButton}>

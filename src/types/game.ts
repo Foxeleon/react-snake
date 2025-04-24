@@ -54,6 +54,7 @@ export interface GameSettings {
   foodExpirationTime: number;
   soundEnabled: boolean;
   fieldSelectionMode: FieldSelectionMode;
+  showMobileControls: boolean; // Add new setting for mobile controls
 }
 
 export interface GameState {
@@ -72,6 +73,8 @@ export interface GameState {
   isAuthenticated: boolean;
   isRecordsOpen: boolean;
   showLegend: boolean;
+  isPaused: boolean;
+  isMobile: boolean;
 }
 
 export interface GameStore extends GameState {
@@ -101,8 +104,8 @@ export interface GameStore extends GameState {
     fieldSelectionMode: FieldSelectionMode;
     soundEnabled: boolean;
     snakeType: SnakeType;
+    showMobileControls: boolean;
   }) => void;
-  isPaused: boolean;
   pauseGame: () => void;
   resumeGame: () => void;
   getNextEnvironment: () => Environment;
