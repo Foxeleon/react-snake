@@ -122,7 +122,7 @@ const Game: React.FC = () => {
   }, [doublePointsActive, getDoublePointsTimeLeft, isPaused]);
 
   // Определяем классы для фона в зависимости от темы и окружения
-  const containerClasses = `${styles.gameContainer} ${styles[settings.environment]} ${settings.theme === 'dark' ? styles.dark : ''}`;
+  const containerClasses = `${styles.gameContainer} ${styles[settings.environment]} ${settings.theme === 'dark' ? styles.dark : ''} ${isNative ? styles.gameContainerNative : ''}`;
 
   // Рендер индикатора удвоения очков
   const renderDoublePointsIndicator = () => {

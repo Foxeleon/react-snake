@@ -127,6 +127,66 @@
   box-sizing: border-box;
 }
 
+.gameContainerNative {
+  padding-top: calc(10px + 8vh);
+}
+
+/* Очень большие экраны (XL и XXL) */
+@media (min-width: 1600px) {
+  .gameContainerNative {
+    padding-top: calc(20px + 6.5vh);
+  }
+}
+
+/* Большие экраны (LG) */
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .gameContainerNative {
+    padding-top: calc(15px + 5vh);
+  }
+}
+
+/* Средние экраны (MD) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .gameContainerNative {
+    padding-top: calc(12px + 4vh);
+  }
+}
+
+/* Малые экраны (SM) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .gameContainerNative {
+    padding-top: calc(10px + 3vh);
+  }
+}
+
+/* Очень малые экраны (XS) */
+@media (min-width: 577px) and (max-width: 767px) {
+  .gameContainerNative {
+    padding-top: calc(8px + 2.5vh);
+  }
+}
+
+/* Сверхмалые экраны (XXS) */
+@media (max-width: 576px) {
+  .gameContainerNative {
+    /* Больший процент для мобильных устройств */
+    padding-top: calc(5px + 2vh);
+  }
+}
+
+/* Устройства с очень маленькими экранами */
+@media (max-width: 360px) {
+  .gameContainerNative {
+    padding-top: calc(5px + 1.5vh);
+  }
+}
+
+@supports (padding-top: env(safe-area-inset-top)) {
+  .gameContainerNative {
+    padding-top: max(calc(5px + 4vh), env(safe-area-inset-top));
+  }
+}
+
 /* Стили для шапки */
 .header {
   display: flex;
