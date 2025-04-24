@@ -44,8 +44,8 @@ export const GameSettings: React.FC = () => {
 
   // Обработка изменения языка
   const handleLanguageChange = (value: string) => {
-    // Здесь используем локальное изменение без перерисовки всего компонента
-    i18n.changeLanguage(value).then(() => {
+    // Здесь используем корректную форму вызова i18n.changeLanguage
+    i18n.changeLanguage(value, () => {
       setFormData(prev => ({ ...prev, language: value as Language }));
     });
   };
