@@ -49,12 +49,12 @@
       "dark": "Dunkel"
     },
     "gridSize": {
-      "title": "Rastergröße",
-      "mini": "Mini (10×10)",
+      "title": "Feldgröße",
       "small": "Klein (15×15)",
       "medium": "Mittel (20×20)",
       "large": "Groß (25×25)",
-      "giant": "Riesig (30×30)"
+      "giant": "Riesig (30×30)",
+      "epic": "Episch (35×35)"
     },
     "environment": {
       "title": "Umgebung",
@@ -69,6 +69,102 @@
       "ru": "Russisch",
       "en": "Englisch",
       "de": "Deutsch"
+    }
+  },
+  "legend": {
+    "title": "Legende",
+    "close": "Schließen",
+    "yourSnake": "Deine Schlange",
+    "food": "Nahrung",
+    "and": "und",
+    "points": "{{count}} Punkt",
+    "points_plural": "{{count}} Punkte",
+    "controls": {
+      "title": "Steuerung",
+      "keyboard": "Verwende die Pfeiltasten auf der Tastatur, um die Schlange zu steuern.",
+      "mobile": "Auf mobilen Geräten sind virtuelle Tasten oder Wischgesten verfügbar."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "lebt im Dschungel",
+        "animation": "erzeugt leichte Luftströmungen"
+      },
+      "sea": {
+        "habitat": "lebt im Meer",
+        "animation": "hinterlässt Luftblasen"
+      },
+      "forest": {
+        "habitat": "lebt im Wald",
+        "animation": "verstreut Blätter um sich herum"
+      },
+      "desert": {
+        "habitat": "lebt in der Wüste",
+        "animation": "wirbelt Sandwellen auf"
+      },
+      "steppe": {
+        "habitat": "lebt in der Steppe",
+        "animation": "erzeugt Staubwolken"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "Schlangentyp {{type}}"
+      },
+      "green_snake": {
+        "name": "Grüne Schlange",
+        "description": "lebt in dichter Dschungelvegetation",
+        "animation": "hinterlässt leichte Luftströmungen"
+      },
+      "python": {
+        "name": "Python",
+        "description": "bevorzugt tropische Wälder",
+        "animation": "raschelt im Laub beim Bewegen"
+      },
+      "viper": {
+        "name": "Viper",
+        "description": "versteckt sich im Blattwerk",
+        "animation": "schneidet durch die Luft um sich herum"
+      },
+      "sea_snake": {
+        "name": "Seeschlange",
+        "description": "lebt in warmen Ozeangewässern",
+        "animation": "hinterlässt Luftblasen"
+      },
+      "eel": {
+        "name": "Aal",
+        "description": "gleitet zwischen Seegras",
+        "animation": "erzeugt Wirbel im Wasser"
+      },
+      "forest_snake": {
+        "name": "Waldschlange",
+        "description": "versteckt sich in Gras und Laub",
+        "animation": "lässt Blätter wegfliegen"
+      },
+      "grass_snake": {
+        "name": "Ringelnatter",
+        "description": "bevorzugt Waldränder",
+        "animation": "raschelt in gefallenen Blättern"
+      },
+      "sand_snake": {
+        "name": "Sandschlange",
+        "description": "vergräbt sich im heißen Sand",
+        "animation": "wirbelt Sandwolken auf beim Bewegen"
+      },
+      "sidewinder": {
+        "name": "Klapperschlange",
+        "description": "hinterlässt S-förmige Spuren im Sand",
+        "animation": "erzeugt Sandwirbel"
+      },
+      "steppe_adder": {
+        "name": "Steppenotter",
+        "description": "versteckt sich im hohen Gras",
+        "animation": "verursacht Staubwölkchen beim Bewegen"
+      },
+      "ratsnake": {
+        "name": "Kletternatter",
+        "description": "jagt kleine Nagetiere",
+        "animation": "wiegt das Gras und wirbelt Staub auf"
+      }
     }
   },
   "controls": {

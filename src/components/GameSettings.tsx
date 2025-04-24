@@ -167,11 +167,11 @@ export const GameSettings: React.FC = () => {
                   disabled={isBoardSizeDisabled}
                   className={isBoardSizeDisabled ? styles.disabledSelect : ''}
               >
-                <option value="mini">{t('settings.gridSize.mini')}</option>
                 <option value="small">{t('settings.gridSize.small')}</option>
                 <option value="medium">{t('settings.gridSize.medium')}</option>
                 <option value="large">{t('settings.gridSize.large')}</option>
                 <option value="giant">{t('settings.gridSize.giant')}</option>
+                <option value="epic">{t('settings.gridSize.epic')}</option>
               </select>
             </div>
 
