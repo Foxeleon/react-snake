@@ -531,7 +531,7 @@ export const useGameStore = create<GameStore>((set, get) => {
 
       // Если язык изменился, применяем его
       if (updatedSettings.language !== get().settings.language) {
-        i18n.changeLanguage(updatedSettings.language).then((lang) => {console.log(lang)});
+        i18n.changeLanguage(updatedSettings.language).then(() => {});
       }
 
       set(state => ({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameSettings.module.css';
 import { BoardSize, Environment, FieldSelectionMode, Language, SnakeType, Theme } from '@/types/game';
-import { GRID_SIZES, ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
+import { ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
 import { useTranslation } from 'react-i18next';
 
 export const GameSettings: React.FC = () => {
@@ -41,6 +41,14 @@ export const GameSettings: React.FC = () => {
       language: settings.language // Обновляем язык при изменении настроек
     });
   }, [settings, isPlaying]); // Добавляем isPlaying чтобы форма обновилась если настройки изменились
+
+  // Обработка изменения языка
+  const handleLanguageChange = (value: string) => {
+    // Здесь используем локальное изменение без перерисовки всего компонента
+    i18n.changeLanguage(value).then(() => {
+      setFormData(prev => ({ ...prev, language: value as Language }));
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -97,9 +105,8 @@ export const GameSettings: React.FC = () => {
           snakeType: availableSnakeTypes[0]
         }));
       } else if (name === 'language') {
-        // Если меняется язык, обновляем интерфейс моментально
-        i18n.changeLanguage(value);
-        setFormData(prev => ({ ...prev, language: value as Language }));
+        // Для смены языка используем отдельный обработчик
+        handleLanguageChange(value);
       } else {
         setFormData(prev => ({ ...prev, [name]: value }));
       }
@@ -108,17 +115,6 @@ export const GameSettings: React.FC = () => {
 
   // Получаем доступные типы змей для выбранного окружения
   const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[formData.environment as Environment];
-
-  // Словарь для отображения понятных названий змей
-  const snakeDisplayNames: Record<string, string> = {
-    'tropical_green': t('snakes.tropical_green'),
-    'red_sea': t('snakes.red_sea'),
-    'blue_green_sea': t('snakes.blue_green_sea'),
-    'forest_boa': t('snakes.forest_boa'),
-    'rattlesnake': t('snakes.rattlesnake'),
-    'striped_viper': t('snakes.striped_viper'),
-    'mouse_hunter': t('snakes.mouse_hunter')
-  };
 
   return (
       <div className={`${styles.settingsOverlay} ${styles[settings.theme]}`}>
@@ -138,7 +134,7 @@ export const GameSettings: React.FC = () => {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="environment">{t('settings.environment')}:</label>
+              <label htmlFor="environment">{t('settings.environment.title')}:</label>
               <select
                   id="environment"
                   name="environment"
@@ -154,15 +150,15 @@ export const GameSettings: React.FC = () => {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="theme">{t('settings.theme')}:</label>
+              <label htmlFor="theme">{t('settings.theme.title')}:</label>
               <select
                   id="theme"
                   name="theme"
                   value={formData.theme}
                   onChange={handleChange}
               >
-                <option value="light">{t('themes.light')}</option>
-                <option value="dark">{t('themes.dark')}</option>
+                <option value="light">{t('settings.theme.light')}</option>
+                <option value="dark">{t('settings.theme.dark')}</option>
               </select>
             </div>
 
@@ -181,11 +177,11 @@ export const GameSettings: React.FC = () => {
                   disabled={isBoardSizeDisabled}
                   className={isBoardSizeDisabled ? styles.disabledSelect : ''}
               >
-                <option value="mini">{t('boardSizes.mini')} ({GRID_SIZES.mini}x{GRID_SIZES.mini})</option>
-                <option value="small">{t('boardSizes.small')} ({GRID_SIZES.small}x{GRID_SIZES.small})</option>
-                <option value="medium">{t('boardSizes.medium')} ({GRID_SIZES.medium}x{GRID_SIZES.medium})</option>
-                <option value="large">{t('boardSizes.large')} ({GRID_SIZES.large}x{GRID_SIZES.large})</option>
-                <option value="giant">{t('boardSizes.giant')} ({GRID_SIZES.giant}x{GRID_SIZES.giant})</option>
+                <option value="mini">{t('settings.gridSize.mini')}</option>
+                <option value="small">{t('settings.gridSize.small')}</option>
+                <option value="medium">{t('settings.gridSize.medium')}</option>
+                <option value="large">{t('settings.gridSize.large')}</option>
+                <option value="giant">{t('settings.gridSize.giant')}</option>
               </select>
             </div>
 
@@ -239,7 +235,7 @@ export const GameSettings: React.FC = () => {
               >
                 {availableSnakeTypes.map(type => (
                     <option key={type} value={type}>
-                      {snakeDisplayNames[type] || type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                      {t(`snakes.${type}`)}
                     </option>
                 ))}
               </select>
