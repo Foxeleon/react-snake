@@ -11,7 +11,7 @@ export type SnakeType =
   | 'rattlesnake' | 'striped_viper' // пустыня
   | 'mouse_hunter'; // степь
 
-export type BoardSize = 'mini' | 'small' | 'medium' | 'large' | 'giant';
+export type BoardSize = 'mini' | 'small' | 'medium' | 'large' | 'giant' | 'epic';
 
 export type FoodType = 
   | 'common' // 10 очков
@@ -21,6 +21,8 @@ export type FoodType =
   | 'penalty'; // -20 очков
 
 export type FieldSelectionMode = 'static' | 'sequential' | 'random';
+
+export type Language = 'ru' | 'en' | 'de';
 
 export interface Food {
   position: Position;
@@ -54,7 +56,8 @@ export interface GameSettings {
   foodExpirationTime: number;
   soundEnabled: boolean;
   fieldSelectionMode: FieldSelectionMode;
-  showMobileControls: boolean; // Add new setting for mobile controls
+  showMobileControls: boolean;
+  language: Language;
 }
 
 export interface GameState {
@@ -97,14 +100,15 @@ export interface GameStore extends GameState {
   loadSettings: () => void;
   saveSettings: () => void;
   updateSettings: (settings: {
-    playerName: string;
-    environment: Environment;
-    theme: Theme;
-    boardSize: BoardSize;
-    fieldSelectionMode: FieldSelectionMode;
-    soundEnabled: boolean;
-    snakeType: SnakeType;
+    environment: "jungle" | "sea" | "forest" | "desert" | "steppe";
     showMobileControls: boolean;
+    snakeType: "tropical_green" | "red_sea" | "blue_green_sea" | "forest_boa" | "rattlesnake" | "striped_viper" | "mouse_hunter";
+    playerName: string;
+    boardSize: "mini" | "small" | "medium" | "large" | "giant" | "epic";
+    fieldSelectionMode: "static" | "sequential" | "random";
+    theme: "light" | "dark";
+    language: "ru" | "en" | "de";
+    soundEnabled: boolean
   }) => void;
   pauseGame: () => void;
   resumeGame: () => void;
@@ -113,4 +117,5 @@ export interface GameStore extends GameState {
   activateDoublePoints: () => void;
   deactivateDoublePoints: () => void;
   handleFoodCollision: (food: Food) => void;
-} 
+  setLanguage: (language: Language) => void;
+}

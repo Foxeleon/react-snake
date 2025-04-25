@@ -30,6 +30,12 @@
   font-display: swap;
 }
 
+/* Существующее определение шрифтов */
+body, button, input {
+  /* Добавляем резервные системные шрифты после вашего декоративного шрифта */
+  font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--bg-light);
@@ -145,4 +151,14 @@ html {
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-} 
+}
+
+/* Специальные исправления для Android */
+@supports (-webkit-appearance:none) {
+  .button, .game-title, .menu-item {
+    /* Небольшая корректировка межбуквенного интервала */
+    letter-spacing: 0.02em;
+    /* Проблемы с рендерингом шрифта часто решаются изменением размера */
+    font-size: calc(1em - 1px);
+  }
+}

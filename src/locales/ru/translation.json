@@ -1,0 +1,363 @@
+{
+  "app": {
+    "title": "Змейка 8-бит",
+    "description": "Современная версия классической игры \"Змейка\" с 8-битной стилистикой"
+  },
+  "game": {
+    "start": "Начать игру",
+    "pause": "Пауза",
+    "resume": "Продолжить",
+    "restart": "Играть снова",
+    "gameOver": "Игра окончена!",
+    "score": "Счет: {{score}}",
+    "doublePoints": {
+      "desktop": "ОЧКИ УДВОЕНЫ! ({{seconds}}с)",
+      "mobile": "x2 ({{seconds}}с)"
+    },
+    "controls": {
+      "arrows": "Используйте стрелки для управления змейкой"
+    },
+    "buttons": {
+      "settings": "Настройки",
+      "records": "Таблица рекордов",
+      "showLegend": "Показать легенду",
+      "hideLegend": "Скрыть легенду"
+    }
+  },
+  "welcome": {
+    "title": "Добро пожаловать в игру \"Змейка\"!",
+    "description": "Захватывающая 8-битная игра с различными типами змей и окружений",
+    "nameLabel": "Как вас зовут?",
+    "namePlaceholder": "Введите ваше имя",
+    "nameError": "Пожалуйста, введите ваше имя",
+    "startButton": "Начать игру",
+    "settingsButton": "Настройки",
+    "recordsButton": "Рекорды"
+  },
+  "settings": {
+    "title": "Настройки игры",
+    "playerName": "Имя игрока",
+    "boardSize": "Размер поля",
+    "fieldSelectionMode": "Режим выбора поля",
+    "enableSound": "Включить звук",
+    "showMobileControls": "Показывать кнопки управления на мобильных устройствах",
+    "snakeType": "Тип змеи",
+    "notAvailableDuringGame": "недоступно во время игры",
+    "theme": {
+      "title": "Тема",
+      "light": "Светлая",
+      "dark": "Темная"
+    },
+    "gridSize": {
+      "title": "Размер поля",
+      "mini": "Мини (10×10)",
+      "small": "Малый (15×15)",
+      "medium": "Средний (20×20)",
+      "large": "Большой (25×25)",
+      "giant": "Гигантский (30×30)",
+      "epic": "Эпический (35×35)"
+    },
+    "environment": {
+      "title": "Окружение",
+      "jungle": "Джунгли",
+      "sea": "Море",
+      "forest": "Лес",
+      "desert": "Пустыня",
+      "grassland": "Степь"
+    },
+    "language": {
+      "title": "Язык",
+      "ru": "Русский",
+      "en": "English",
+      "de": "Deutsch"
+    }
+  },
+  "legend": {
+    "title": "Легенда",
+    "close": "Закрыть",
+    "yourSnake": "Ваша змея",
+    "food": "Пища",
+    "and": "и",
+    "points": "{{count}} очков",
+    "points_plural": "{{count}} очков",
+    "controls": {
+      "title": "Управление",
+      "keyboard": "Используйте стрелки на клавиатуре для управления змейкой.",
+      "mobile": "На мобильных устройствах доступно управление виртуальными кнопками или свайпами."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "обитает в джунглях",
+        "animation": "создаёт лёгкие потоки ветра"
+      },
+      "sea": {
+        "habitat": "обитает в море",
+        "animation": "оставляет пузырьки воздуха"
+      },
+      "forest": {
+        "habitat": "обитает в лесу",
+        "animation": "разбрасывает листья вокруг себя"
+      },
+      "desert": {
+        "habitat": "обитает в пустыне",
+        "animation": "поднимает волны песка"
+      },
+      "steppe": {
+        "habitat": "обитает в степи",
+        "animation": "вызывает пыльные облака"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "Змея типа {{type}}"
+      },
+      "green_snake": {
+        "name": "Зеленая змея",
+        "description": "обитает в густых зарослях джунглей",
+        "animation": "оставляет за собой лёгкие потоки ветра"
+      },
+      "python": {
+        "name": "Питон",
+        "description": "предпочитает тропические леса",
+        "animation": "шелестит листвой при движении"
+      },
+      "viper": {
+        "name": "Гадюка",
+        "description": "скрывается среди листвы",
+        "animation": "рассекает воздух вокруг себя"
+      },
+      "sea_snake": {
+        "name": "Морская змея",
+        "description": "обитает в тёплых водах океана",
+        "animation": "оставляет за собой пузырьки воздуха"
+      },
+      "eel": {
+        "name": "Угорь",
+        "description": "скользит среди водорослей",
+        "animation": "создаёт вихри в воде"
+      },
+      "forest_snake": {
+        "name": "Лесная змея",
+        "description": "прячется среди травы и листвы",
+        "animation": "заставляет листья разлетаться в стороны"
+      },
+      "grass_snake": {
+        "name": "Уж",
+        "description": "предпочитает лесные опушки",
+        "animation": "шуршит опавшими листьями"
+      },
+      "sand_snake": {
+        "name": "Песчаная змея",
+        "description": "зарывается в горячий песок",
+        "animation": "поднимает облака песка при движении"
+      },
+      "sidewinder": {
+        "name": "Гремучая змея",
+        "description": "оставляет S-образные следы на песке",
+        "animation": "создаёт песчаные вихри"
+      },
+      "steppe_adder": {
+        "name": "Степная гадюка",
+        "description": "скрывается в высокой траве",
+        "animation": "вызывает пыльные облачка при движении"
+      },
+      "ratsnake": {
+        "name": "Полоз",
+        "description": "охотится на мелких грызунов",
+        "animation": "колышет траву и поднимает пыль"
+      }
+    }
+  },
+  "controls": {
+    "up": "Вверх",
+    "down": "Вниз",
+    "left": "Влево",
+    "right": "Вправо",
+    "keyboard": {
+      "arrows": "Клавиши стрелок - управление змейкой",
+      "enter": "Enter/Пробел - начать/перезапустить игру",
+      "pause": "P - пауза",
+      "settings": "Esc - вызов меню настроек",
+      "records": "R - показать таблицу рекордов"
+    }
+  },
+  "environments": {
+    "jungle": "Джунгли",
+    "sea": "Море",
+    "forest": "Лес",
+    "desert": "Пустыня",
+    "steppe": "Степь"
+  },
+  "themes": {
+    "light": "Светлая",
+    "dark": "Тёмная"
+  },
+  "boardSizes": {
+    "mini": "Мини",
+    "small": "Малый",
+    "medium": "Средний",
+    "large": "Большой",
+    "giant": "Гигантский",
+    "epic": "Эпический"
+  },
+  "fieldSelectionModes": {
+    "static": "Статичный",
+    "sequential": "Последовательный",
+    "random": "Случайный"
+  },
+  "snakes": {
+    "tropical_green": "Зеленая змея",
+    "red_sea": "Морская змея",
+    "blue_green_sea": "Угорь",
+    "forest_boa": "Лесная змея",
+    "rattlesnake": "Песчаная змея",
+    "striped_viper": "Гремучая змея",
+    "mouse_hunter": "Степная гадюка"
+  },
+  "languages": {
+    "russian": "Русский",
+    "english": "Английский",
+    "german": "Немецкий"
+  },
+  "common": {
+    "cancel": "Отмена",
+    "save": "Сохранить"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Жук",
+        "description": "Обычная еда в джунглях",
+        "points": 10
+      },
+      "frog": {
+        "name": "Лягушка",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "bird": {
+        "name": "Птица",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Ананас",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Ядовитая ягода",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Креветка",
+        "description": "Обычная еда в море",
+        "points": 10
+      },
+      "fish": {
+        "name": "Рыба",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Морская звезда",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Планктон",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Медуза",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Муравей",
+        "description": "Обычная еда в лесу",
+        "points": 10
+      },
+      "locust": {
+        "name": "Саранча",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Кролик",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Гриб",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Плесневелая ягода",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "desert": {
+      "locust": {
+        "name": "Саранча",
+        "description": "Обычная еда в пустыне",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Жук-скарабей",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "egg": {
+        "name": "Яйцо",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Цветок кактуса",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Колючка",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Кузнечик",
+        "description": "Обычная еда в степи",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Суслик",
+        "description": "Средняя добыча",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Мышь",
+        "description": "Редкая добыча",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Золотистая трава",
+        "description": "Удваивает получаемые очки на 15 секунд",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Горькое семя",
+        "description": "Штрафная еда, избегайте её",
+        "points": -20
+      }
+    }
+  }
+}

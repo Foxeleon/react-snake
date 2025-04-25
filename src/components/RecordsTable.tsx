@@ -38,7 +38,8 @@ export const RecordsTable: React.FC = () => {
       small: 'Маленькая',
       medium: 'Средняя',
       large: 'Большая',
-      giant: 'Гигантская'
+      giant: 'Гигантская',
+      epic: 'Эпическая'
     };
     return translations[size] || size;
   };

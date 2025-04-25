@@ -1,34 +1,37 @@
 import { create } from 'zustand';
-import { 
-  GameStore, 
-  Direction, 
-  Position, 
-  Environment,
-  Theme,
+import {
   BoardSize,
+  Direction,
+  Environment,
+  FieldSelectionMode,
   Food,
   FoodType,
-  SnakeType,
-  PlayerRecord,
   GameSettings,
-  FieldSelectionMode
+  GameStore,
+  Language,
+  PlayerRecord,
+  Position,
+  SnakeType,
+  Theme
 } from '@/types/game';
 import {
-  GRID_SIZES,
-  FOOD_EXPIRATION_TIMES,
-  ENVIRONMENT_TO_SNAKE_TYPES,
-  DEFAULT_PLAYER_NAME,
-  DEFAULT_ENVIRONMENT,
-  DEFAULT_THEME,
   DEFAULT_BOARD_SIZE,
-  FOOD_SPAWN_PROBABILITIES,
-  INITIAL_SPEED,
-  SPEED_INCREASE_RATE,
+  DEFAULT_ENVIRONMENT,
   DEFAULT_FIELD_SELECTION_MODE,
+  DEFAULT_LANGUAGE,
+  DEFAULT_PLAYER_NAME,
+  DEFAULT_THEME,
+  DOUBLE_POINTS_DURATION,
   ENVIRONMENT_FOOD_MAPPING,
-  DOUBLE_POINTS_DURATION
+  ENVIRONMENT_TO_SNAKE_TYPES,
+  FOOD_EXPIRATION_TIMES,
+  FOOD_SPAWN_PROBABILITIES,
+  GRID_SIZES,
+  INITIAL_SPEED,
+  SPEED_INCREASE_RATE
 } from '@/constants/game';
-import { loadSettings, loadRecords, saveSettings, addRecord } from '@/utils';
+import { addRecord, loadRecords, loadSettings, saveSettings } from '@/utils';
+import i18n from '@/i18n';
 
 // Вспомогательные функции и константы для логики игры
 const environments: Environment[] = ['jungle', 'sea', 'forest', 'desert', 'steppe'];
@@ -91,9 +94,8 @@ const generateFood = (snake: Position[], gridSize: number, environment: Environm
   const now = Date.now();
   const spawnTime = now;
   // Определяем базовое время жизни еды в зависимости от размера поля
-  const baseFoodLifetime = FOOD_EXPIRATION_TIMES[getBoardSizeFromGridSize(gridSize)];
   // Корректируем время жизни в зависимости от типа еды
-  let lifetime = baseFoodLifetime;
+  let lifetime = FOOD_EXPIRATION_TIMES[getBoardSizeFromGridSize(gridSize)];
   if (type === 'special') {
     lifetime *= 0.7; // Особая еда живет меньше
   } else if (type === 'rare') {
@@ -140,14 +142,17 @@ const DEFAULT_SETTINGS: GameSettings = {
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
   soundEnabled: false,
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE,
-  showMobileControls: true
+  showMobileControls: true,
+  language: DEFAULT_LANGUAGE
 };
 
 // TODO fix it
 // @ts-ignore
 export const useGameStore = create<GameStore>((set, get) => {
-  // Загрузка настроек и рекордов при инициализации
   const savedSettings = loadSettings() || DEFAULT_SETTINGS;
+  if (savedSettings.language) {
+    i18n.changeLanguage(savedSettings.language).then(() => {})
+  }
   const savedRecords = loadRecords();
   
   const initialSnake = getInitialSnake(savedSettings.gridSize);
@@ -503,6 +508,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       soundEnabled: boolean;
       snakeType: SnakeType;
       showMobileControls: boolean;
+      language: Language;
     }) => {
       const gridSize = GRID_SIZES[newSettings.boardSize];
       const foodExpirationTime = FOOD_EXPIRATION_TIMES[newSettings.boardSize];
@@ -522,6 +528,11 @@ export const useGameStore = create<GameStore>((set, get) => {
         foodExpirationTime,
         snakeType
       };
+
+      // Если язык изменился, применяем его
+      if (updatedSettings.language !== get().settings.language) {
+        i18n.changeLanguage(updatedSettings.language).then(() => {});
+      }
 
       set(state => ({
         ...state,
@@ -605,6 +616,22 @@ export const useGameStore = create<GameStore>((set, get) => {
 
       // Обновляем состояние
       set({ score: newScore });
-    }
+    },
+
+    setLanguage: (language: Language) => {
+      // Меняем язык в i18next
+      i18n.changeLanguage(language);
+
+      // Обновляем состояние
+      set(state => ({
+        settings: {
+          ...state.settings,
+          language
+        }
+      }));
+
+      // Сохраняем настройки
+      get().saveSettings();
+    },
   };
 }); 

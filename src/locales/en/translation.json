@@ -1,0 +1,363 @@
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Modern version of the classic \"Snake\" game with 8-bit style"
+  },
+  "game": {
+    "start": "Start Game",
+    "pause": "Pause",
+    "resume": "Resume",
+    "restart": "Play Again",
+    "gameOver": "Game Over!",
+    "score": "Score: {{score}}",
+    "doublePoints": {
+      "desktop": "DOUBLE POINTS! ({{seconds}}s)",
+      "mobile": "x2 ({{seconds}}s)"
+    },
+    "controls": {
+      "arrows": "Use arrow keys to control the snake"
+    },
+    "buttons": {
+      "settings": "Settings",
+      "records": "Leaderboard",
+      "showLegend": "Show Legend",
+      "hideLegend": "Hide Legend"
+    }
+  },
+  "welcome": {
+    "title": "Welcome to Snake Game!",
+    "description": "Exciting 8-bit game with various snake types and environments",
+    "nameLabel": "What is your name?",
+    "namePlaceholder": "Enter your name",
+    "nameError": "Please enter your name",
+    "startButton": "Start Game",
+    "settingsButton": "Settings",
+    "recordsButton": "Records"
+  },
+  "settings": {
+    "title": "Game settings",
+    "playerName": "Player name",
+    "boardSize": "Board size",
+    "fieldSelectionMode": "Field selection mode",
+    "enableSound": "Enable sound",
+    "showMobileControls": "Show control buttons on mobile devices",
+    "snakeType": "Snake type",
+    "notAvailableDuringGame": "not available during game",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "gridSize": {
+      "title": "Grid Size",
+      "mini": "Mini (10×10)",
+      "small": "Small (15×15)",
+      "medium": "Medium (20×20)",
+      "large": "Large (25×25)",
+      "giant": "Giant (30×30)",
+      "epic": "Epic (35×35)"
+    },
+    "environment": {
+      "title": "Environment",
+      "jungle": "Jungle",
+      "sea": "Sea",
+      "forest": "Forest",
+      "desert": "Desert",
+      "grassland": "Grassland"
+    },
+    "language": {
+      "title": "Language",
+      "ru": "Russian",
+      "en": "English",
+      "de": "German"
+    }
+  },
+  "legend": {
+    "title": "Legend",
+    "close": "Close",
+    "yourSnake": "Your Snake",
+    "food": "Food",
+    "and": "and",
+    "points": "{{count}} point",
+    "points_plural": "{{count}} points",
+    "controls": {
+      "title": "Controls",
+      "keyboard": "Use arrow keys to control the snake.",
+      "mobile": "On mobile devices, use virtual buttons or swipes."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "lives in the jungle",
+        "animation": "creates light air currents"
+      },
+      "sea": {
+        "habitat": "lives in the sea",
+        "animation": "leaves air bubbles behind"
+      },
+      "forest": {
+        "habitat": "lives in the forest",
+        "animation": "scatters leaves around"
+      },
+      "desert": {
+        "habitat": "lives in the desert",
+        "animation": "raises waves of sand"
+      },
+      "steppe": {
+        "habitat": "lives in the steppe",
+        "animation": "creates dust clouds"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "Snake type {{type}}"
+      },
+      "green_snake": {
+        "name": "Green Snake",
+        "description": "lives in dense jungle vegetation",
+        "animation": "leaves light air currents behind"
+      },
+      "python": {
+        "name": "Python",
+        "description": "prefers tropical forests",
+        "animation": "rustles foliage when moving"
+      },
+      "viper": {
+        "name": "Viper",
+        "description": "hides among the foliage",
+        "animation": "cuts through the air around it"
+      },
+      "sea_snake": {
+        "name": "Sea Snake",
+        "description": "lives in warm ocean waters",
+        "animation": "leaves air bubbles behind"
+      },
+      "eel": {
+        "name": "Eel",
+        "description": "glides among seaweed",
+        "animation": "creates vortices in the water"
+      },
+      "forest_snake": {
+        "name": "Forest Snake",
+        "description": "hides among grass and foliage",
+        "animation": "makes leaves fly away"
+      },
+      "grass_snake": {
+        "name": "Grass Snake",
+        "description": "prefers forest edges",
+        "animation": "rustles fallen leaves"
+      },
+      "sand_snake": {
+        "name": "Sand Snake",
+        "description": "buries itself in hot sand",
+        "animation": "raises clouds of sand when moving"
+      },
+      "sidewinder": {
+        "name": "Rattlesnake",
+        "description": "leaves S-shaped tracks in the sand",
+        "animation": "creates sand vortices"
+      },
+      "steppe_adder": {
+        "name": "Steppe Viper",
+        "description": "hides in tall grass",
+        "animation": "causes dusty clouds when moving"
+      },
+      "ratsnake": {
+        "name": "Rat Snake",
+        "description": "hunts small rodents",
+        "animation": "sways the grass and raises dust"
+      }
+    }
+  },
+  "controls": {
+    "up": "Up",
+    "down": "Down",
+    "left": "Left",
+    "right": "Right",
+    "keyboard": {
+      "arrows": "Arrow keys - control the snake",
+      "enter": "Enter/Space - start/restart game",
+      "pause": "P - pause",
+      "settings": "Esc - open settings menu",
+      "records": "R - show high scores"
+    }
+  },
+  "environments": {
+    "jungle": "Jungle",
+    "sea": "Sea",
+    "forest": "Forest",
+    "desert": "Desert",
+    "steppe": "Steppe"
+  },
+  "themes": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "giant": "Giant",
+    "epic": "Epic"
+  },
+  "fieldSelectionModes": {
+    "static": "Static",
+    "sequential": "Sequential",
+    "random": "Random"
+  },
+  "snakes": {
+    "tropical_green": "Green Snake",
+    "red_sea": "Sea Snake",
+    "blue_green_sea": "Eel",
+    "forest_boa": "Forest Boa",
+    "rattlesnake": "Desert Snake",
+    "striped_viper": "Rattlesnake",
+    "mouse_hunter": "Prairie Viper"
+  },
+  "languages": {
+    "russian": "Russian",
+    "english": "English",
+    "german": "German"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Bug",
+        "description": "Common food in the jungle",
+        "points": 10
+      },
+      "frog": {
+        "name": "Frog",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "bird": {
+        "name": "Bird",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Pineapple",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Poison Berry",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Shrimp",
+        "description": "Common food in the sea",
+        "points": 10
+      },
+      "fish": {
+        "name": "Fish",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Starfish",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plankton",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Jellyfish",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Ant",
+        "description": "Common food in the forest",
+        "points": 10
+      },
+      "locust": {
+        "name": "Locust",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Rabbit",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Mushroom",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Moldy Berry",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "desert": {
+      "locust": {
+        "name": "Locust",
+        "description": "Common food in the desert",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Scarab Beetle",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "egg": {
+        "name": "Egg",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Cactus Flower",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Thorn",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Grasshopper",
+        "description": "Common food in the steppe",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Gopher",
+        "description": "Medium prey",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Mouse",
+        "description": "Rare prey",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Golden Grass",
+        "description": "Doubles points earned for 15 seconds",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Bitter Seed",
+        "description": "Penalty food, avoid it",
+        "points": -20
+      }
+    }
+  }
+}

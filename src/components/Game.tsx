@@ -6,13 +6,15 @@ import Legend from './Legend';
 import styles from './Game.module.css';
 import desktopStyles from './DesktopGameControls.module.css';
 import { usePlatform } from '@/hooks/usePlatform.ts';
+import { useTranslation } from 'react-i18next';
 
 const Game: React.FC = () => {
+  const { t } = useTranslation();
   const {
     isPlaying,
     isGameOver,
     score,
-    startGame, 
+    startGame,
     isPaused,
     pauseGame,
     resumeGame,
@@ -30,24 +32,24 @@ const Game: React.FC = () => {
 
   // Определяем, на мобильном ли устройстве
   const [isMobile, setIsMobile] = useState(false);
-  
+
   // Отслеживаем время паузы для корректировки таймера удвоения очков
   const pauseStartTimeRef = useRef<number | null>(null);
   const pauseTotalDurationRef = useRef<number>(0);
   const { isNative } = usePlatform();
-  
+
   // Обновляем состояние isMobile при изменении размера окна
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     // Проверяем при монтировании компонента
     checkIfMobile();
-    
+
     // Добавляем обработчик изменения размера окна
     window.addEventListener('resize', checkIfMobile);
-    
+
     // Удаляем обработчик при размонтировании компонента
     return () => {
       window.removeEventListener('resize', checkIfMobile);
@@ -83,18 +85,18 @@ const Game: React.FC = () => {
   // Для расчета оставшегося времени удвоения очков, мемоизируем функцию
   const getDoublePointsTimeLeft = useCallback((): number => {
     if (!doublePointsActive || !doublePointsEndTime) return 0;
-    
+
     const now = Date.now();
-    
+
     // Корректируем расчет с учетом времени, проведенного на паузе
     let adjustedEndTime = doublePointsEndTime + pauseTotalDurationRef.current;
-    
+
     // Если сейчас пауза, не учитываем текущее время паузы
     if (isPaused && pauseStartTimeRef.current) {
       const currentPauseDuration = now - pauseStartTimeRef.current;
       adjustedEndTime += currentPauseDuration;
     }
-    
+
     const timeLeft = Math.max(0, adjustedEndTime - now);
     return Math.floor(timeLeft / 1000); // Используем floor вместо ceil для более точного отображения
   }, [doublePointsActive, doublePointsEndTime, isPaused]);
@@ -127,19 +129,19 @@ const Game: React.FC = () => {
   // Рендер индикатора удвоения очков
   const renderDoublePointsIndicator = () => {
     if (!doublePointsActive) return null;
-    
+
     if (isMobile) {
       return (
-        <div className={styles.mobileDoublePointsIndicator}>
-          x2 ({timeLeft}с)
-        </div>
+          <div className={styles.mobileDoublePointsIndicator}>
+            {t('game.doublePoints.mobile', { seconds: timeLeft })}
+          </div>
       );
     }
-    
+
     return (
-      <div className={styles.doublePointsIndicator}>
-        ОЧКИ УДВОЕНЫ! ({timeLeft}с)
-      </div>
+        <div className={styles.doublePointsIndicator}>
+          {t('game.doublePoints.desktop', { seconds: timeLeft })}
+        </div>
     );
   };
 
@@ -151,18 +153,18 @@ const Game: React.FC = () => {
         <div className={styles.header}>
           <h1 className={styles.gameTitle}>🐍(β)</h1>
           <div className={styles.headerButtons}>
-            <button onClick={toggleSettings} className={styles.iconButton} title="Настройки">
+            <button onClick={toggleSettings} className={styles.iconButton} title={t('game.buttons.settings')}>
               ⚙️
             </button>
             {/* TODO fix records
-            <button onClick={toggleRecords} className={styles.iconButton} title="Таблица рекордов">
+            <button onClick={toggleRecords} className={styles.iconButton} title={t('game.buttons.records')}>
               🏆
             </button>
             */}
             <button
                 onClick={toggleLegend}
                 className={`${styles.iconButton} ${showLegend ? styles.active : ''}`}
-                title={showLegend ? "Скрыть легенду" : "Показать легенду"}
+                title={showLegend ? t('game.buttons.hideLegend') : t('game.buttons.showLegend')}
             >
               ℹ️
             </button>
@@ -173,7 +175,7 @@ const Game: React.FC = () => {
           {/* Панель с общими элементами для всех версий */}
           <div className={styles.gameTopPanel}>
             <div className={styles.scoreIndicator}>
-              Счет: {score}
+              {t('game.score', { score })}
             </div>
 
             {/* Зарезервированное место для индикатора удвоения очков */}
@@ -189,7 +191,7 @@ const Game: React.FC = () => {
                           onClick={handleStartGame}
                           className={styles.mobileStartButton}
                       >
-                        Начать игру
+                        {t('game.start')}
                       </button>
                   )}
 
@@ -198,7 +200,7 @@ const Game: React.FC = () => {
                           onClick={isPaused ? resumeGame : pauseGame}
                           className={styles.mobilePauseButton}
                       >
-                        {isPaused ? 'Продолжить' : 'Пауза'}
+                        {isPaused ? t('game.resume') : t('game.pause')}
                       </button>
                   )}
 
@@ -207,7 +209,7 @@ const Game: React.FC = () => {
                           onClick={resetGame}
                           className={styles.mobileStartButton}
                       >
-                        Играть снова
+                        {t('game.restart')}
                       </button>
                   )}
                 </div>
@@ -225,7 +227,7 @@ const Game: React.FC = () => {
                       className={desktopStyles.startButton}
                       data-testid="start-button"
                   >
-                    Начать игру
+                    {t('game.start')}
                   </button>
               )}
 
@@ -234,21 +236,21 @@ const Game: React.FC = () => {
                       onClick={isPaused ? resumeGame : pauseGame}
                       className={desktopStyles.pauseButton}
                   >
-                    {isPaused ? 'Продолжить' : 'Пауза'}
+                    {isPaused ? t('game.resume') : t('game.pause')}
                   </button>
               )}
 
               {isGameOver && (
                   <div className={desktopStyles.gameOverControls}>
-                    <h2>Игра окончена!</h2>
+                    <h2>{t('game.gameOver')}</h2>
                     <div className={desktopStyles.buttonGroup}>
-                      <button onClick={resetGame}>Играть снова</button>
+                      <button onClick={resetGame}>{t('game.restart')}</button>
                     </div>
                   </div>
               )}
 
               <div className={desktopStyles.instructions}>
-                <p>Используйте стрелки для управления змейкой</p>
+                <p>{t('game.controls.arrows')}</p>
               </div>
             </div>
         )}
@@ -299,4 +301,4 @@ const Game: React.FC = () => {
   );
 };
 
-export default Game; 
+export default Game;

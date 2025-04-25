@@ -1,0 +1,363 @@
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Moderne Version des klassischen \"Snake\"-Spiels im 8-Bit-Stil"
+  },
+  "game": {
+    "start": "Spiel starten",
+    "pause": "Pause",
+    "resume": "Fortsetzen",
+    "restart": "Erneut spielen",
+    "gameOver": "Spiel vorbei!",
+    "score": "Punkte: {{score}}",
+    "doublePoints": {
+      "desktop": "DOPPELTE PUNKTE! ({{seconds}}s)",
+      "mobile": "x2 ({{seconds}}s)"
+    },
+    "controls": {
+      "arrows": "Benutze die Pfeiltasten, um die Schlange zu steuern"
+    },
+    "buttons": {
+      "settings": "Einstellungen",
+      "records": "Bestenliste",
+      "showLegend": "Legende anzeigen",
+      "hideLegend": "Legende ausblenden"
+    }
+  },
+  "welcome": {
+    "title": "Willkommen beim Schlangenspiel!",
+    "description": "Aufregendes 8-Bit-Spiel mit verschiedenen Schlangentypen und Umgebungen",
+    "nameLabel": "Wie heißen Sie?",
+    "namePlaceholder": "Geben Sie Ihren Namen ein",
+    "nameError": "Bitte geben Sie Ihren Namen ein",
+    "startButton": "Spiel starten",
+    "settingsButton": "Einstellungen",
+    "recordsButton": "Rekorde"
+  },
+  "settings": {
+    "title": "Spieleinstellungen",
+    "playerName": "Spielername",
+    "boardSize": "Spielfeldgröße",
+    "fieldSelectionMode": "Feldauswahlmodus",
+    "enableSound": "Ton aktivieren",
+    "showMobileControls": "Steuerungstasten auf Mobilgeräten anzeigen",
+    "snakeType": "Schlangentyp",
+    "notAvailableDuringGame": "während des Spiels nicht verfügbar",
+    "theme": {
+      "title": "Thema",
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "gridSize": {
+      "title": "Feldgröße",
+      "mini": "Mini (10×10)",
+      "small": "Klein (15×15)",
+      "medium": "Mittel (20×20)",
+      "large": "Groß (25×25)",
+      "giant": "Riesig (30×30)",
+      "epic": "Episch (35×35)"
+    },
+    "environment": {
+      "title": "Umgebung",
+      "jungle": "Dschungel",
+      "sea": "Meer",
+      "forest": "Wald",
+      "desert": "Wüste",
+      "grassland": "Steppe"
+    },
+    "language": {
+      "title": "Sprache",
+      "ru": "Russisch",
+      "en": "Englisch",
+      "de": "Deutsch"
+    }
+  },
+  "legend": {
+    "title": "Legende",
+    "close": "Schließen",
+    "yourSnake": "Deine Schlange",
+    "food": "Nahrung",
+    "and": "und",
+    "points": "{{count}} Punkt",
+    "points_plural": "{{count}} Punkte",
+    "controls": {
+      "title": "Steuerung",
+      "keyboard": "Verwende die Pfeiltasten auf der Tastatur, um die Schlange zu steuern.",
+      "mobile": "Auf mobilen Geräten sind virtuelle Tasten oder Wischgesten verfügbar."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "lebt im Dschungel",
+        "animation": "erzeugt leichte Luftströmungen"
+      },
+      "sea": {
+        "habitat": "lebt im Meer",
+        "animation": "hinterlässt Luftblasen"
+      },
+      "forest": {
+        "habitat": "lebt im Wald",
+        "animation": "verstreut Blätter um sich herum"
+      },
+      "desert": {
+        "habitat": "lebt in der Wüste",
+        "animation": "wirbelt Sandwellen auf"
+      },
+      "steppe": {
+        "habitat": "lebt in der Steppe",
+        "animation": "erzeugt Staubwolken"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "Schlangentyp {{type}}"
+      },
+      "green_snake": {
+        "name": "Grüne Schlange",
+        "description": "lebt in dichter Dschungelvegetation",
+        "animation": "hinterlässt leichte Luftströmungen"
+      },
+      "python": {
+        "name": "Python",
+        "description": "bevorzugt tropische Wälder",
+        "animation": "raschelt im Laub beim Bewegen"
+      },
+      "viper": {
+        "name": "Viper",
+        "description": "versteckt sich im Blattwerk",
+        "animation": "schneidet durch die Luft um sich herum"
+      },
+      "sea_snake": {
+        "name": "Seeschlange",
+        "description": "lebt in warmen Ozeangewässern",
+        "animation": "hinterlässt Luftblasen"
+      },
+      "eel": {
+        "name": "Aal",
+        "description": "gleitet zwischen Seegras",
+        "animation": "erzeugt Wirbel im Wasser"
+      },
+      "forest_snake": {
+        "name": "Waldschlange",
+        "description": "versteckt sich in Gras und Laub",
+        "animation": "lässt Blätter wegfliegen"
+      },
+      "grass_snake": {
+        "name": "Ringelnatter",
+        "description": "bevorzugt Waldränder",
+        "animation": "raschelt in gefallenen Blättern"
+      },
+      "sand_snake": {
+        "name": "Sandschlange",
+        "description": "vergräbt sich im heißen Sand",
+        "animation": "wirbelt Sandwolken auf beim Bewegen"
+      },
+      "sidewinder": {
+        "name": "Klapperschlange",
+        "description": "hinterlässt S-förmige Spuren im Sand",
+        "animation": "erzeugt Sandwirbel"
+      },
+      "steppe_adder": {
+        "name": "Steppenotter",
+        "description": "versteckt sich im hohen Gras",
+        "animation": "verursacht Staubwölkchen beim Bewegen"
+      },
+      "ratsnake": {
+        "name": "Kletternatter",
+        "description": "jagt kleine Nagetiere",
+        "animation": "wiegt das Gras und wirbelt Staub auf"
+      }
+    }
+  },
+  "controls": {
+    "up": "Oben",
+    "down": "Unten",
+    "left": "Links",
+    "right": "Rechts",
+    "keyboard": {
+      "arrows": "Pfeiltasten - Schlange steuern",
+      "enter": "Enter/Leertaste - Spiel starten/neu starten",
+      "pause": "P - Pause",
+      "settings": "Esc - Einstellungsmenü öffnen",
+      "records": "R - Bestenliste anzeigen"
+    }
+  },
+  "environments": {
+    "jungle": "Dschungel",
+    "sea": "Meer",
+    "forest": "Wald",
+    "desert": "Wüste",
+    "steppe": "Steppe"
+  },
+  "themes": {
+    "light": "Hell",
+    "dark": "Dunkel"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Klein",
+    "medium": "Mittel",
+    "large": "Groß",
+    "giant": "Riesig",
+    "epic": "Episch"
+  },
+  "fieldSelectionModes": {
+    "static": "Statisch",
+    "sequential": "Sequentiell",
+    "random": "Zufällig"
+  },
+  "snakes": {
+    "tropical_green": "Grüne Schlange",
+    "red_sea": "Meerschlange",
+    "blue_green_sea": "Aal",
+    "forest_boa": "Waldboa",
+    "rattlesnake": "Wüstenschlange",
+    "striped_viper": "Klapperschlange",
+    "mouse_hunter": "Steppenotter"
+  },
+  "languages": {
+    "russian": "Russisch",
+    "english": "Englisch",
+    "german": "Deutsch"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "save": "Speichern"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Käfer",
+        "description": "Gewöhnliche Nahrung im Dschungel",
+        "points": 10
+      },
+      "frog": {
+        "name": "Frosch",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "bird": {
+        "name": "Vogel",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Ananas",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Giftbeere",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Garnele",
+        "description": "Gewöhnliche Nahrung im Meer",
+        "points": 10
+      },
+      "fish": {
+        "name": "Fisch",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Seestern",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plankton",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Qualle",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Ameise",
+        "description": "Gewöhnliche Nahrung im Wald",
+        "points": 10
+      },
+      "locust": {
+        "name": "Heuschrecke",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Kaninchen",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Pilz",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Schimmelige Beere",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "desert": {
+      "locust": {
+        "name": "Heuschrecke",
+        "description": "Gewöhnliche Nahrung in der Wüste",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Skarabäus-Käfer",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "egg": {
+        "name": "Ei",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Kaktusblüte",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Dorn",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Grashüpfer",
+        "description": "Gewöhnliche Nahrung in der Steppe",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Taschenratte",
+        "description": "Mittlere Beute",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Maus",
+        "description": "Seltene Beute",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Goldenes Gras",
+        "description": "Verdoppelt die Punkte für 15 Sekunden",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Bitterer Samen",
+        "description": "Strafnahrung, vermeide sie",
+        "points": -20
+      }
+    }
+  }
+}
