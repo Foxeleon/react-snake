@@ -181,7 +181,10 @@ export const GameBoard = () => {
         cellStyles = {
           width: `${cellSize}%`,
           height: `${cellSize}%`,
-          fontSize: '1.4rem'  // Увеличенный шрифт для мини-сетки
+          fontSize: '1.2rem',
+          // Исправляем: используем переменную gridSize вместо жесткого значения
+          minWidth: `calc(100% / 10)`,
+          minHeight: `calc(100% / 10)`
         };
         break;
       case 15: // small
@@ -222,7 +225,7 @@ export const GameBoard = () => {
         cellStyles = {
           width: `${cellSize}%`,
           height: `${cellSize}%`,
-          fontSize: '0.8rem'
+          fontSize: '0.7rem'
         };
         break;
       default:
