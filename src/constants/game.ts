@@ -32,7 +32,7 @@ export const ENVIRONMENT_TO_SNAKE_TYPES: Record<Environment, SnakeType[]> = {
 };
 
 // Настройки игры по умолчанию
-export const DEFAULT_PLAYER_NAME = 'Игрок';
+export const DEFAULT_PLAYER_NAME = 'Player';
 export const DEFAULT_ENVIRONMENT: Environment = 'jungle';
 export const DEFAULT_THEME = 'light';
 export const DEFAULT_BOARD_SIZE: BoardSize = 'medium';

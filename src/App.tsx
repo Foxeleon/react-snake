@@ -7,6 +7,7 @@ import { debounce, initCapacitor } from '@/utils';
 import { Capacitor } from '@capacitor/core';
 import { unlockOrientation } from '@/utils';
 import { usePlatform } from '@/hooks/usePlatform.ts';
+import { DEFAULT_PLAYER_NAME } from '@/constants/game.ts';
 
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
@@ -25,7 +26,7 @@ function App() {
     loadSettings();
     
     // Проверяем, есть ли сохраненное имя игрока (признак первого запуска)
-    const hasPlayerName = settings.playerName !== 'Игрок';
+    const hasPlayerName = settings.playerName !== DEFAULT_PLAYER_NAME;
     setIsFirstLaunch(!hasPlayerName);
   }, [loadSettings, settings.playerName]);
 
