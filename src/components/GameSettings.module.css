@@ -20,6 +20,17 @@
   max-width: 500px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   animation: slideIn 0.3s ease;
+  max-height: 95vh;
+  overflow-y: auto;
+}
+
+.settingsContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.settingsContainer::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 4px;
 }
 
 .dark .settingsContainer {
