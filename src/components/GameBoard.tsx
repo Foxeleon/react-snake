@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { Position, Direction, Environment } from '@/types/game';
+import { Position, Direction, Environment, Food } from '@/types/game';
 import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils/sound';
+import { getFoodColor } from '@/constants/game.ts';
 
 export const GameBoard = () => {
   const {
@@ -288,17 +289,27 @@ export const GameBoard = () => {
     
     // Отображение еды
     if (isFood) {
-      const currentFood = foods.find(food => food.position.x === x && food.position.y === y);
+      const currentFood: Food | undefined = foods.find(food => food.position.x === x && food.position.y === y);
       if (currentFood) {
-        const foodClass = `${styles.food} ${styles[`food_${currentFood.name}`] || styles[`food_${currentFood.type}`]}`;
-        const isSpecial = currentFood.type === 'special';
-        const isBadFood = currentFood.type === 'penalty';
+        const isSpecial: boolean = currentFood.type === 'special';
+        const isBadFood: boolean = currentFood.type === 'penalty';
 
-        // Добавление эффекта мигания для особой еды
+        // Получаем цвет из универсальной функции
+        const foodColor = getFoodColor(settings.environment, currentFood.name, currentFood.type);
+
+        // Сохраняем базовый класс для стилей формы и других параметров
+        const foodClass = styles.food;
+
+        // Создаем стиль с цветом
+        const foodStyle = {
+          backgroundColor: foodColor
+        };
+
+        // Добавляем эффект мигания для особой еды
         if (isSpecial || isBadFood) {
-          return <div className={`${foodClass} ${styles.blinking}`} />;
+          return <div className={`${foodClass} ${styles.blinking}`} style={foodStyle} />;
         } else {
-          return <div className={foodClass} />;
+          return <div className={foodClass} style={foodStyle} />;
         }
       }
     }

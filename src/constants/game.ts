@@ -1,4 +1,13 @@
-import { BoardSize, Environment, SnakeType, FieldSelectionMode, Language } from '@/types/game';
+import {
+  BoardSize,
+  Environment,
+  SnakeType,
+  FieldSelectionMode,
+  Language,
+  FoodName,
+  FoodType,
+  FoodColors
+} from '@/types/game';
 
 export const DEFAULT_LANGUAGE: Language = 'en';
 
@@ -237,4 +246,83 @@ export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, {
       points: -20
     }
   }
+};
+
+export const FOOD_COLORS: FoodColors = {
+  jungle: {
+    bug: '#8B4513',          // Коричневый (жук)
+    frog: '#7CFC00',         // Ярко-зеленый (лягушка)
+    bird: '#FFD700',         // Золотистый (птица)
+    pineapple: '#c9c75f',    // Желто-зеленый (ананас)
+    poison_berry: '#8A2BE2', // Фиолетовый (ядовитая ягода)
+    // Типы по умолчанию
+    special: '#FF00FF',      // Пурпурный (особая еда)
+    penalty: '#FF0000',      // Красный (штрафная еда)
+    common: '#4CAF50'        // Зеленый (обычная еда)
+  },
+  sea: {
+    shrimp: '#FFA07A',       // Светло-лососевый (креветка)
+    fish: '#87CEEB',         // Небесно-голубой (рыба)
+    starfish: '#FFA500',     // Оранжевый (морская звезда)
+    plankton: '#00FFFF',     // Бирюзовый (планктон)
+    jellyfish: '#EE82EE',    // Фиолетовый (медуза)
+    // Типы по умолчанию
+    special: '#00BFFF',      // Голубой (особая еда)
+    penalty: '#DC143C',      // Малиновый (штрафная еда)
+    common: '#4CAF50'        // Зеленый (обычная еда)
+  },
+  forest: {
+    ant: '#A52A2A',          // Коричневый (муравей)
+    locust: '#D2691E',       // Шоколадный (саранча)
+    rabbit: '#805d5d',       // Серо-коричневый (кролик)
+    mushroom: '#D2B48C',     // Песочный (гриб)
+    moldy_berry: '#556B2F',  // Оливковый (плесневелая ягода)
+    // Типы по умолчанию
+    special: '#228B22',      // Лесной зеленый (особая еда)
+    penalty: '#B22222',      // Огненно-кирпичный (штрафная еда)
+    common: '#4CAF50'        // Зеленый (обычная еда)
+  },
+  desert: {
+    locust: '#B8860B',       // Темно-золотистый (саранча)
+    beetle: '#2E8B57',       // Морской зеленый (жук)
+    egg: '#F4A460',          // Песочно-коричневый (яйцо)
+    cactus_flower: '#000000',// Черный (цветок кактуса)
+    thorn: '#CD853F',        // Перу (колючка)
+    // Типы по умолчанию
+    special: '#DAA520',      // Золотисто-буроватый (особая еда)
+    penalty: '#800000',      // Бордовый (штрафная еда)
+    common: '#4CAF50'        // Зеленый (обычная еда)
+  },
+  steppe: {
+    grasshopper: '#9ACD32',  // Желто-зеленый (кузнечик)
+    gopher: '#A0522D',       // Сиена (суслик)
+    mouse: '#FFFFF0',        // Кремовый (мышь)
+    golden_grass: '#6B8E23', // Оливково-зеленый (золотая трава)
+    bitter_seed: '#f5a353',  // (горькое семя)
+    // Типы по умолчанию
+    special: '#BDB76B',      // Темный хаки (особая еда)
+    penalty: '#8B0000',      // Темно-красный (штрафная еда)
+    common: '#4CAF50'        // Зеленый (обычная еда)
+  }
+};
+
+
+// Универсальная функция для получения цвета еды
+export const getFoodColor = (
+    environment: Environment,
+    foodName: FoodName | string,
+    foodType: FoodType = 'common'
+): string => {
+  // Проверяем существование окружения
+  if (!FOOD_COLORS[environment]) {
+    return '#4CAF50'; // Зеленый по умолчанию
+  }
+
+  // Сначала пробуем найти цвет по имени
+  if (FOOD_COLORS[environment][foodName as keyof (typeof FOOD_COLORS)[typeof environment]]) {
+    return FOOD_COLORS[environment][foodName as keyof (typeof FOOD_COLORS)[typeof environment]];
+  }
+
+  // Если не нашли по имени, используем тип
+  return FOOD_COLORS[environment][foodType as keyof typeof FOOD_COLORS[typeof environment]] || FOOD_COLORS[environment].common;
 };

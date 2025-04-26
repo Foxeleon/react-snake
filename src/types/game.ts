@@ -119,3 +119,83 @@ export interface GameStore extends GameState {
   handleFoodCollision: (food: Food) => void;
   setLanguage: (language: Language) => void;
 }
+
+// Типы имен еды для каждого окружения
+export type JungleFoodName = 'bug' | 'frog' | 'bird' | 'pineapple' | 'poison_berry';
+export type SeaFoodName = 'shrimp' | 'fish' | 'starfish' | 'plankton' | 'jellyfish';
+export type ForestFoodName = 'ant' | 'rabbit' | 'mushroom' | 'moldy_berry';
+export type DesertFoodName = 'beetle' | 'egg' | 'cactus_flower' | 'thorn' | 'locust';
+export type SteppeFoodName = 'grasshopper' | 'gopher' | 'mouse' | 'golden_grass' | 'bitter_seed';
+
+// Объединенный тип для всех названий еды
+export type FoodName =
+    | JungleFoodName
+    | SeaFoodName
+    | ForestFoodName
+    | DesertFoodName
+    | SteppeFoodName;
+
+// Интерфейсы для каждого окружения
+export interface JungleFoodColors {
+  bug: string;
+  frog: string;
+  bird: string;
+  pineapple: string;
+  poison_berry: string;
+  special: string;
+  penalty: string;
+  common: string;
+}
+
+export interface SeaFoodColors {
+  shrimp: string;
+  fish: string;
+  starfish: string;
+  plankton: string;
+  jellyfish: string;
+  special: string;
+  penalty: string;
+  common: string;
+}
+
+export interface ForestFoodColors {
+  ant: string;
+  locust: string;
+  rabbit: string;
+  mushroom: string;
+  moldy_berry: string;
+  special: string;
+  penalty: string;
+  common: string;
+}
+
+export interface DesertFoodColors {
+  locust: string;
+  beetle: string;
+  egg: string;
+  cactus_flower: string;
+  thorn: string;
+  special: string;
+  penalty: string;
+  common: string;
+}
+
+export interface SteppeFoodColors {
+  grasshopper: string;
+  gopher: string;
+  mouse: string;
+  golden_grass: string;
+  bitter_seed: string;
+  special: string;
+  penalty: string;
+  common: string;
+}
+
+// Интерфейс для всего объекта FOOD_COLORS
+export interface FoodColors {
+  jungle: JungleFoodColors;
+  sea: SeaFoodColors;
+  forest: ForestFoodColors;
+  desert: DesertFoodColors;
+  steppe: SteppeFoodColors;
+}
