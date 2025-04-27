@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './RecordsTable.module.css';
-import { PlayerRecord } from '@/types/game';
+import { PlayerRecord } from '@/types/gameTypes.ts';
 
 export const RecordsTable: React.FC = () => {
   const { records, isRecordsOpen, toggleRecords, settings } = useGameStore();

@@ -1,4 +1,4 @@
-import { Environment, Position } from '@/types/game';
+import { Environment, Position } from '@/types/gameTypes.ts';
 
 interface ParticleOptions {
   x: number;

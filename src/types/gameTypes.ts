@@ -84,7 +84,8 @@ export interface GameState {
   isRecordsOpen: boolean;
   showLegend: boolean;
   isPaused: boolean;
-  isMobile: boolean;
+  // TODO add isMobile to gameStore
+  // isMobile: boolean;
 }
 
 export interface GameStore extends GameState {
@@ -119,7 +120,6 @@ export interface GameStore extends GameState {
   }) => void;
   pauseGame: () => void;
   resumeGame: () => void;
-  getNextEnvironment: () => Environment;
   setRandomEnvironment: () => Environment;
   activateDoublePoints: () => void;
   deactivateDoublePoints: () => void;

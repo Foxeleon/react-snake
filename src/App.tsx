@@ -7,7 +7,7 @@ import { debounce, initCapacitor } from '@/utils';
 import { Capacitor } from '@capacitor/core';
 import { unlockOrientation } from '@/utils';
 import { usePlatform } from '@/hooks/usePlatform.ts';
-import { DEFAULT_PLAYER_NAME } from '@/constants/game.ts';
+import { DEFAULT_PLAYER_NAME } from '@/constants/gameConstants.ts';
 
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);

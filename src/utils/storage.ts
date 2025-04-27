@@ -1,4 +1,4 @@
-import { GameSettings, PlayerRecord } from '@/types/game';
+import { GameSettings, PlayerRecord } from '@/types/gameTypes.ts';
 import { Capacitor } from '@capacitor/core';
 import { lockToPortrait } from '@/utils';
 
