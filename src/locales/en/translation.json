@@ -306,8 +306,8 @@
       }
     },
     "desert": {
-      "locust": {
-        "name": "Locust",
+      "scorpion": {
+        "name": "Scorpion",
         "description": "Common food in the desert",
         "points": 10
       },

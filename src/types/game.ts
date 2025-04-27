@@ -11,6 +11,13 @@ export type SnakeType =
   | 'rattlesnake' | 'striped_viper' // пустыня
   | 'mouse_hunter'; // степь
 
+export interface SnakeStyle {
+  bg: string;
+  border: string;
+}
+
+export type SnakeStylesMap = Record<string, SnakeStyle>;
+
 export type BoardSize = 'mini' | 'small' | 'medium' | 'large' | 'giant' | 'epic';
 
 export type FoodType = 
@@ -124,7 +131,7 @@ export interface GameStore extends GameState {
 export type JungleFoodName = 'bug' | 'frog' | 'bird' | 'pineapple' | 'poison_berry';
 export type SeaFoodName = 'shrimp' | 'fish' | 'starfish' | 'plankton' | 'jellyfish';
 export type ForestFoodName = 'ant' | 'rabbit' | 'mushroom' | 'moldy_berry';
-export type DesertFoodName = 'beetle' | 'egg' | 'cactus_flower' | 'thorn' | 'locust';
+export type DesertFoodName = 'beetle' | 'egg' | 'cactus_flower' | 'thorn' | 'scorpion';
 export type SteppeFoodName = 'grasshopper' | 'gopher' | 'mouse' | 'golden_grass' | 'bitter_seed';
 
 // Объединенный тип для всех названий еды
@@ -170,7 +177,7 @@ export interface ForestFoodColors {
 }
 
 export interface DesertFoodColors {
-  locust: string;
+  scorpion: string;
   beetle: string;
   egg: string;
   cactus_flower: string;

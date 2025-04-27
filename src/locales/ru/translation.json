@@ -306,8 +306,8 @@
       }
     },
     "desert": {
-      "locust": {
-        "name": "Саранча",
+      "scorpion": {
+        "name": "Скорпион",
         "description": "Обычная еда в пустыне",
         "points": 10
       },

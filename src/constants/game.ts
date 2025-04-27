@@ -6,7 +6,7 @@ import {
   Language,
   FoodName,
   FoodType,
-  FoodColors
+  FoodColors, SnakeStylesMap, SnakeStyle
 } from '@/types/game';
 
 export const DEFAULT_LANGUAGE: Language = 'en';
@@ -89,7 +89,7 @@ export const ENVIRONMENT_FOOD_MAPPING: Record<Environment, Record<string, string
     penalty: ['moldy_berry']
   },
   desert: {
-    common: ['locust'],
+    common: ['scorpion'],
     medium: ['beetle'],
     rare: ['egg'],
     special: ['cactus_flower'],
@@ -193,9 +193,9 @@ export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, {
     }
   },
   desert: {
-    locust: {
-      nameKey: 'food.desert.locust.name',
-      descriptionKey: 'food.desert.locust.description',
+    scorpion: {
+      nameKey: 'food.desert.scorpion.name',
+      descriptionKey: 'food.desert.scorpion.description',
       points: 10
     },
     beetle: {
@@ -250,59 +250,60 @@ export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, {
 
 export const FOOD_COLORS: FoodColors = {
   jungle: {
-    bug: '#8B4513',          // Коричневый (жук)
-    frog: '#7CFC00',         // Ярко-зеленый (лягушка)
-    bird: '#FFD700',         // Золотистый (птица)
-    pineapple: '#c9c75f',    // Желто-зеленый (ананас)
-    poison_berry: '#8A2BE2', // Фиолетовый (ядовитая ягода)
+    bug: '#5D4037',          // Тёмно-коричневый, цвет тропических жуков
+    frog: '#4CAF50',         // Естественный зелёный, как у тропических лягушек
+    bird: '#FF9800',         // Тёплый оранжевый, как у тропических птиц
+    pineapple: '#FFEB3B',    // Жёлтый, цвет спелого ананаса
+    poison_berry: '#E91E63', // Малиновый, цвет ядовитых тропических ягод
     // Типы по умолчанию
-    special: '#FF00FF',      // Пурпурный (особая еда)
-    penalty: '#FF0000',      // Красный (штрафная еда)
-    common: '#4CAF50'        // Зеленый (обычная еда)
+    special: '#9C27B0',      // Фиолетовый, цвет редких тропических цветов
+    penalty: '#F44336',      // Красный, предупреждающий об опасности
+    common: '#8BC34A'        // Светло-зелёный, цвет листвы джунглей
   },
   sea: {
-    shrimp: '#FFA07A',       // Светло-лососевый (креветка)
-    fish: '#87CEEB',         // Небесно-голубой (рыба)
-    starfish: '#FFA500',     // Оранжевый (морская звезда)
-    plankton: '#00FFFF',     // Бирюзовый (планктон)
-    jellyfish: '#EE82EE',    // Фиолетовый (медуза)
+    shrimp: '#FF7043',       // Терракотовый, настоящий цвет креветок
+    fish: '#039BE5',         // Морской синий, цвет океанических рыб
+    starfish: '#FF5722',     // Тёплый оранжево-красный, цвет морской звезды
+    plankton: '#81C784',     // Нежно-зелёный, цвет живого планктона
+    jellyfish: '#9575CD',    // Лавандовый, полупрозрачный цвет медуз
     // Типы по умолчанию
-    special: '#00BFFF',      // Голубой (особая еда)
-    penalty: '#DC143C',      // Малиновый (штрафная еда)
-    common: '#4CAF50'        // Зеленый (обычная еда)
+    special: '#26C6DA',      // Бирюзовый, цвет тропической лагуны
+    penalty: '#E53935',      // Коралловый красный, цвет опасных морских существ
+    common: '#4FC3F7'        // Голубой, цвет морской воды
   },
   forest: {
-    ant: '#A52A2A',          // Коричневый (муравей)
-    locust: '#D2691E',       // Шоколадный (саранча)
-    rabbit: '#805d5d',       // Серо-коричневый (кролик)
-    mushroom: '#D2B48C',     // Песочный (гриб)
-    moldy_berry: '#556B2F',  // Оливковый (плесневелая ягода)
+    ant: '#3E2723',          // Тёмно-коричневый, цвет лесных муравьёв
+    locust: '#827717',       // Оливково-коричневый, цвет лесной саранчи
+    rabbit: '#795548',       // Средний коричневый, цвет дикого кролика
+    mushroom: '#BCAAA4',     // Серо-бежевый, цвет лесных грибов
+    moldy_berry: '#C2185B',        // Бордовый, цвет лесных ягод
     // Типы по умолчанию
-    special: '#228B22',      // Лесной зеленый (особая еда)
-    penalty: '#B22222',      // Огненно-кирпичный (штрафная еда)
-    common: '#4CAF50'        // Зеленый (обычная еда)
+    special: '#558B2F',      // Глубокий зелёный, цвет хвойных деревьев
+    penalty: '#D32F2F',      // Яркий красный, цвет ядовитых лесных ягод
+    common: '#689F38'        // Лесной зелёный, цвет листвы лиственных деревьев
   },
   desert: {
-    locust: '#B8860B',       // Темно-золотистый (саранча)
-    beetle: '#2E8B57',       // Морской зеленый (жук)
-    egg: '#F4A460',          // Песочно-коричневый (яйцо)
-    cactus_flower: '#000000',// Черный (цветок кактуса)
-    thorn: '#CD853F',        // Перу (колючка)
+    scorpion: '#5D4037',     // Тёмно-коричневый, цвет пустынных скорпионов
+    beetle: '#795548',       // Коричневый, цвет пустынных жуков
+    egg: '#EFEBE9',          // Кремово-белый, цвет яиц пустынных рептилий
+    cactus_flower: '#EC407A', // Розовый, цвет цветков кактуса
+    thorn: '#8D6E63',        // Коричнево-серый, цвет сухих колючек
     // Типы по умолчанию
-    special: '#DAA520',      // Золотисто-буроватый (особая еда)
-    penalty: '#800000',      // Бордовый (штрафная еда)
-    common: '#4CAF50'        // Зеленый (обычная еда)
+    special: '#FFA000',      // Янтарный, цвет песчаных дюн на закате
+    penalty: '#6D4C41',      // Глубокий коричневый, цвет ядовитых пустынных насекомых
+    common: '#FFD54F'        // Песочно-жёлтый, цвет пустынного ландшафта
   },
+
   steppe: {
-    grasshopper: '#9ACD32',  // Желто-зеленый (кузнечик)
-    gopher: '#A0522D',       // Сиена (суслик)
-    mouse: '#FFFFF0',        // Кремовый (мышь)
-    golden_grass: '#6B8E23', // Оливково-зеленый (золотая трава)
-    bitter_seed: '#f5a353',  // (горькое семя)
+    grasshopper: '#7CB342',  // Светло-зелёный, цвет степных кузнечиков
+    gopher: '#8D6E63',       // Землистый коричневый, цвет меха суслика
+    mouse: '#9E9E9E',        // Натуральный серый, цвет полевых мышей
+    golden_grass: '#FDD835', // Золотисто-жёлтый, цвет высохшей степной травы
+    bitter_seed: '#A1887F',  // Серо-коричневый, цвет созревших степных семян
     // Типы по умолчанию
-    special: '#BDB76B',      // Темный хаки (особая еда)
-    penalty: '#8B0000',      // Темно-красный (штрафная еда)
-    common: '#4CAF50'        // Зеленый (обычная еда)
+    special: '#AFB42B',      // Желто-зелёный, цвет молодой степной растительности
+    penalty: '#6D4C41',      // Землисто-коричневый, цвет ядовитых степных растений
+    common: '#DCE775'        // Светло-золотистый, цвет степной травы
   }
 };
 
@@ -325,4 +326,19 @@ export const getFoodColor = (
 
   // Если не нашли по имени, используем тип
   return FOOD_COLORS[environment][foodType as keyof typeof FOOD_COLORS[typeof environment]] || FOOD_COLORS[environment].common;
+};
+
+export const SNAKE_STYLES: SnakeStylesMap = {
+  'tropical_green': { bg: '#32CD32', border: '#228B22' },
+  'red_sea': { bg: '#FF4500', border: '#B22222' },
+  'blue_green_sea': { bg: '#20B2AA', border: '#008B8B' },
+  'forest_boa': { bg: '#2E8B57', border: '#004d25' },
+  'rattlesnake': { bg: '#DAA520', border: '#B8860B' },
+  'striped_viper': { bg: '#D2B48C', border: '#8B4513' },
+  'mouse_hunter': { bg: '#CD853F', border: '#8B4513' },
+};
+
+// Функция для получения стиля по типу змеи
+export const getSnakeStyle = (snakeType: string): SnakeStyle => {
+  return SNAKE_STYLES[snakeType] || { bg: '#4CAF50', border: '#388E3C' };
 };

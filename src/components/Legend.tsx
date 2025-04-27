@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { FOOD_DESCRIPTIONS, getFoodColor } from '@/constants/game';
+import { FOOD_DESCRIPTIONS, getFoodColor, getSnakeStyle } from '@/constants/game';
 import styles from './Legend.module.css';
 import { useTranslation } from 'react-i18next';
 
@@ -29,20 +29,9 @@ const Legend: React.FC = () => {
     'mouse_hunter': 'steppe_adder'
   };
 
-  // Добавим более яркое и интересное представление змеи в легенде
   const renderSnakeHead = () => {
-    // Получаем цвет змеи из стилей GameBoard для соответствия с игровым полем
-    const SNAKE_STYLES = {
-      'tropical_green': { bg: '#32CD32', border: '#228B22' },
-      'red_sea': { bg: '#FF4500', border: '#B22222' },
-      'blue_green_sea': { bg: '#20B2AA', border: '#008B8B' },
-      'forest_boa': { bg: '#2E8B57', border: '#004d25' },
-      'rattlesnake': { bg: '#DAA520', border: '#B8860B' },
-      'striped_viper': { bg: '#D2B48C', border: '#8B4513' },
-      'mouse_hunter': { bg: '#CD853F', border: '#8B4513' },
-    };
-
-    const snakeStyle = SNAKE_STYLES[snakeType] || { bg: '#4CAF50', border: '#388E3C' };
+    // Используем функцию getSnakeStyle вместо локальной константы
+    const snakeStyle = getSnakeStyle(snakeType);
     const eyeColor = '#000';
 
     return (

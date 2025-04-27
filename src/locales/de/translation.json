@@ -306,8 +306,8 @@
       }
     },
     "desert": {
-      "locust": {
-        "name": "Heuschrecke",
+      "scorpion": {
+        "name": "Scorpion",
         "description": "Gewöhnliche Nahrung in der Wüste",
         "points": 10
       },

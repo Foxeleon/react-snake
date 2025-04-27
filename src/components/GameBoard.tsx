@@ -4,7 +4,7 @@ import { Position, Direction, Environment, Food } from '@/types/game';
 import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils/sound';
-import { getFoodColor } from '@/constants/game.ts';
+import { getFoodColor, getSnakeStyle } from '@/constants/game.ts';
 
 export const GameBoard = () => {
   const {
@@ -175,7 +175,7 @@ export const GameBoard = () => {
     const cellSize = 100 / gridSize;
 
     // Стратегия фиксированной ширины поля для разных размеров сетки
-    let cellStyles = {};
+    let cellStyles;
 
     switch(gridSize) {
       case 10: // mini
@@ -279,12 +279,35 @@ export const GameBoard = () => {
 
     // Отображение головы змеи
     if (isSnakeHead) {
-      return <div className={`${styles.snakeHead} ${styles[snakeType]}`} style={headStyle} />;
+      // Получаем стили из константы
+      const snakeStyle = getSnakeStyle(snakeType);
+
+      return (
+          <div
+              className={styles.snakeHead}
+              style={{
+                ...headStyle,
+                backgroundColor: snakeStyle.bg,
+                border: `3px solid ${snakeStyle.border}`
+              }}
+          />
+      );
     }
-    
+
     // Отображение тела змеи
     if (isSnakeBody) {
-      return <div className={`${styles.snakeBody} ${styles[snakeType]}`} />;
+      // Получаем стили из константы
+      const snakeStyle = getSnakeStyle(snakeType);
+
+      return (
+          <div
+              className={styles.snakeBody}
+              style={{
+                backgroundColor: snakeStyle.bg,
+                border: `3px solid ${snakeStyle.border}`
+              }}
+          />
+      );
     }
     
     // Отображение еды
