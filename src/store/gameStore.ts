@@ -387,6 +387,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         isPlaying: false,
         doublePointsActive: false,
         doublePointsEndTime: null,
+        pausedDoublePointsTimeLeft: null,
         settings: updatedSettings
       });
       

@@ -57,7 +57,7 @@ export const FOOD_SPAWN_PROBABILITIES = {
 };
 
 // Время действия эффекта удвоения очков (в миллисекундах)
-export const DOUBLE_POINTS_DURATION = 15000; // 15 секунд
+export const DOUBLE_POINTS_DURATION = 15250; // 15,25 секунд
 
 // Настройки начальной скорости игры
 export const INITIAL_SPEED = 200;
