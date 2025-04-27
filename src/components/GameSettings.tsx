@@ -135,7 +135,7 @@ export const GameSettings: React.FC = () => {
                 <option value="sea">{t('settings.environment.sea')}</option>
                 <option value="forest">{t('settings.environment.forest')}</option>
                 <option value="desert">{t('settings.environment.desert')}</option>
-                <option value="grassland">{t('settings.environment.grassland')}</option>
+                <option value="steppe">{t('settings.environment.grassland')}</option>
               </select>
             </div>
 
