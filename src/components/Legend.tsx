@@ -1,6 +1,12 @@
 import React from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { FOOD_DESCRIPTIONS, getFoodColor, getSnakeStyle, legendBackgrounds } from '@/constants/game';
+import {
+  darkLegendBgColors,
+  lightLegendBgColors,
+  FOOD_DESCRIPTIONS,
+  getFoodColor,
+  getSnakeStyle
+} from '@/constants/game';
 import styles from './Legend.module.css';
 import { useTranslation } from 'react-i18next';
 
@@ -9,8 +15,11 @@ const Legend: React.FC = () => {
   const { settings, toggleLegend } = useGameStore();
   const { environment, snakeType } = settings;
 
-    // Определяем фоновый цвет на основе окружения
-    const legendBgColor = legendBackgrounds[environment] || '#f5f5f5';
+// Выбираем набор цветов в зависимости от текущей темы
+  const bgColors = settings.theme === 'dark' ? darkLegendBgColors : lightLegendBgColors;
+
+// Определяем цвет фона на основе текущего окружения и темы
+  const legendBgColor = bgColors[environment] || (settings.theme === 'dark' ? '#1a1a1a' : '#f5f5f5');
 
   // Словарь для маппинга snakeType из констант на тип в описаниях
   const snakeTypeMapping: Record<string, string> = {

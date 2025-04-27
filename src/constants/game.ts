@@ -343,10 +343,19 @@ export const getSnakeStyle = (snakeType: string): SnakeStyle => {
   return SNAKE_STYLES[snakeType] || { bg: '#4CAF50', border: '#388E3C' };
 };
 
-export const legendBackgrounds = {
+export const lightLegendBgColors  = {
   'jungle': '#e8f5e9', // светло-зеленый для джунглей
   'sea': '#e3f2fd',    // светло-голубой для моря
   'forest': '#f1f8e9', // бледно-зеленый для леса
   'desert': '#fff8e1', // песочный для пустыни
   'steppe': '#f5f5f5'  // светло-серый для степи
+};
+
+// Определяем цвета для темной темы
+export const darkLegendBgColors = {
+  'jungle': '#1b3620',    // темно-зеленый для джунглей
+  'sea': '#0d253d',       // темно-синий для моря
+  'forest': '#1a2e0d',    // темно-зеленый для леса
+  'desert': '#3e2e0a',    // темно-песочный для пустыни
+  'steppe': '#2c2c2c'     // темно-серый для степи
 };
