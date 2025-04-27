@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { FOOD_DESCRIPTIONS, getFoodColor, getSnakeStyle } from '@/constants/game';
+import { FOOD_DESCRIPTIONS, getFoodColor, getSnakeStyle, legendBackgrounds } from '@/constants/game';
 import styles from './Legend.module.css';
 import { useTranslation } from 'react-i18next';
 
@@ -9,22 +9,21 @@ const Legend: React.FC = () => {
   const { settings, toggleLegend } = useGameStore();
   const { environment, snakeType } = settings;
 
+    // Определяем фоновый цвет на основе окружения
+    const legendBgColor = legendBackgrounds[environment] || '#f5f5f5';
+
   // Словарь для маппинга snakeType из констант на тип в описаниях
   const snakeTypeMapping: Record<string, string> = {
     // Джунгли
     'tropical_green': 'green_snake',
-
     // Море
     'red_sea': 'sea_snake',
     'blue_green_sea': 'eel',
-
     // Лес
     'forest_boa': 'forest_snake',
-
     // Пустыня
     'rattlesnake': 'sand_snake',
     'striped_viper': 'sidewinder',
-
     // Степь
     'mouse_hunter': 'steppe_adder'
   };
@@ -99,7 +98,7 @@ const Legend: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.foodInfo}>
+        <div className={styles.foodInfo} style={{ backgroundColor: legendBgColor }}>
           <h3>{t('legend.food')}</h3>
           <ul className={styles.foodList}>
             {Object.entries(foodDescriptions).map(([foodName, _]) => {

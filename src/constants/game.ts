@@ -342,3 +342,11 @@ export const SNAKE_STYLES: SnakeStylesMap = {
 export const getSnakeStyle = (snakeType: string): SnakeStyle => {
   return SNAKE_STYLES[snakeType] || { bg: '#4CAF50', border: '#388E3C' };
 };
+
+export const legendBackgrounds = {
+  'jungle': '#e8f5e9', // светло-зеленый для джунглей
+  'sea': '#e3f2fd',    // светло-голубой для моря
+  'forest': '#f1f8e9', // бледно-зеленый для леса
+  'desert': '#fff8e1', // песочный для пустыни
+  'steppe': '#f5f5f5'  // светло-серый для степи
+};
