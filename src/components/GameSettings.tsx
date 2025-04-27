@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import styles from './GameSettings.module.css';
-import { BoardSize, Environment, FieldSelectionMode, Language, SnakeType, Theme } from '@/types/game';
-import { ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/game';
+import { BoardSize, Environment, FieldSelectionMode, Language, SnakeType, Theme } from '@/types/gameTypes.ts';
+import { ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/gameConstants.ts';
 import { useTranslation } from 'react-i18next';
 
 export const GameSettings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { settings, updateSettings, toggleSettings, isPlaying } = useGameStore();
-
   const [isMobile] = useState(false);
 
   // Локальное состояние для формы
@@ -190,6 +189,7 @@ export const GameSettings: React.FC = () => {
               </select>
             </div>
 
+            {/* TODO fix sounds and show this setting
             <div className={styles.formGroup}>
               <label>
                 <input
@@ -201,6 +201,7 @@ export const GameSettings: React.FC = () => {
                 {t('settings.enableSound')}
               </label>
             </div>
+            */}
 
             {isMobile && (
                 <div className={styles.formGroup}>

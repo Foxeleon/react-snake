@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { Position, Direction, Environment, Food } from '@/types/game';
+import { Position, Direction, Environment, Food } from '@/types/gameTypes.ts';
 import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils/sound';
-import { getFoodColor, getSnakeStyle } from '@/constants/game.ts';
+import { getFoodColor, getSnakeStyle } from '@/constants/gameConstants.ts';
 
 export const GameBoard = () => {
   const {

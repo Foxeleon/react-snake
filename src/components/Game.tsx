@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { GameBoard } from './GameBoard';
 import { GameSettings } from './GameSettings';
 import { useGameStore } from '@/store/gameStore';
@@ -27,7 +27,8 @@ const Game: React.FC = () => {
     toggleLegend,
     doublePointsActive,
     doublePointsEndTime,
-    changeDirection
+    changeDirection,
+    pausedDoublePointsTimeLeft
   } = useGameStore();
 
   // Определяем, на мобильном ли устройстве
@@ -82,46 +83,40 @@ const Game: React.FC = () => {
     startGame();
   };
 
-  // Для расчета оставшегося времени удвоения очков, мемоизируем функцию
-  const getDoublePointsTimeLeft = useCallback((): number => {
-    if (!doublePointsActive || !doublePointsEndTime) return 0;
-
-    const now = Date.now();
-
-    // Корректируем расчет с учетом времени, проведенного на паузе
-    let adjustedEndTime = doublePointsEndTime + pauseTotalDurationRef.current;
-
-    // Если сейчас пауза, не учитываем текущее время паузы
-    if (isPaused && pauseStartTimeRef.current) {
-      const currentPauseDuration = now - pauseStartTimeRef.current;
-      adjustedEndTime += currentPauseDuration;
-    }
-
-    const timeLeft = Math.max(0, adjustedEndTime - now);
-    return Math.floor(timeLeft / 1000); // Используем floor вместо ceil для более точного отображения
-  }, [doublePointsActive, doublePointsEndTime, isPaused]);
-
   // Обновление таймера каждую секунду
   const [timeLeft, setTimeLeft] = useState<number>(0); // Инициализируем с 0
 
   useEffect(() => {
-    // Немедленно устанавливаем начальное значение
-    setTimeLeft(getDoublePointsTimeLeft());
+    let intervalId: number | null = null;
 
-    if (!doublePointsActive || isPaused) return;
+    // Добавляем проверку !isGameOver
+    if (doublePointsActive && doublePointsEndTime && !isPaused && !isGameOver) {
+      intervalId = window.setInterval(() => {
+        const currentTime = Date.now();
+        const timeLeft = doublePointsEndTime - currentTime;
 
-    const timerId = setInterval(() => {
-      const newTimeLeft = getDoublePointsTimeLeft();
-      setTimeLeft(newTimeLeft);
+        setTimeLeft(timeLeft > 0 ? Math.floor(timeLeft / 1000) : 0);
 
-      // Если время истекло, очищаем интервал
-      if (newTimeLeft <= 0) {
-        clearInterval(timerId);
+        if (timeLeft <= 0) {
+          clearInterval(intervalId!);
+          setTimeLeft(0);
+        }
+      }, 100);
+    } else if (isPaused && pausedDoublePointsTimeLeft !== null) {
+      setTimeLeft(Math.floor(pausedDoublePointsTimeLeft / 1000));
+      // Добавляем очистку таймера при окончании игры
+    } else if (isGameOver) {
+      setTimeLeft(0);
+    }
+
+    return () => {
+      if (intervalId !== null) {
+        clearInterval(intervalId);
       }
-    }, 100); // Обновляем чаще для более точного отображения
+    };
+  }, [doublePointsActive, doublePointsEndTime, isPaused, pausedDoublePointsTimeLeft, isGameOver]); // Добавляем isGameOver в зависимости
 
-    return () => clearInterval(timerId);
-  }, [doublePointsActive, getDoublePointsTimeLeft, isPaused]);
+
 
   // Определяем классы для фона в зависимости от темы и окружения
   const containerClasses = `${styles.gameContainer} ${styles[settings.environment]} ${settings.theme === 'dark' ? styles.dark : ''} ${isNative ? styles.gameContainerNative : ''}`;

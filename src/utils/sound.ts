@@ -1,4 +1,4 @@
-import { Environment, FoodType } from "@/types/game";
+import { Environment, FoodType } from "@/types/gameTypes.ts";
 import { useGameStore } from '@/store/gameStore';
 
 //TODO исправить и добавить звуки

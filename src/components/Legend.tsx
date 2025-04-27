@@ -6,7 +6,7 @@ import {
   FOOD_DESCRIPTIONS,
   getFoodColor,
   getSnakeStyle
-} from '@/constants/game';
+} from '@/constants/gameConstants.ts';
 import styles from './Legend.module.css';
 import { useTranslation } from 'react-i18next';
 

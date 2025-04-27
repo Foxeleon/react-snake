@@ -7,7 +7,7 @@ import {
   FoodName,
   FoodType,
   FoodColors, SnakeStylesMap, SnakeStyle
-} from '@/types/game';
+} from '@/types/gameTypes.ts';
 
 export const DEFAULT_LANGUAGE: Language = 'en';
 
@@ -52,12 +52,12 @@ export const FOOD_SPAWN_PROBABILITIES = {
   common: 0.6,   // 60% шанс обычной еды
   medium: 0.2,   // 20% шанс средней еды
   rare: 0.05,    // 5% шанс редкой еды
-  special: 0.1,  // 10% шанс особой еды
+  special: 0.75,  // 10% шанс особой еды
   penalty: 0.15  // 15% шанс штрафной еды
 };
 
 // Время действия эффекта удвоения очков (в миллисекундах)
-export const DOUBLE_POINTS_DURATION = 15000; // 15 секунд
+export const DOUBLE_POINTS_DURATION = 15250; // 15,25 секунд
 
 // Настройки начальной скорости игры
 export const INITIAL_SPEED = 200;
@@ -105,7 +105,6 @@ export const ENVIRONMENT_FOOD_MAPPING: Record<Environment, Record<string, string
 };
 
 // Описания пищи для разных окружений
-// constants/game.ts
 export const FOOD_DESCRIPTIONS: Record<Environment, Record<string, {
   nameKey: string;
   descriptionKey: string;

@@ -13,7 +13,7 @@ import {
   Position,
   SnakeType,
   Theme
-} from '@/types/game';
+} from '@/types/gameTypes.ts';
 import {
   DEFAULT_BOARD_SIZE,
   DEFAULT_ENVIRONMENT,
@@ -29,7 +29,7 @@ import {
   GRID_SIZES,
   INITIAL_SPEED,
   SPEED_INCREASE_RATE
-} from '@/constants/game';
+} from '@/constants/gameConstants.ts';
 import { addRecord, loadRecords, loadSettings, saveSettings } from '@/utils';
 import i18n from '@/i18n';
 
@@ -146,12 +146,11 @@ const DEFAULT_SETTINGS: GameSettings = {
   language: DEFAULT_LANGUAGE
 };
 
-// TODO fix it
-// @ts-ignore
 export const useGameStore = create<GameStore>((set, get) => {
   const savedSettings = loadSettings() || DEFAULT_SETTINGS;
   if (savedSettings.language) {
-    i18n.changeLanguage(savedSettings.language).then(() => {})
+    i18n.changeLanguage(savedSettings.language)
+        .catch(error => console.error("Error by language change:", error));
   }
   const savedRecords = loadRecords();
   
@@ -175,6 +174,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     isRecordsOpen: false,
     showLegend: false,
     isPaused: false,
+    pausedDoublePointsTimeLeft: null,
 
     // Методы для игровой логики
     startGame: () => {
@@ -387,6 +387,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         isPlaying: false,
         doublePointsActive: false,
         doublePointsEndTime: null,
+        pausedDoublePointsTimeLeft: null,
         settings: updatedSettings
       });
       
@@ -512,7 +513,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     }) => {
       const gridSize = GRID_SIZES[newSettings.boardSize];
       const foodExpirationTime = FOOD_EXPIRATION_TIMES[newSettings.boardSize];
-      
+
       // Проверяем, подходит ли выбранный тип змеи для выбранного окружения
       const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[newSettings.environment];
       let { snakeType } = newSettings;
@@ -520,7 +521,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         // Если тип змеи не подходит, выбираем первый доступный
         snakeType = availableSnakeTypes[0];
       }
-      
+
       // Обновляем настройки с правильным размером сетки, временем жизни еды и типом змеи
       const updatedSettings: GameSettings = {
         ...newSettings,
@@ -529,16 +530,15 @@ export const useGameStore = create<GameStore>((set, get) => {
         snakeType
       };
 
-      // Если язык изменился, применяем его
-      if (updatedSettings.language !== get().settings.language) {
-        i18n.changeLanguage(updatedSettings.language).then(() => {});
-      }
+      // Проверяем изменение языка
+      const currentLanguage = get().settings.language;
+      const newLanguage = updatedSettings.language;
 
       set(state => ({
         ...state,
         settings: updatedSettings
       }));
-      
+
       // Если игра не активна, пересоздаем змею с новым размером
       const { isPlaying } = get();
       if (!isPlaying) {
@@ -548,17 +548,48 @@ export const useGameStore = create<GameStore>((set, get) => {
           foods: [generateFood(initialSnake, gridSize, newSettings.environment)]
         });
       }
-      
+
       // Сохраняем настройки в localStorage
       saveSettings(updatedSettings);
+
+      // Если язык изменился, применяем его после сохранения настроек
+      if (newLanguage !== currentLanguage) {
+        i18n.changeLanguage(newLanguage)
+            .catch(error => console.error("Error by language change:", error));
+      }
     },
 
     pauseGame: () => {
-      set({ isPaused: true });
+      const { isPaused, doublePointsActive, doublePointsEndTime } = get();
+
+      if (!isPaused) {
+        // Сохраняем оставшееся время удвоения очков при паузе
+        if (doublePointsActive && doublePointsEndTime) {
+          const timeLeft = doublePointsEndTime - Date.now();
+          set({ isPaused: true, pausedDoublePointsTimeLeft: timeLeft > 0 ? timeLeft : null });
+        } else {
+          set({ isPaused: true });
+        }
+      }
     },
-    
+
     resumeGame: () => {
-      set({ isPaused: false });
+      const { isPaused, pausedDoublePointsTimeLeft, doublePointsActive } = get();
+
+      if (isPaused) {
+        // Восстанавливаем таймер удвоения очков после паузы
+        if (doublePointsActive && pausedDoublePointsTimeLeft && pausedDoublePointsTimeLeft > 0) {
+          const newEndTime = Date.now() + pausedDoublePointsTimeLeft;
+          set({
+            isPaused: false,
+
+            doublePointsEndTime: newEndTime,
+            pausedDoublePointsTimeLeft: null
+          });
+        } else {
+          set({ isPaused: false, pausedDoublePointsTimeLeft: null });
+        }
+      }
     },
 
     // Метод для установки случайного окружения
@@ -582,20 +613,24 @@ export const useGameStore = create<GameStore>((set, get) => {
       return randomEnvironment;
     },
 
-    // Добавляем метод для активации удвоения очков
     activateDoublePoints: () => {
+      const { isPaused } = get();
       const now = Date.now();
+
       set({
         doublePointsActive: true,
-        doublePointsEndTime: now + DOUBLE_POINTS_DURATION
+        doublePointsEndTime: now + DOUBLE_POINTS_DURATION,
+        // Если игра на паузе, сразу сохраняем полную длительность эффекта
+        pausedDoublePointsTimeLeft: isPaused ? DOUBLE_POINTS_DURATION : null
       });
     },
 
-    // Добавляем метод для деактивации удвоения очков
+// Изменяем метод деактивации удвоения очков
     deactivateDoublePoints: () => {
       set({
         doublePointsActive: false,
-        doublePointsEndTime: null
+        doublePointsEndTime: null,
+        pausedDoublePointsTimeLeft: null // Очищаем сохраненное время
       });
     },
 
@@ -619,10 +654,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     },
 
     setLanguage: (language: Language) => {
-      // Меняем язык в i18next
-      i18n.changeLanguage(language);
-
-      // Обновляем состояние
+      // Сначала обновляем состояние
       set(state => ({
         settings: {
           ...state.settings,
@@ -632,6 +664,9 @@ export const useGameStore = create<GameStore>((set, get) => {
 
       // Сохраняем настройки
       get().saveSettings();
+
+      i18n.changeLanguage(language)
+          .catch(error =>  console.error("Error by language change:", error));
     },
   };
 }); 

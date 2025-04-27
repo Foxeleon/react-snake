@@ -1,4 +1,4 @@
-import { Environment, Position, Direction } from "@/types/game";
+import { Environment, Position, Direction } from "@/types/gameTypes.ts";
 
 /**
  * Создает элемент с анимационным эффектом на игровом поле

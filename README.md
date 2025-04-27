@@ -78,7 +78,7 @@ src/
 ## 🔧 Customization
 
 You can customize the game by changing the values in the constants files:
-* `src/constants/game.ts` - main game parameters
+* `src/constants/gameConstants.ts` - main game parameters
 * `src/assets/` - replace sprites and backgrounds
 
 ## 🌐 Languages
@@ -180,7 +180,7 @@ src/
 ## 🔧 Кастомизация
 
 Вы можете настроить игру, изменив значения в файлах констант:
-* `src/constants/game.ts` - основные параметры игры
+* `src/constants/gameConstants.ts` - основные параметры игры
 * `src/assets/` - заменить спрайты и фоны
 
 ## 🌐 Языки
@@ -282,7 +282,7 @@ src/
 ## 🔧 Anpassung
 
 Du kannst das Spiel anpassen, indem du die Werte in den Konstantendateien änderst:
-* `src/constants/game.ts` - Hauptspielparameter
+* `src/constants/gameConstants.ts` - Hauptspielparameter
 * `src/assets/` - Sprites und Hintergründe ersetzen
 
 ## 🌐 Sprachen
