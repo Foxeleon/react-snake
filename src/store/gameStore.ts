@@ -174,6 +174,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     isRecordsOpen: false,
     showLegend: false,
     isPaused: false,
+    pausedDoublePointsTimeLeft: null,
 
     // Методы для игровой логики
     startGame: () => {
@@ -558,11 +559,36 @@ export const useGameStore = create<GameStore>((set, get) => {
     },
 
     pauseGame: () => {
-      set({ isPaused: true });
+      const { isPaused, doublePointsActive, doublePointsEndTime } = get();
+
+      if (!isPaused) {
+        // Сохраняем оставшееся время удвоения очков при паузе
+        if (doublePointsActive && doublePointsEndTime) {
+          const timeLeft = doublePointsEndTime - Date.now();
+          set({ isPaused: true, pausedDoublePointsTimeLeft: timeLeft > 0 ? timeLeft : null });
+        } else {
+          set({ isPaused: true });
+        }
+      }
     },
-    
+
     resumeGame: () => {
-      set({ isPaused: false });
+      const { isPaused, pausedDoublePointsTimeLeft, doublePointsActive } = get();
+
+      if (isPaused) {
+        // Восстанавливаем таймер удвоения очков после паузы
+        if (doublePointsActive && pausedDoublePointsTimeLeft && pausedDoublePointsTimeLeft > 0) {
+          const newEndTime = Date.now() + pausedDoublePointsTimeLeft;
+          set({
+            isPaused: false,
+
+            doublePointsEndTime: newEndTime,
+            pausedDoublePointsTimeLeft: null
+          });
+        } else {
+          set({ isPaused: false, pausedDoublePointsTimeLeft: null });
+        }
+      }
     },
 
     // Метод для установки случайного окружения
@@ -586,20 +612,24 @@ export const useGameStore = create<GameStore>((set, get) => {
       return randomEnvironment;
     },
 
-    // Добавляем метод для активации удвоения очков
     activateDoublePoints: () => {
+      const { isPaused } = get();
       const now = Date.now();
+
       set({
         doublePointsActive: true,
-        doublePointsEndTime: now + DOUBLE_POINTS_DURATION
+        doublePointsEndTime: now + DOUBLE_POINTS_DURATION,
+        // Если игра на паузе, сразу сохраняем полную длительность эффекта
+        pausedDoublePointsTimeLeft: isPaused ? DOUBLE_POINTS_DURATION : null
       });
     },
 
-    // Добавляем метод для деактивации удвоения очков
+// Изменяем метод деактивации удвоения очков
     deactivateDoublePoints: () => {
       set({
         doublePointsActive: false,
-        doublePointsEndTime: null
+        doublePointsEndTime: null,
+        pausedDoublePointsTimeLeft: null // Очищаем сохраненное время
       });
     },
 
