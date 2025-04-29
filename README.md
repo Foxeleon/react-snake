@@ -39,11 +39,11 @@ A modern version of the classic Snake game with 8-bit aesthetics, diverse enviro
 yarn
 
 3. Start the development project:
-   npm start
+   npm run dev
 # or
-yarn start
+yarn run dev
 
-4. Open http://localhost:3000 in your browser
+4. Open http://localhost:5173 in your browser
 
 ### Production Build
 npm run build
@@ -141,11 +141,11 @@ Created with ❤️ using React and TypeScript.
 yarn
 
 3. Запустите проект для разработки:
-   npm start
+   npm run dev
 # или
-yarn start
+yarn run dev
 
-4. Откройте http://localhost:3000 в вашем браузере
+4. Откройте http://localhost:5173 в вашем браузере
 
 ### Сборка для продакшн
 npm run build
@@ -243,11 +243,11 @@ Eine moderne Version des klassischen Spiels "Snake" mit 8-Bit-Ästhetik, verschi
 yarn
 
 3. Starte das Entwicklungsprojekt:
-   npm start
+   npm run dev
 # oder
-yarn start
+yarn run dev
 
-4. Öffne http://localhost:3000 in deinem Browser
+4. Öffne http://localhost:5173 in deinem Browser
 
 ### Produktionsbuild
 npm run build
