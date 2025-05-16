@@ -1,5 +1,6 @@
 import { Environment, Position } from '@/types/gameTypes.ts';
 
+// TODO canvas alternative for particles animation, not ready yet
 interface ParticleOptions {
   x: number;
   y: number;

@@ -20,7 +20,6 @@ A modern version of the classic Snake game with 8-bit aesthetics, diverse enviro
 * **Zustand** for state management
 * **CSS Modules** for styling
 * **Web Audio API** for generating 8-bit sound effects
-* **Canvas API** for particle effects
 * **i18next** for internationalization
 
 ## 🚀 Project Setup
@@ -122,7 +121,6 @@ Created with ❤️ using React and TypeScript.
 * **Zustand** для управления состоянием
 * **CSS Modules** для стилизации
 * **Web Audio API** для генерации 8-битных звуковых эффектов
-* **Canvas API** для эффектов частиц
 * **i18next** для интернационализации
 
 ## 🚀 Запуск проекта
@@ -224,7 +222,6 @@ Eine moderne Version des klassischen Spiels "Snake" mit 8-Bit-Ästhetik, verschi
 * **Zustand** für das Zustandsmanagement
 * **CSS Module** für das Styling
 * **Web Audio API** für die Erzeugung von 8-Bit-Soundeffekten
-* **Canvas API** für Partikeleffekte
 * **i18next** für die Internationalisierung
 
 ## 🚀 Projektaufbau
