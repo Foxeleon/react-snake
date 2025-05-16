@@ -146,7 +146,7 @@ const Game: React.FC = () => {
   return (
       <div className={containerClasses}>
         <div className={styles.header}>
-          <h1 className={styles.gameTitle}>🐍(β)</h1>
+          <h1 className={styles.gameTitle}>🐍{t('game.gameTitle')}</h1>
           <div className={styles.headerButtons}>
             <button onClick={toggleSettings} className={styles.iconButton} title={t('game.buttons.settings')}>
               ⚙️

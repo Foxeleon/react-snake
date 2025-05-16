@@ -10,6 +10,7 @@
     "restart": "Play Again",
     "gameOver": "Game Over!",
     "score": "Score: {{score}}",
+    "gameTitle": "Snake",
     "doublePoints": {
       "desktop": "DOUBLE POINTS! ({{seconds}}s)",
       "mobile": "x2 ({{seconds}}s)"

@@ -10,6 +10,7 @@
     "restart": "Играть снова",
     "gameOver": "Игра окончена!",
     "score": "Счет: {{score}}",
+    "gameTitle": "Змейка",
     "doublePoints": {
       "desktop": "ОЧКИ УДВОЕНЫ! ({{seconds}}с)",
       "mobile": "x2 ({{seconds}}с)"
