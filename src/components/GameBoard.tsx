@@ -65,6 +65,12 @@ export const GameBoard = () => {
     }
   }, [isGameOver, environment]);
 
+  useEffect(() => {
+    if (isPaused) {
+      playSound('game_paused', environment);
+    }
+  }, [isPaused, environment]);
+
   // Обработка изменения направления
   useEffect(() => {
     lastDirectionRef.current = direction;
@@ -73,6 +79,8 @@ export const GameBoard = () => {
   // Добавим обработку ввода с клавиатуры
   useEffect(() => {
     if (!isPlaying) return;
+
+    playSound('start_game', environment);
 
     const handleKeyPress = (event: KeyboardEvent) => {
       if (isPaused) return;
@@ -356,11 +364,7 @@ export const GameBoard = () => {
     if (snake.length > 0 && boardRef.current) {
       // Создаем анимационный эффект для текущей позиции головы змеи
       createSnakeAnimation(snake[0], environment);
-      
-      // Воспроизводим звук движения (с меньшей частотой, чтобы не перегружать звуком)
-      if (snake.length % 3 === 0) {
-        playSound('move', environment);
-      }
+      playSound('move', environment);
     }
   }, [snake, environment, gridSize, direction]);
 

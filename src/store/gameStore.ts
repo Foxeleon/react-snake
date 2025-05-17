@@ -140,7 +140,7 @@ const DEFAULT_SETTINGS: GameSettings = {
   snakeType: getDefaultSnakeType(DEFAULT_ENVIRONMENT),
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
-  soundEnabled: false,
+  soundEnabled: true,
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE,
   showMobileControls: true,
   language: DEFAULT_LANGUAGE
