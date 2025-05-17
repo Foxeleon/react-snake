@@ -25,6 +25,50 @@ export const initAudio = (): void => {
   }
 };
 
+const playTone = (
+    audioContext: AudioContext,
+    startFreq: number,
+    endFreq: number,
+    volume: number = 0.25,
+    duration: number = 0.8,
+    oscillatorType: OscillatorType = 'sine',
+    startTime: number = 0
+) => {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  // Connect nodes
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  // Configure oscillator
+  oscillator.type = oscillatorType;
+  oscillator.frequency.setValueAtTime(startFreq, audioContext.currentTime + startTime);
+  oscillator.frequency.exponentialRampToValueAtTime(
+      endFreq,
+      audioContext.currentTime + startTime + duration
+  );
+
+  // Configure smoother envelope
+  gainNode.gain.setValueAtTime(0.001, audioContext.currentTime + startTime);
+  // Smoother attack (0.05s)
+  gainNode.gain.exponentialRampToValueAtTime(
+      volume,
+      audioContext.currentTime + startTime + 0.05
+  );
+  // Longer, smoother release
+  gainNode.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime + startTime + duration
+  );
+
+  // Start and stop oscillator
+  oscillator.start(audioContext.currentTime + startTime);
+  oscillator.stop(audioContext.currentTime + startTime + duration);
+
+  return { oscillator, gainNode };
+};
+
 const playBeep = (
     audioContext: AudioContext,
     frequency: number,
@@ -197,47 +241,29 @@ export const playSound = (
     }
 
     case 'game_over': {
-      /* первый нисходящий синус */
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(1318.5, audioContext.currentTime); // E6
-      oscillator.frequency.exponentialRampToValueAtTime(
-          196, // G3
-          audioContext.currentTime + 0.8
+      // First tone: lower starting pitch, smooth sine wave
+      // Original: 1318.5Hz (E6) to 196Hz (G3)
+      // New: 880Hz (A5) to 146.8Hz (D3) - lower overall pitch
+      playTone(
+          audioContext,
+          880,    // A5 - lower starting frequency
+          146.8,  // D3 - lower ending frequency
+          0.25,   // volume
+          1.0     // slightly longer duration for more dramatic effect
       );
 
-      gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-          0.001,
-          audioContext.currentTime + 0.8
+      // Second tone: smoother sine wave instead of harsh square
+      // Original: square wave 659.25Hz (E5) to 98Hz (G2)
+      // New: sine wave 440Hz (A4) to 73.4Hz (D2) - smoother and lower
+      playTone(
+          audioContext,
+          440,    // A4 - lower starting frequency
+          73.4,   // D2 - lower ending frequency
+          0.2,    // slightly lower volume
+          1.1,    // slightly longer duration
+          'sine', // smoother sine wave instead of harsh square
+          0.08    // slight delay (80ms) after first tone starts
       );
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.8);
-
-      /* второе «квак» через 70 мс: квадрат */
-      setTimeout(() => {
-        if (!audioContext) return;
-        const o2 = audioContext.createOscillator();
-        const g2 = audioContext.createGain();
-        o2.connect(g2);
-        g2.connect(audioContext.destination);
-
-        o2.type = 'square';
-        o2.frequency.setValueAtTime(659.25, audioContext.currentTime); // E5
-        o2.frequency.exponentialRampToValueAtTime(
-            98,
-            audioContext.currentTime + 0.9
-        ); // G2
-
-        g2.gain.setValueAtTime(0.18, audioContext.currentTime);
-        g2.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioContext.currentTime + 0.9
-        );
-
-        o2.start();
-        o2.stop(audioContext.currentTime + 0.9);
-      }, 70);
       break;
     }
 
