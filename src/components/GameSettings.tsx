@@ -201,20 +201,6 @@ export const GameSettings: React.FC = () => {
               </label>
             </div>
 
-            {/* TODO fix sounds and show this setting
-            <div className={styles.formGroup}>
-              <label>
-                <input
-                    type="checkbox"
-                    name="soundEnabled"
-                    checked={formData.soundEnabled}
-                    onChange={handleChange}
-                />
-                {t('settings.enableSound')}
-              </label>
-            </div>
-            */}
-
             {isMobile && (
                 <div className={styles.formGroup}>
                   <label>
