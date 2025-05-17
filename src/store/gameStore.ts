@@ -582,7 +582,6 @@ export const useGameStore = create<GameStore>((set, get) => {
           const newEndTime = Date.now() + pausedDoublePointsTimeLeft;
           set({
             isPaused: false,
-
             doublePointsEndTime: newEndTime,
             pausedDoublePointsTimeLeft: null
           });

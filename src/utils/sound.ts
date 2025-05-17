@@ -109,23 +109,54 @@ export const playSound = (
       oscillator.stop(audioContext.currentTime + 0.4);
       break;
 
-    case 'start_game':
-      oscillator.type = 'square';
-      oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-      oscillator.frequency.exponentialRampToValueAtTime(
-          783.99,
-          audioContext.currentTime + 0.18
-      ); // G5
+    case 'start_game': {
+      /*
+        Короткая мелодия: C5 → E5 → G5 → C6   + завершающая нота G5
+        Каждый импульс 0.11 с, задержка 90 мс, волна square.
+      */
+      const melody = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+      melody.forEach((freq, idx) => {
+        setTimeout(() => {
+          if (!audioContext) return;
+          const o = audioContext.createOscillator();
+          const g = audioContext.createGain();
+          o.connect(g);
+          g.connect(audioContext.destination);
 
-      gainNode.gain.setValueAtTime(0.22, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-          0.001,
-          audioContext.currentTime + 0.18
-      );
+          o.type = 'square';
+          o.frequency.setValueAtTime(freq, audioContext.currentTime);
+          g.gain.setValueAtTime(0.24, audioContext.currentTime);
+          g.gain.exponentialRampToValueAtTime(
+              0.001,
+              audioContext.currentTime + 0.11
+          );
 
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.18);
+          o.start();
+          o.stop(audioContext.currentTime + 0.11);
+        }, idx * 90);
+      });
+
+      /* завершающая нота чуть длиннее */
+      setTimeout(() => {
+        if (!audioContext) return;
+        const oEnd = audioContext.createOscillator();
+        const gEnd = audioContext.createGain();
+        oEnd.connect(gEnd);
+        gEnd.connect(audioContext.destination);
+
+        oEnd.type = 'triangle';
+        oEnd.frequency.setValueAtTime(783.99, audioContext.currentTime); // G5
+        gEnd.gain.setValueAtTime(0.22, audioContext.currentTime);
+        gEnd.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.18
+        );
+
+        oEnd.start();
+        oEnd.stop(audioContext.currentTime + 0.18);
+      }, melody.length * 90);
       break;
+    }
 
     case 'game_over': {
       /* первый нисходящий синус */

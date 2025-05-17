@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { Position, Direction, Environment, Food } from '@/types/gameTypes.ts';
@@ -21,10 +22,14 @@ export const GameBoard = () => {
   } = useGameStore();
 
   const { gridSize, environment, theme, snakeType } = settings;
-  
+
   // Ref для доступа к DOM-элементу игрового поля
   const boardRef = useRef<HTMLDivElement>(null);
   const lastDirectionRef = useRef(direction);
+
+  // Ref для отслеживания предыдущего состояния игры
+  const wasPlayingRef = useRef(isPlaying);
+  const wasPausedRef = useRef(isPaused);
 
   // Инициализация анимаций
   useEffect(() => {
@@ -76,15 +81,30 @@ export const GameBoard = () => {
     lastDirectionRef.current = direction;
   }, [direction]);
 
+  // Отдельный эффект для отслеживания начала новой игры
+  useEffect(() => {
+    // Проверяем, что это именно начало новой игры, а не продолжение после паузы
+    const isNewGameStart = isPlaying &&
+        !wasPlayingRef.current &&
+        !wasPausedRef.current;
+
+    if (isNewGameStart) {
+      // Воспроизводим звук только при старте новой игры
+      playSound('start_game', environment);
+    }
+
+    // Обновляем ref перед следующим рендером
+    wasPlayingRef.current = isPlaying;
+    wasPausedRef.current = isPaused;
+  }, [isPlaying, isPaused, environment]);
+
   // Добавим обработку ввода с клавиатуры
   useEffect(() => {
     if (!isPlaying) return;
 
-    playSound('start_game', environment);
-
     const handleKeyPress = (event: KeyboardEvent) => {
       if (isPaused) return;
-      
+
       switch (event.key) {
         case 'ArrowUp':
           changeDirection('UP');
@@ -119,27 +139,27 @@ export const GameBoard = () => {
   // Обработка сенсорных жестов для мобильных устройств
   useEffect(() => {
     if (!boardRef.current) return;
-    
+
     let touchStartX = 0;
     let touchStartY = 0;
-    
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
     };
-    
+
     const handleTouchMove = (e: TouchEvent) => {
       if (!touchStartX || !touchStartY) return;
-      
+
       const touchEndX = e.touches[0].clientX;
       const touchEndY = e.touches[0].clientY;
-      
+
       const diffX = touchStartX - touchEndX;
       const diffY = touchStartY - touchEndY;
-      
+
       // Минимальное расстояние для обнаружения свайпа - уменьшаем чувствительность
       const minSwipeDistance = 20;
-      
+
       // Определяем направление свайпа
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
         // Горизонтальный свайп
@@ -160,15 +180,15 @@ export const GameBoard = () => {
           changeDirection('DOWN');
         }
       }
-      
+
       touchStartX = 0;
       touchStartY = 0;
     };
-    
+
     const board = boardRef.current;
     board.addEventListener('touchstart', handleTouchStart);
     board.addEventListener('touchmove', handleTouchMove);
-    
+
     return () => {
       board.removeEventListener('touchstart', handleTouchStart);
       board.removeEventListener('touchmove', handleTouchMove);
@@ -274,12 +294,12 @@ export const GameBoard = () => {
     const isSnakeHead = snake.length > 0 && snake[0].x === x && snake[0].y === y;
     const isSnakeBody = !isSnakeHead && snake.some((segment) => segment.x === x && segment.y === y);
     const isFood = foods.some(food => food.position.x === x && food.position.y === y);
-    
+
     // Если ячейка пустая
     if (!isSnakeHead && !isSnakeBody && !isFood) {
       return null;
     }
-    
+
     // Стили для вращения головы змеи
     const headStyle = {
       transform: `rotate(${getHeadRotationDegrees(direction)}deg)`
@@ -317,7 +337,7 @@ export const GameBoard = () => {
           />
       );
     }
-    
+
     // Отображение еды
     if (isFood) {
       const currentFood: Food | undefined = foods.find(food => food.position.x === x && food.position.y === y);
@@ -344,7 +364,7 @@ export const GameBoard = () => {
         }
       }
     }
-    
+
     return null;
   };
 
@@ -362,7 +382,6 @@ export const GameBoard = () => {
   // Обработка анимации движения змеи
   useEffect(() => {
     if (snake.length > 0 && boardRef.current) {
-      // Создаем анимационный эффект для текущей позиции головы змеи
       createSnakeAnimation(snake[0], environment);
       playSound('move', environment);
     }
@@ -373,7 +392,7 @@ export const GameBoard = () => {
     if (snake.length > 0 && foods.length > 0) {
       const head = snake[0];
       const eatenFood = foods.find(food => head.x === food.position.x && head.y === food.position.y);
-      
+
       if (eatenFood) {
         // Воспроизводим соответствующий звук
         if (eatenFood.type === 'special') {
@@ -390,13 +409,13 @@ export const GameBoard = () => {
   // Функция для создания анимации при движении змеи
   const createSnakeAnimation = (position: Position, environment: Environment) => {
     if (!boardRef.current) return;
-    
+
     createAnimationEffect(
-      environment,
-      position,
-      settings.gridSize,
-      boardRef.current,
-      direction // Передаем текущее направление движения змеи
+        environment,
+        position,
+        settings.gridSize,
+        boardRef.current,
+        direction // Передаем текущее направление движения змеи
     );
   };
 
@@ -411,7 +430,6 @@ export const GameBoard = () => {
         </div>
       </div>
   );
+};
 
-}; 
-
-export default GameBoard; 
+export default GameBoard;
