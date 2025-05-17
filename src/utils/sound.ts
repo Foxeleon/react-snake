@@ -11,7 +11,8 @@ export type SoundEffect =
     | 'level_up'
     | 'move'
     | 'start_game'
-    | 'game_paused';               // ← добавили
+    | 'game_paused'
+    | 'game_resumed';               // ← добавили
 
 /* ---------- AudioContext ---------- */
 let audioContext: AudioContext | null = null;
@@ -229,15 +230,24 @@ export const playSound = (
       break;
 
     case 'game_paused': {
+      // Smoother first beep with gentle attack
       oscillator.type = 'square';
       oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-      gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+
+      // Start at lower volume and quickly ramp up before decay
+      gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(
+          0.25,
+          audioContext.currentTime + 0.02
+      );
+      // Then fade out more gradually
       gainNode.gain.exponentialRampToValueAtTime(
           0.001,
-          audioContext.currentTime + 0.08
+          audioContext.currentTime + 0.12
       );
+
       oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.08);
+      oscillator.stop(audioContext.currentTime + 0.12);
 
       /* второй бип через 120 мс, чуть ниже тон */
       setTimeout(() => {
@@ -249,9 +259,49 @@ export const playSound = (
 
         o2.type = 'square';
         o2.frequency.setValueAtTime(660, audioContext.currentTime);
-        g2.gain.setValueAtTime(0.22, audioContext.currentTime);
+
+        // Similar smooth attack-decay pattern for second beep
+        g2.gain.setValueAtTime(0.001, audioContext.currentTime);
+        g2.gain.exponentialRampToValueAtTime(
+            0.22,
+            audioContext.currentTime + 0.02
+        );
         g2.gain.exponentialRampToValueAtTime(
             0.001,
+            audioContext.currentTime + 0.12
+        );
+
+        o2.start();
+        o2.stop(audioContext.currentTime + 0.12);
+      }, 120);
+      break;
+    }
+
+    case 'game_resumed': {
+      // First beep - lower tone going up (opposite of pause)
+      oscillator.type = 'square';
+      oscillator.frequency.setValueAtTime(660, audioContext.currentTime);
+      gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(
+          0.22,
+          audioContext.currentTime + 0.08
+      );
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.08);
+
+      /* второй бип через 120 мс, более высокий тон */
+      setTimeout(() => {
+        if (!audioContext) return;
+        const o2 = audioContext.createOscillator();
+        const g2 = audioContext.createGain();
+        o2.connect(g2);
+        g2.connect(audioContext.destination);
+
+        o2.type = 'square';
+        o2.frequency.setValueAtTime(880, audioContext.currentTime);
+        g2.gain.setValueAtTime(0.001, audioContext.currentTime);
+        g2.gain.exponentialRampToValueAtTime(
+            0.25,
             audioContext.currentTime + 0.08
         );
         o2.start();
