@@ -28,7 +28,7 @@ export const initAudio = (): void => {
 const playTone = (
     audioContext: AudioContext,
     startFreq: number,
-    endFreq: number,
+    endFreq: number | null = null,
     volume: number = 0.25,
     duration: number = 0.8,
     oscillatorType: OscillatorType = 'sine',
@@ -44,19 +44,22 @@ const playTone = (
   // Configure oscillator
   oscillator.type = oscillatorType;
   oscillator.frequency.setValueAtTime(startFreq, audioContext.currentTime + startTime);
-  oscillator.frequency.exponentialRampToValueAtTime(
-      endFreq,
-      audioContext.currentTime + startTime + duration
-  );
+
+  if (endFreq && endFreq !== startFreq) {
+    oscillator.frequency.exponentialRampToValueAtTime(
+        endFreq,
+        audioContext.currentTime + startTime + duration
+    );
+  }
 
   // Configure smoother envelope
   gainNode.gain.setValueAtTime(0.001, audioContext.currentTime + startTime);
-  // Smoother attack (0.05s)
+  // Smoother attack (0.03s)
   gainNode.gain.exponentialRampToValueAtTime(
       volume,
-      audioContext.currentTime + startTime + 0.05
+      audioContext.currentTime + startTime + Math.min(duration * 0.3, 0.03)
   );
-  // Longer, smoother release
+  // Smooth release
   gainNode.gain.exponentialRampToValueAtTime(
       0.001,
       audioContext.currentTime + startTime + duration
@@ -193,50 +196,40 @@ export const playSound = (
 
     case 'start_game': {
       /*
-        Короткая мелодия: C5 → E5 → G5 → C6 + завершающая нота G5
-        Каждый импульс 0.11 с, задержка 90 мс, волна square.
+        Smoother, lower melody: G4 → B4 → D5 → G5 + final note D5
+        Using sine waves instead of square, with slight overlap for smoother transitions
+        Each note slightly longer (0.15s) with smoother envelopes
       */
-      const melody = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
-      melody.forEach((freq, idx) => {
-        setTimeout(() => {
-          if (!audioContext) return;
-          const o = audioContext.createOscillator();
-          const g = audioContext.createGain();
-          o.connect(g);
-          g.connect(audioContext.destination);
+      const melody = [
+        { note: 392.00, type: 'sine', duration: 0.15 }, // G4 (instead of C5)
+        { note: 493.88, type: 'sine', duration: 0.15 }, // B4 (instead of E5)
+        { note: 587.33, type: 'sine', duration: 0.15 }, // D5 (instead of G5)
+        { note: 783.99, type: 'sine', duration: 0.15 }, // G5 (instead of C6)
+      ];
 
-          o.type = 'square';
-          o.frequency.setValueAtTime(freq, audioContext.currentTime);
-          g.gain.setValueAtTime(0.24, audioContext.currentTime);
-          g.gain.exponentialRampToValueAtTime(
-              0.001,
-              audioContext.currentTime + 0.11
-          );
-
-          o.start();
-          o.stop(audioContext.currentTime + 0.11);
-        }, idx * 90);
+      // Play each note with a small overlap for smooth transition
+      melody.forEach((item, idx) => {
+        playTone(
+            audioContext!,
+            item.note,
+            null,         // No pitch bend within notes
+            0.22,         // Slightly lower volume
+            item.duration,
+            item.type as OscillatorType,
+            idx * 0.12    // Slight overlap between notes (120ms spacing instead of 90ms)
+        );
       });
 
-      /* завершающая нота чуть длиннее */
-      setTimeout(() => {
-        if (!audioContext) return;
-        const oEnd = audioContext.createOscillator();
-        const gEnd = audioContext.createGain();
-        oEnd.connect(gEnd);
-        gEnd.connect(audioContext.destination);
-
-        oEnd.type = 'triangle';
-        oEnd.frequency.setValueAtTime(783.99, audioContext.currentTime); // G5
-        gEnd.gain.setValueAtTime(0.22, audioContext.currentTime);
-        gEnd.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioContext.currentTime + 0.18
-        );
-
-        oEnd.start();
-        oEnd.stop(audioContext.currentTime + 0.18);
-      }, melody.length * 90);
+      // Final note is longer and uses sine with slight pitch bend down
+      playTone(
+          audioContext,
+          587.33,        // D5 (instead of G5)
+          554.37,        // Slight bend down to C#5 for resolution
+          0.20,          // Slightly lower volume
+          0.25,          // Longer final note
+          'sine',        // Smoother sine wave instead of triangle
+          melody.length * 0.12  // Start after the melody finishes
+      );
       break;
     }
 
