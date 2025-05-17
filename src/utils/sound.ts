@@ -143,7 +143,7 @@ export const playSound = (
       const startFreq = freqMap[foodType];
       const endFreq = startFreq * 1.5;
       const duration = foodType === 'rare' ? 0.4 : 0.3;
-      const volume = foodType === 'penalty' ? 0.18 : 0.22;
+      const volume = 0.22;
 
       playTone(
           audioContext,
@@ -151,7 +151,7 @@ export const playSound = (
           endFreq,
           volume,
           duration,
-          foodType === 'penalty' ? 'sawtooth' : 'square'
+          'square'
       );
       break;
     }
