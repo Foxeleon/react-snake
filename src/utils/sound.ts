@@ -229,27 +229,29 @@ export const playSound = (
       });
       break;
 
+
     case 'game_paused': {
-      // Smoother first beep with gentle attack
-      oscillator.type = 'square';
-      oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+      // Using sine wave for smoother tone
+      oscillator.type = 'sine';
+      // Lower initial frequency to avoid piercing sound
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
 
       // Start at lower volume and quickly ramp up before decay
       gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(
-          0.25,
-          audioContext.currentTime + 0.02
+          0.3,
+          audioContext.currentTime + 0.03
       );
-      // Then fade out more gradually
+      // Then fade out gradually
       gainNode.gain.exponentialRampToValueAtTime(
           0.001,
-          audioContext.currentTime + 0.12
+          audioContext.currentTime + 0.15
       );
 
       oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.12);
+      oscillator.stop(audioContext.currentTime + 0.15);
 
-      /* второй бип через 120 мс, чуть ниже тон */
+      /* второй бип через 120 мс, ещё ниже тон */
       setTimeout(() => {
         if (!audioContext) return;
         const o2 = audioContext.createOscillator();
@@ -257,39 +259,53 @@ export const playSound = (
         o2.connect(g2);
         g2.connect(audioContext.destination);
 
-        o2.type = 'square';
-        o2.frequency.setValueAtTime(660, audioContext.currentTime);
+        // Also using sine wave for second beep
+        o2.type = 'sine';
+        // Lower second frequency
+        o2.frequency.setValueAtTime(330, audioContext.currentTime);
 
         // Similar smooth attack-decay pattern for second beep
         g2.gain.setValueAtTime(0.001, audioContext.currentTime);
         g2.gain.exponentialRampToValueAtTime(
-            0.22,
-            audioContext.currentTime + 0.02
+            0.25,
+            audioContext.currentTime + 0.03
         );
         g2.gain.exponentialRampToValueAtTime(
             0.001,
-            audioContext.currentTime + 0.12
+            audioContext.currentTime + 0.15
         );
 
         o2.start();
-        o2.stop(audioContext.currentTime + 0.12);
+        o2.stop(audioContext.currentTime + 0.15);
       }, 120);
       break;
     }
 
+
+
+
     case 'game_resumed': {
-      // First beep - lower tone going up (opposite of pause)
-      oscillator.type = 'square';
-      oscillator.frequency.setValueAtTime(660, audioContext.currentTime);
+      // Using sine wave for smoother tone
+      oscillator.type = 'sine';
+      // Start with lower frequency (opposite pattern of pause)
+      oscillator.frequency.setValueAtTime(330, audioContext.currentTime);
+
+      // Start at lower volume and quickly ramp up before decay
       gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(
-          0.22,
-          audioContext.currentTime + 0.08
+          0.3,
+          audioContext.currentTime + 0.03
       );
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.08);
+      // Then fade out gradually
+      gainNode.gain.exponentialRampToValueAtTime(
+          0.001,
+          audioContext.currentTime + 0.15
+      );
 
-      /* второй бип через 120 мс, более высокий тон */
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.15);
+
+      /* второй бип через 120 мс, с более высоким тоном */
       setTimeout(() => {
         if (!audioContext) return;
         const o2 = audioContext.createOscillator();
@@ -297,18 +313,29 @@ export const playSound = (
         o2.connect(g2);
         g2.connect(audioContext.destination);
 
-        o2.type = 'square';
-        o2.frequency.setValueAtTime(880, audioContext.currentTime);
+        // Also using sine wave for second beep
+        o2.type = 'sine';
+        // Higher second frequency (opposite of pause pattern)
+        o2.frequency.setValueAtTime(440, audioContext.currentTime);
+
+        // Similar smooth attack-decay pattern for second beep
         g2.gain.setValueAtTime(0.001, audioContext.currentTime);
         g2.gain.exponentialRampToValueAtTime(
             0.25,
-            audioContext.currentTime + 0.08
+            audioContext.currentTime + 0.03
         );
+        g2.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.15
+        );
+
         o2.start();
-        o2.stop(audioContext.currentTime + 0.08);
+        o2.stop(audioContext.currentTime + 0.15);
       }, 120);
       break;
     }
+
+
 
       /* ======== ДВИЖЕНИЕ (короткий тихий писк) ======== */
     case 'move':
