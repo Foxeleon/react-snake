@@ -30,7 +30,7 @@ import {
   INITIAL_SPEED,
   SPEED_INCREASE_RATE
 } from '@/constants/gameConstants.ts';
-import { addRecord, loadRecords, loadSettings, saveSettings } from '@/utils';
+import { addRecord, loadRecords, loadSettings, playSound, saveSettings } from '@/utils';
 import i18n from '@/i18n';
 
 // Вспомогательные функции и константы для логики игры
@@ -184,6 +184,8 @@ export const useGameStore = create<GameStore>((set, get) => {
       // В режиме sequential окружение уже выбрано в resetGame
       let environment = settings.environment;
       let snakeType = settings.snakeType;
+
+      playSound('start_game', environment);
       
       // Обрабатываем только random режим
       if (settings.fieldSelectionMode === 'random') {

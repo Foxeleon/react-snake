@@ -28,7 +28,6 @@ export const GameBoard = () => {
   const lastDirectionRef = useRef(direction);
 
   // Ref для отслеживания предыдущего состояния игры
-  const wasPlayingRef = useRef(isPlaying);
   const wasPausedRef = useRef(isPaused);
 
   // Инициализация анимаций
@@ -77,21 +76,11 @@ export const GameBoard = () => {
 
   // Отдельный эффект для отслеживания начала новой игры
   useEffect(() => {
-    // Проверяем, что это именно начало новой игры, а не продолжение после паузы
-    const isNewGameStart = isPlaying &&
-        !wasPlayingRef.current &&
-        !wasPausedRef.current;
-
     // Сохраняем предыдущее состояние паузы перед обновлением
     const wasPaused = wasPausedRef.current;
 
     // Обновляем текущее состояние
     wasPausedRef.current = isPaused;
-
-    if (isNewGameStart) {
-      // Воспроизводим звук только при старте новой игры
-      playSound('start_game', environment);
-    }
 
     if (isPaused) {
       // Если игра на паузе - проигрываем звук паузы
@@ -103,26 +92,8 @@ export const GameBoard = () => {
     }
 
     // Обновляем ref перед следующим рендером
-    wasPlayingRef.current = isPlaying;
     wasPausedRef.current = isPaused;
   }, [isPlaying, isPaused, environment]);
-
-  useEffect(() => {
-    // Сохраняем предыдущее состояние паузы перед обновлением
-    const wasPaused = wasPausedRef.current;
-
-    // Обновляем текущее состояние
-    wasPausedRef.current = isPaused;
-
-    if (isPaused) {
-      // Если игра на паузе - проигрываем звук паузы
-      playSound('game_paused', environment);
-    } else if (wasPaused && isPlaying) {
-      // Если игра была на паузе, а теперь уже нет, и при этом игра активна
-      // проигрываем звук возобновления
-      playSound('game_resumed', environment);
-    }
-  }, [isPaused, isPlaying, environment]);
 
   // Добавим обработку ввода с клавиатуры
   useEffect(() => {

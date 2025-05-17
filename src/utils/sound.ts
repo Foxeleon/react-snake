@@ -149,7 +149,7 @@ export const playSound = (
 
     case 'start_game': {
       /*
-        Короткая мелодия: C5 → E5 → G5 → C6   + завершающая нота G5
+        Короткая мелодия: C5 → E5 → G5 → C6 + завершающая нота G5
         Каждый импульс 0.11 с, задержка 90 мс, волна square.
       */
       const melody = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
@@ -241,7 +241,6 @@ export const playSound = (
       break;
     }
 
-      /* ======== ПОВЫШЕНИЕ УРОВНЯ ======== */
     case 'level_up':
       [330, 392, 494, 587, 659, 784, 880].forEach((f, idx) => {
         setTimeout(() => {
@@ -283,9 +282,6 @@ export const playSound = (
       break;
     }
 
-
-
-      /* ======== ДВИЖЕНИЕ (короткий тихий писк) ======== */
     case 'move':
       oscillator.type = 'sine';
       const envFreq: Record<Environment, number> = {
