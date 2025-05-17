@@ -313,28 +313,53 @@ export const playSound = (
       break;
     }
 
+
     case 'move':
-      oscillator.type = 'sine';
+      const mainOsc = audioContext.createOscillator();
+      const modulatorOsc = audioContext.createOscillator();
+      const modulatorGain = audioContext.createGain();
+
+      // Connect modulator to main oscillator frequency
+      modulatorOsc.connect(modulatorGain);
+      modulatorGain.connect(mainOsc.frequency);
+      mainOsc.connect(gainNode);
+
+      // Soft bubble-like sound with sine wave
+      mainOsc.type = 'sine';
+      modulatorOsc.type = 'sine';
+
+      // Environment-specific base frequencies (gentle mid-range)
       const envFreq: Record<Environment, number> = {
-        jungle: 220,
-        sea: 165,
-        forest: 196,
-        desert: 233,
-        steppe: 175
+        jungle: 180,
+        sea: 140,
+        forest: 160,
+        desert: 190,
+        steppe: 150
       };
-      oscillator.frequency.setValueAtTime(
-          envFreq[environment] ?? 200,
-          audioContext.currentTime
-      );
 
-      gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioContext.currentTime + 0.1
-      );
+      const baseFreq = envFreq[environment] ?? 160;
 
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.1);
+      // Set main tone
+      mainOsc.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+
+      // Set up frequency modulation (subtle bubbling effect)
+      modulatorOsc.frequency.setValueAtTime(8, audioContext.currentTime);
+      modulatorGain.gain.setValueAtTime(10, audioContext.currentTime);
+
+      // Very soft attack
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.025, audioContext.currentTime + 0.02);
+
+      // Gentle decay with slight pitch rise for 'pop' feeling
+      mainOsc.frequency.linearRampToValueAtTime(baseFreq * 1.2, audioContext.currentTime + 0.12);
+      gainNode.gain.setValueAtTime(0.025, audioContext.currentTime + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
+
+      // Start and stop both oscillators
+      mainOsc.start();
+      modulatorOsc.start();
+      mainOsc.stop(audioContext.currentTime + 0.12);
+      modulatorOsc.stop(audioContext.currentTime + 0.12);
       break;
   }
 };
