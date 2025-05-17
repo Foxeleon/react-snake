@@ -4,7 +4,7 @@ import { useGameStore } from '@/store/gameStore';
 import { Position, Direction, Environment, Food } from '@/types/gameTypes.ts';
 import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
-import { playSound } from '@/utils/sound';
+import { playSound } from '@/utils';
 import { getFoodColor, getSnakeStyle } from '@/constants/gameConstants.ts';
 
 export const GameBoard = () => {
@@ -383,25 +383,6 @@ export const GameBoard = () => {
       playSound('move', environment);
     }
   }, [snake, environment, gridSize, direction]);
-
-  // Обработка поедания еды
-  useEffect(() => {
-    if (snake.length > 0 && foods.length > 0) {
-      const head = snake[0];
-      const eatenFood = foods.find(food => head.x === food.position.x && head.y === food.position.y);
-
-      if (eatenFood) {
-        // Воспроизводим соответствующий звук
-        if (eatenFood.type === 'special') {
-          playSound('eat_special', environment);
-        } else if (eatenFood.type === 'penalty') {
-          playSound('penalty', environment);
-        } else {
-          playSound('eat', environment, eatenFood.type);
-        }
-      }
-    }
-  }, [snake, foods, environment]);
 
   // Функция для создания анимации при движении змеи
   const createSnakeAnimation = (position: Position, environment: Environment) => {

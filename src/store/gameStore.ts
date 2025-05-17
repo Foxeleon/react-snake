@@ -186,7 +186,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       let snakeType = settings.snakeType;
 
       playSound('start_game', environment);
-      
+
       // Обрабатываем только random режим
       if (settings.fieldSelectionMode === 'random') {
         // Случайный выбор окружения
@@ -637,8 +637,21 @@ export const useGameStore = create<GameStore>((set, get) => {
 
     // Обновляем метод обработки столкновения с едой
     handleFoodCollision: (food: Food) => {
-      const { score, doublePointsActive } = get();
+      const { score, doublePointsActive, settings } = get();
       let newScore = score;
+      const environment = settings.environment;
+
+      try {
+        if (food.type === 'special') {
+          playSound('eat_special', environment);
+        } else if (food.type === 'penalty') {
+          playSound('penalty', environment);
+        } else {
+          playSound('eat', environment, food.type);
+        }
+      } catch (error) {
+        console.error('Error playing sound in GameStore, handleFoodCollision():', error);
+      }
 
       // Обрабатываем очки в зависимости от типа еды
       if (food.type === 'special') {

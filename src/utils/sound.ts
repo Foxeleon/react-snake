@@ -130,6 +130,8 @@ export const playSound = (
 
   switch (effect) {
     case 'eat': {
+      if (!foodType) return;
+
       const freqMap: Record<FoodType, number> = {
         common: 330,
         medium: 440,
@@ -137,62 +139,72 @@ export const playSound = (
         penalty: 220,
         special: 660
       };
-      const startF = foodType ? freqMap[foodType] : 440;
+
+      const startFreq = freqMap[foodType];
+      const endFreq = startFreq * 1.5;
       const duration = foodType === 'rare' ? 0.4 : 0.3;
+      const volume = foodType === 'penalty' ? 0.18 : 0.22;
 
-      oscillator.type = foodType === 'penalty' ? 'sawtooth' : 'square';
-      oscillator.frequency.setValueAtTime(startF, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(
-          startF * 2,
-          audioContext.currentTime + 0.1
+      playTone(
+          audioContext,
+          startFreq,
+          endFreq,
+          volume,
+          duration,
+          foodType === 'penalty' ? 'sawtooth' : 'square'
       );
-
-      gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioContext.currentTime + duration
-      );
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + duration);
       break;
     }
 
-    case 'eat_special':
-      oscillator.type = 'triangle';
-      oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(
-          1760,
-          audioContext.currentTime + 0.25
+    case 'eat_special': {
+      // Create a more distinctive sound with multiple harmonics
+      // Main tone - higher pitch with nice sweep
+      playTone(
+          audioContext,
+          880,        // Starting at A5
+          1760,       // Up to A6
+          0.2,        // Moderate volume
+          0.3,        // Main sound duration
+          'triangle'  // Smoother triangle wave
       );
 
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioContext.currentTime + 0.5
+      // Secondary tone with slight delay for richer sound
+      playTone(
+          audioContext,
+          660,        // Starting at E5
+          1320,       // Up to E6
+          0.15,       // Lower volume for secondary tone
+          0.25,       // Slightly shorter duration
+          'sine',     // Smoother sine wave
+          0.05        // Slight delay after first tone
       );
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.5);
       break;
+    }
 
-    case 'penalty':
-      oscillator.type = 'sawtooth';
-      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(
-          110,
-          audioContext.currentTime + 0.3
+    case 'penalty': {
+      // Create a more distinctive error sound with two tones
+      // First tone - high to low sweep
+      playTone(
+          audioContext,
+          440,        // Starting at A4
+          110,        // Down to A2
+          0.2,        // Volume
+          0.3,        // Duration
+          'sawtooth'  // Harsh sawtooth for error sound
       );
 
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioContext.currentTime + 0.4
+      // Secondary tone with slight delay for more impactful effect
+      playTone(
+          audioContext,
+          330,        // Starting at E4
+          82.5,       // Down to E2
+          0.15,       // Lower volume for secondary tone
+          0.35,       // Slightly longer duration
+          'sawtooth', // Keep the harsh sawtooth
+          0.08        // Slight delay after first tone
       );
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.4);
       break;
+    }
 
     case 'start_game': {
       /*
