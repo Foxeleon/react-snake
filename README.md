@@ -9,7 +9,7 @@ A modern version of the classic Snake game with 8-bit aesthetics, diverse enviro
 * **7 types of snakes** with different visual styles adapted to the environment
 * **Various food types** with different values and effects (common, medium, rare, special, and penalty)
 * **Special effects** - double points, penalties, and sound effects
-* **Leaderboard** with saved results
+* **Enhanced sound effects**: for actions like eating, movement, and penalties.
 * **Game settings** - theme selection, environment, game field size, and player name
 * **Adaptive design** for mobile devices with touch controls
 * **Multilingual support** - play the game in your preferred language
@@ -59,14 +59,14 @@ yarn build
 * **Game field sizes**: mini (10x10), small (15x15), medium (20x20), large (25x25), giant (30x30)
 * **Themes**: light and dark
 * **Environments**, each with its own:
-  * Unique backgrounds
-  * Snake types
-  * Food types and their effects
+    * Unique backgrounds
+    * Snake types
+    * Food types and their effects
 
 ## 🧩 Project Structure
 
 src/
-├── assets/          # Game assets (backgrounds, sprites)
+├── assets/          # Game assets (backgrounds, sprites; in Development)
 ├── components/      # React components
 ├── constants/       # Constants and configurations
 ├── store/           # Zustand state stores
@@ -110,7 +110,7 @@ Created with ❤️ using React and TypeScript.
 * **7 типов змей** с различными визуальными стилями, адаптированными под окружение
 * **Разнообразная еда** с разной ценностью и эффектами (обычная, средняя, редкая, особая и штрафная)
 * **Специальные эффекты** - удвоение очков, штрафы и звуковые эффекты
-* **Таблица рекордов** с сохранением результатов
+* **Обновленные звуковые эффекты**: для таких действий, как еда, движение и штрафы.
 * **Настройки игры** - выбор темы, окружения, размера игрового поля и имени игрока
 * **Адаптивный дизайн** для мобильных устройств с сенсорным управлением
 * **Поддержка мультиязычности** - играйте на предпочитаемом языке
@@ -160,14 +160,14 @@ yarn build
 * **Размеры игрового поля**: mini (10x10), small (15x15), medium (20x20), large (25x25), giant (30x30)
 * **Темы**: светлая и темная
 * **Окружения**, каждое со своими:
-  * Уникальными фонами
-  * Видами змей
-  * Типами еды и их эффектами
+    * Уникальными фонами
+    * Видами змей
+    * Типами еды и их эффектами
 
 ## 🧩 Структура проекта
 
 src/
-├── assets/          # Ассеты игры (фоны, спрайты)
+├── assets/          # Ассеты игры (фоны, спрайты; в разработке)
 ├── components/      # Компоненты React
 ├── constants/       # Константы и конфигурации
 ├── store/           # Хранилища состояния Zustand
@@ -211,7 +211,7 @@ Eine moderne Version des klassischen Spiels "Snake" mit 8-Bit-Ästhetik, verschi
 * **7 Arten von Schlangen** mit unterschiedlichen visuellen Stilen, die an die Umgebung angepasst sind
 * **Verschiedene Nahrungsarten** mit unterschiedlichen Werten und Effekten (gewöhnlich, mittel, selten, speziell und Strafe)
 * **Spezialeffekte** - doppelte Punkte, Strafen und Soundeffekte
-* **Bestenliste** mit gespeicherten Ergebnissen
+* **Verbesserte Soundeffekte**: für Aktionen wie Essen, Bewegung und Strafen.
 * **Spieleinstellungen** - Themenauswahl, Umgebung, Spielfeldgröße und Spielername
 * **Adaptives Design** für mobile Geräte mit Touch-Steuerung
 * **Mehrsprachige Unterstützung** - Spiele in deiner bevorzugten Sprache
@@ -261,14 +261,14 @@ yarn build
 * **Spielfeldgrößen**: mini (10x10), small (15x15), medium (20x20), large (25x25), giant (30x30)
 * **Themen**: hell und dunkel
 * **Umgebungen**, jede mit ihren eigenen:
-  * Einzigartigen Hintergründen
-  * Schlangenarten
-  * Nahrungsarten und deren Effekten
+    * Einzigartigen Hintergründen
+    * Schlangenarten
+    * Nahrungsarten und deren Effekten
 
 ## 🧩 Projektstruktur
 
 src/
-├── assets/          # Spielassets (Hintergründe, Sprites)
+├── assets/          # Spielassets (Hintergründe, Sprites; in Entwicklung)
 ├── components/      # React-Komponenten
 ├── constants/       # Konstanten und Konfigurationen
 ├── store/           # Zustand-Zustandsspeicher
