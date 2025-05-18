@@ -30,7 +30,7 @@ import {
   INITIAL_SPEED,
   SPEED_INCREASE_RATE
 } from '@/constants/gameConstants.ts';
-import { addRecord, loadRecords, loadSettings, saveSettings } from '@/utils';
+import { addRecord, loadRecords, loadSettings, playSound, saveSettings } from '@/utils';
 import i18n from '@/i18n';
 
 // Вспомогательные функции и константы для логики игры
@@ -140,7 +140,7 @@ const DEFAULT_SETTINGS: GameSettings = {
   snakeType: getDefaultSnakeType(DEFAULT_ENVIRONMENT),
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
-  soundEnabled: false,
+  soundEnabled: true,
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE,
   showMobileControls: true,
   language: DEFAULT_LANGUAGE
@@ -184,7 +184,9 @@ export const useGameStore = create<GameStore>((set, get) => {
       // В режиме sequential окружение уже выбрано в resetGame
       let environment = settings.environment;
       let snakeType = settings.snakeType;
-      
+
+      playSound('start_game', environment);
+
       // Обрабатываем только random режим
       if (settings.fieldSelectionMode === 'random') {
         // Случайный выбор окружения
@@ -582,7 +584,6 @@ export const useGameStore = create<GameStore>((set, get) => {
           const newEndTime = Date.now() + pausedDoublePointsTimeLeft;
           set({
             isPaused: false,
-
             doublePointsEndTime: newEndTime,
             pausedDoublePointsTimeLeft: null
           });
@@ -636,8 +637,21 @@ export const useGameStore = create<GameStore>((set, get) => {
 
     // Обновляем метод обработки столкновения с едой
     handleFoodCollision: (food: Food) => {
-      const { score, doublePointsActive } = get();
+      const { score, doublePointsActive, settings } = get();
       let newScore = score;
+      const environment = settings.environment;
+
+      try {
+        if (food.type === 'special') {
+          playSound('eat_special', environment);
+        } else if (food.type === 'penalty') {
+          playSound('penalty', environment);
+        } else {
+          playSound('eat', environment, food.type);
+        }
+      } catch (error) {
+        console.error('Error playing sound in GameStore, handleFoodCollision():', error);
+      }
 
       // Обрабатываем очки в зависимости от типа еды
       if (food.type === 'special') {

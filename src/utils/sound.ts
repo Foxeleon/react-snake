@@ -1,288 +1,363 @@
-import { Environment, FoodType } from "@/types/gameTypes.ts";
+
+import { Environment, FoodType } from '@/types/gameTypes.ts';
 import { useGameStore } from '@/store/gameStore';
 
-//TODO исправить и добавить звуки
-// Типы звуковых эффектов
-export type SoundEffect = 
-  | 'eat'
-  | 'eat_special'
-  | 'penalty'
-  | 'game_over'
-  | 'level_up'
-  | 'move';
+export type SoundEffect =
+    | 'eat'
+    | 'eat_special'
+    | 'penalty'
+    | 'game_over'
+    | 'level_up'
+    | 'move'
+    | 'start_game'
+    | 'game_paused'
+    | 'game_resumed';               // ← добавили
 
-// Контекст звукового синтезатора
+/* ---------- AudioContext ---------- */
 let audioContext: AudioContext | null = null;
 
-/**
- * Создание звукового контекста при первом взаимодействии с пользователем
- */
 export const initAudio = (): void => {
   if (audioContext === null) {
-    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    audioContext = new (window.AudioContext ||
+        // @ts-ignore
+        window.webkitAudioContext)();
   }
 };
 
-/**
- * Генерирует 8-битные звуковые эффекты в зависимости от действия
- */
+const playTone = (
+    audioContext: AudioContext,
+    startFreq: number,
+    endFreq: number | null = null,
+    volume: number = 0.25,
+    duration: number = 0.8,
+    oscillatorType: OscillatorType = 'sine',
+    startTime: number = 0
+) => {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  // Connect nodes
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  // Configure oscillator
+  oscillator.type = oscillatorType;
+  oscillator.frequency.setValueAtTime(startFreq, audioContext.currentTime + startTime);
+
+  if (endFreq && endFreq !== startFreq) {
+    oscillator.frequency.exponentialRampToValueAtTime(
+        endFreq,
+        audioContext.currentTime + startTime + duration
+    );
+  }
+
+  // Configure smoother envelope
+  gainNode.gain.setValueAtTime(0.001, audioContext.currentTime + startTime);
+  // Smoother attack (0.03s)
+  gainNode.gain.exponentialRampToValueAtTime(
+      volume,
+      audioContext.currentTime + startTime + Math.min(duration * 0.3, 0.03)
+  );
+  // Smooth release
+  gainNode.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime + startTime + duration
+  );
+
+  // Start and stop oscillator
+  oscillator.start(audioContext.currentTime + startTime);
+  oscillator.stop(audioContext.currentTime + startTime + duration);
+
+  return { oscillator, gainNode };
+};
+
+const playBeep = (
+    audioContext: AudioContext,
+    frequency: number,
+    volume: number = 0.3,
+    attackTime: number = 0.03,
+    releaseTime: number = 0.15,
+    startTime: number = 0
+) => {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  // Connect the audio nodes
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  // Configure oscillator
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+  // Configure envelope
+  gainNode.gain.setValueAtTime(0.001, audioContext.currentTime + startTime);
+  gainNode.gain.exponentialRampToValueAtTime(
+      volume,
+      audioContext.currentTime + startTime + attackTime
+  );
+  gainNode.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime + startTime + releaseTime
+  );
+
+  // Start and stop oscillator
+  oscillator.start(audioContext.currentTime + startTime);
+  oscillator.stop(audioContext.currentTime + startTime + releaseTime);
+
+  return { oscillator, gainNode };
+};
+
+/* ---------- основной проигрыватель ---------- */
 export const playSound = (
-  effect: SoundEffect, 
-  environment: Environment = 'jungle',
-  foodType?: FoodType
+    effect: SoundEffect,
+    environment: Environment = 'jungle',
+    foodType?: FoodType
 ): void => {
-  // Проверяем, включен ли звук в настройках
   const { settings } = useGameStore.getState();
   if (!settings.soundEnabled) return;
 
-  if (!audioContext) {
-    initAudio();
-    if (!audioContext) return;
-  }
-  
-  // Базовые параметры для осциллятора
-  let oscillator = audioContext.createOscillator();
-  let gainNode = audioContext.createGain();
-  
-  // Подключение узлов
+  if (!audioContext) initAudio();
+  if (!audioContext) return;
+
+  /*----- создаём локальный осциллятор ‑----*/
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
   oscillator.connect(gainNode);
   gainNode.connect(audioContext.destination);
-  
-  // Настройка типа и параметров осциллятора в зависимости от эффекта
+
   switch (effect) {
-    case 'eat':
-      // Разные звуки в зависимости от типа еды
-      if (foodType) {
-        switch (foodType) {
-          case 'common':
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(330, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(
-              660, audioContext.currentTime + 0.1
-            );
-            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(
-              0.01, audioContext.currentTime + 0.3
-            );
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.3);
-            break;
-            
-          case 'medium':
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(
-              880, audioContext.currentTime + 0.1
-            );
-            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(
-              0.01, audioContext.currentTime + 0.3
-            );
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.3);
-            break;
-            
-          case 'rare':
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(550, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(
-              1100, audioContext.currentTime + 0.15
-            );
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(
-              0.01, audioContext.currentTime + 0.4
-            );
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.4);
-            break;
-            
-          case 'penalty':
-            oscillator.type = 'sawtooth';
-            oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(
-              110, audioContext.currentTime + 0.3
-            );
-            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(
-              0.01, audioContext.currentTime + 0.4
-            );
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.4);
-            break;
-        }
-      } else {
-        // Стандартный звук поедания
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(
-          880, audioContext.currentTime + 0.1
-        );
-        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(
-          0.01, audioContext.currentTime + 0.3
-        );
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.3);
-      }
+    case 'eat': {
+      if (!foodType) return;
+
+      const freqMap: Record<FoodType, number> = {
+        common: 220,   // down from 330
+        medium: 294,   // down from 440
+        rare: 370,     // down from 550
+        penalty: 165,  // down from 220
+        special: 440   // down from 660
+      };
+
+      const startFreq = freqMap[foodType];
+      const endFreq = startFreq * 1.3;
+      const duration = foodType === 'rare' ? 0.45 : 0.35;
+
+      // Using playTone with sine wave for softer sound
+      playTone(
+          audioContext,
+          startFreq,
+          endFreq,
+          0.15,  // reduced volume (was 0.2)
+          duration,
+          foodType === 'penalty' ? 'sawtooth' : 'sine'
+      );
       break;
-      
-    case 'eat_special':
-      // Специальный звук для двойных очков
-      oscillator.type = 'triangle';
-      oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1);
-      oscillator.frequency.setValueAtTime(1760, audioContext.currentTime + 0.2);
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01, audioContext.currentTime + 0.5
+    }
+
+    case 'eat_special': {
+      // Main softer tone
+      playTone(
+          audioContext,
+          440,      // A4 - down from 880 (A5)
+          660,      // E5 - much gentler rise (was 1760)
+          0.15,     // lower volume (was 0.3)
+          0.45,     // slightly shorter
+          'sine'    // changed from triangle to sine for softness
       );
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.5);
-      
-      // Добавим второй осциллятор для более богатого звука
-      setTimeout(() => {
-        if (!audioContext) return;
-        
-        let osc2 = audioContext.createOscillator();
-        let gain2 = audioContext.createGain();
-        
-        osc2.connect(gain2);
-        gain2.connect(audioContext.destination);
-        
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(1320, audioContext.currentTime);
-        osc2.frequency.setValueAtTime(1760, audioContext.currentTime + 0.1);
-        osc2.frequency.setValueAtTime(2200, audioContext.currentTime + 0.2);
-        
-        gain2.gain.setValueAtTime(0.2, audioContext.currentTime);
-        gain2.gain.exponentialRampToValueAtTime(
-          0.01, audioContext.currentTime + 0.5
-        );
-        
-        osc2.start();
-        osc2.stop(audioContext.currentTime + 0.5);
-      }, 50);
+
+      // Add a secondary harmonic tone for richness with slight delay
+      playTone(
+          audioContext,
+          293.66,   // D4 - lower complementary tone
+          440,      // A4
+          0.08,     // much lower volume for supporting tone
+          0.35,     // shorter duration
+          'sine',
+          0.05      // slight delay
+      );
       break;
-      
-    case 'penalty':
-      // Звук при штрафе
-      oscillator.type = 'sawtooth';
-      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(
-        110, audioContext.currentTime + 0.3
+    }
+
+    case 'penalty': {
+      // Create a more distinctive error sound with two tones
+      // First tone - high to low sweep
+      playTone(
+          audioContext,
+          440,        // Starting at A4
+          110,        // Down to A2
+          0.2,        // Volume
+          0.3,        // Duration
+          'sawtooth'  // Harsh sawtooth for error sound
       );
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01, audioContext.currentTime + 0.4
+
+      // Secondary tone with slight delay for more impactful effect
+      playTone(
+          audioContext,
+          330,        // Starting at E4
+          82.5,       // Down to E2
+          0.15,       // Lower volume for secondary tone
+          0.35,       // Slightly longer duration
+          'sawtooth', // Keep the harsh sawtooth
+          0.08        // Slight delay after first tone
       );
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.4);
       break;
-      
-    case 'game_over':
-      // Звук окончания игры
-      oscillator.type = 'sawtooth';
-      oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(
-        55, audioContext.currentTime + 1.5
-      );
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01, audioContext.currentTime + 1.5
-      );
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 1.5);
-      
-      // Добавим второй осциллятор для более драматичного эффекта
-      setTimeout(() => {
-        if (!audioContext) return;
-        
-        let osc2 = audioContext.createOscillator();
-        let gain2 = audioContext.createGain();
-        
-        osc2.connect(gain2);
-        gain2.connect(audioContext.destination);
-        
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(220, audioContext.currentTime);
-        osc2.frequency.exponentialRampToValueAtTime(
-          55, audioContext.currentTime + 1.5
+    }
+
+    case 'start_game': {
+      /*
+        Smoother, lower melody: G4 → B4 → D5 → G5 + final note D5
+        Using sine waves instead of square, with slight overlap for smoother transitions
+        Each note slightly longer (0.15s) with smoother envelopes
+      */
+      const melody = [
+        { note: 392.00, type: 'sine', duration: 0.15 }, // G4 (instead of C5)
+        { note: 493.88, type: 'sine', duration: 0.15 }, // B4 (instead of E5)
+        { note: 587.33, type: 'sine', duration: 0.15 }, // D5 (instead of G5)
+        { note: 783.99, type: 'sine', duration: 0.15 }, // G5 (instead of C6)
+      ];
+
+      // Play each note with a small overlap for smooth transition
+      melody.forEach((item, idx) => {
+        playTone(
+            audioContext!,
+            item.note,
+            null,         // No pitch bend within notes
+            0.22,         // Slightly lower volume
+            item.duration,
+            item.type as OscillatorType,
+            idx * 0.12    // Slight overlap between notes (120ms spacing instead of 90ms)
         );
-        
-        gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gain2.gain.exponentialRampToValueAtTime(
-          0.01, audioContext.currentTime + 1.5
-        );
-        
-        osc2.start();
-        osc2.stop(audioContext.currentTime + 1.5);
-      }, 100);
+      });
+
+      // Final note is longer and uses sine with slight pitch bend down
+      playTone(
+          audioContext,
+          587.33,        // D5 (instead of G5)
+          554.37,        // Slight bend down to C#5 for resolution
+          0.20,          // Slightly lower volume
+          0.25,          // Longer final note
+          'sine',        // Smoother sine wave instead of triangle
+          melody.length * 0.12  // Start after the melody finishes
+      );
       break;
-      
+    }
+
+    case 'game_over': {
+      // First tone: lower starting pitch, smooth sine wave
+      // Original: 1318.5Hz (E6) to 196Hz (G3)
+      // New: 880Hz (A5) to 146.8Hz (D3) - lower overall pitch
+      playTone(
+          audioContext,
+          880,    // A5 - lower starting frequency
+          146.8,  // D3 - lower ending frequency
+          0.25,   // volume
+          1.0     // slightly longer duration for more dramatic effect
+      );
+
+      // Second tone: smoother sine wave instead of harsh square
+      // Original: square wave 659.25Hz (E5) to 98Hz (G2)
+      // New: sine wave 440Hz (A4) to 73.4Hz (D2) - smoother and lower
+      playTone(
+          audioContext,
+          440,    // A4 - lower starting frequency
+          73.4,   // D2 - lower ending frequency
+          0.2,    // slightly lower volume
+          1.1,    // slightly longer duration
+          'sine', // smoother sine wave instead of harsh square
+          0.08    // slight delay (80ms) after first tone starts
+      );
+      break;
+    }
+
     case 'level_up':
-      // Звук повышения уровня
-      oscillator.type = 'square';
-      
-      // Играем гамму
-      [330, 392, 494, 587, 659, 784, 880].forEach((freq, index) => {
+      [330, 392, 494, 587, 659, 784, 880].forEach((f, idx) => {
         setTimeout(() => {
           if (!audioContext) return;
-          
-          let tempOsc = audioContext.createOscillator();
-          let tempGain = audioContext.createGain();
-          
-          tempOsc.connect(tempGain);
-          tempGain.connect(audioContext.destination);
-          
-          tempOsc.type = 'square';
-          tempOsc.frequency.setValueAtTime(freq, audioContext.currentTime);
-          
-          tempGain.gain.setValueAtTime(0.2, audioContext.currentTime);
-          tempGain.gain.exponentialRampToValueAtTime(
-            0.01, audioContext.currentTime + 0.15
+          const o = audioContext.createOscillator();
+          const g = audioContext.createGain();
+          o.connect(g);
+          g.connect(audioContext.destination);
+
+          o.type = 'square';
+          o.frequency.setValueAtTime(f, audioContext.currentTime);
+
+          g.gain.setValueAtTime(0.2, audioContext.currentTime);
+          g.gain.exponentialRampToValueAtTime(
+              0.01,
+              audioContext.currentTime + 0.15
           );
-          
-          tempOsc.start();
-          tempOsc.stop(audioContext.currentTime + 0.15);
-        }, index * 100);
+
+          o.start();
+          o.stop(audioContext.currentTime + 0.15);
+        }, idx * 100);
       });
-      return; // Возвращаемся, так как выше не запускаем основной осциллятор
-      
+      break;
+
+    case 'game_paused': {
+      // First beep (higher tone)
+      playBeep(audioContext, 440, 0.3);
+
+      // Second beep (lower tone) after delay
+      playBeep(audioContext, 330, 0.25, 0.03, 0.15, 0.12);
+      break;
+    }
+    case 'game_resumed': {
+      // First beep (lower tone)
+      playBeep(audioContext, 330, 0.3);
+
+      // Second beep (higher tone) after delay
+      playBeep(audioContext, 440, 0.25, 0.03, 0.15, 0.12);
+      break;
+    }
+
+
     case 'move':
-      // Тихий звук движения змеи - разный для каждого окружения
-      oscillator.type = 'sine';
-      
-      switch (environment) {
-        case 'jungle':
-          oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
-          break;
-        case 'sea':
-          oscillator.frequency.setValueAtTime(165, audioContext.currentTime);
-          break;
-        case 'forest':
-          oscillator.frequency.setValueAtTime(196, audioContext.currentTime);
-          break;
-        case 'desert':
-          oscillator.frequency.setValueAtTime(233, audioContext.currentTime);
-          break;
-        case 'steppe':
-          oscillator.frequency.setValueAtTime(175, audioContext.currentTime);
-          break;
-      }
-      
-      gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01, audioContext.currentTime + 0.1
-      );
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.1);
+      const mainOsc = audioContext.createOscillator();
+      const modulatorOsc = audioContext.createOscillator();
+      const modulatorGain = audioContext.createGain();
+
+      // Connect modulator to main oscillator frequency
+      modulatorOsc.connect(modulatorGain);
+      modulatorGain.connect(mainOsc.frequency);
+      mainOsc.connect(gainNode);
+
+      // Soft bubble-like sound with sine wave
+      mainOsc.type = 'sine';
+      modulatorOsc.type = 'sine';
+
+      // Environment-specific base frequencies (gentle mid-range)
+      const envFreq: Record<Environment, number> = {
+        jungle: 180,
+        sea: 140,
+        forest: 160,
+        desert: 190,
+        steppe: 150
+      };
+
+      const baseFreq = envFreq[environment] ?? 160;
+
+      // Set main tone
+      mainOsc.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+
+      // Set up frequency modulation (subtle bubbling effect)
+      modulatorOsc.frequency.setValueAtTime(8, audioContext.currentTime);
+      modulatorGain.gain.setValueAtTime(10, audioContext.currentTime);
+
+      // Very soft attack
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.025, audioContext.currentTime + 0.02);
+
+      // Gentle decay with slight pitch rise for 'pop' feeling
+      mainOsc.frequency.linearRampToValueAtTime(baseFreq * 1.2, audioContext.currentTime + 0.12);
+      gainNode.gain.setValueAtTime(0.025, audioContext.currentTime + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
+
+      // Start and stop both oscillators
+      mainOsc.start();
+      modulatorOsc.start();
+      mainOsc.stop(audioContext.currentTime + 0.12);
+      modulatorOsc.stop(audioContext.currentTime + 0.12);
       break;
   }
-}; 
+};

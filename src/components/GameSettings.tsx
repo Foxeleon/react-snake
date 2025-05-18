@@ -189,7 +189,6 @@ export const GameSettings: React.FC = () => {
               </select>
             </div>
 
-            {/* TODO fix sounds and show this setting
             <div className={styles.formGroup}>
               <label>
                 <input
@@ -201,7 +200,6 @@ export const GameSettings: React.FC = () => {
                 {t('settings.enableSound')}
               </label>
             </div>
-            */}
 
             {isMobile && (
                 <div className={styles.formGroup}>
