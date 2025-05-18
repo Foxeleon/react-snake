@@ -2,7 +2,6 @@
 import { Environment, FoodType } from '@/types/gameTypes.ts';
 import { useGameStore } from '@/store/gameStore';
 
-/* ---------- типы звуковых эффектов ---------- */
 export type SoundEffect =
     | 'eat'
     | 'eat_special'
@@ -133,50 +132,49 @@ export const playSound = (
       if (!foodType) return;
 
       const freqMap: Record<FoodType, number> = {
-        common: 330,
-        medium: 440,
-        rare: 550,
-        penalty: 220,
-        special: 660
+        common: 220,   // down from 330
+        medium: 294,   // down from 440
+        rare: 370,     // down from 550
+        penalty: 165,  // down from 220
+        special: 440   // down from 660
       };
 
       const startFreq = freqMap[foodType];
-      const endFreq = startFreq * 1.5;
-      const duration = foodType === 'rare' ? 0.4 : 0.3;
-      const volume = 0.22;
+      const endFreq = startFreq * 1.3;
+      const duration = foodType === 'rare' ? 0.45 : 0.35;
 
+      // Using playTone with sine wave for softer sound
       playTone(
           audioContext,
           startFreq,
           endFreq,
-          volume,
+          0.15,  // reduced volume (was 0.2)
           duration,
-          'square'
+          foodType === 'penalty' ? 'sawtooth' : 'sine'
       );
       break;
     }
 
     case 'eat_special': {
-      // Create a more distinctive sound with multiple harmonics
-      // Main tone - higher pitch with nice sweep
+      // Main softer tone
       playTone(
           audioContext,
-          880,        // Starting at A5
-          1760,       // Up to A6
-          0.2,        // Moderate volume
-          0.3,        // Main sound duration
-          'triangle'  // Smoother triangle wave
+          440,      // A4 - down from 880 (A5)
+          660,      // E5 - much gentler rise (was 1760)
+          0.15,     // lower volume (was 0.3)
+          0.45,     // slightly shorter
+          'sine'    // changed from triangle to sine for softness
       );
 
-      // Secondary tone with slight delay for richer sound
+      // Add a secondary harmonic tone for richness with slight delay
       playTone(
           audioContext,
-          660,        // Starting at E5
-          1320,       // Up to E6
-          0.15,       // Lower volume for secondary tone
-          0.25,       // Slightly shorter duration
-          'sine',     // Smoother sine wave
-          0.05        // Slight delay after first tone
+          293.66,   // D4 - lower complementary tone
+          440,      // A4
+          0.08,     // much lower volume for supporting tone
+          0.35,     // shorter duration
+          'sine',
+          0.05      // slight delay
       );
       break;
     }
@@ -363,4 +361,3 @@ export const playSound = (
       break;
   }
 };
-
