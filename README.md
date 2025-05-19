@@ -9,7 +9,7 @@ A modern version of the classic Snake game with 8-bit aesthetics, diverse enviro
 * **7 types of snakes** with different visual styles adapted to the environment
 * **Various food types** with different values and effects (common, medium, rare, special, and penalty)
 * **Special effects** - double points, penalties, and sound effects
-* **Enhanced sound effects**: for actions like eating, movement, and penalties.
+* **Sound effects**: for actions like eating, movement, and penalties.
 * **Game settings** - theme selection, environment, game field size, and player name
 * **Adaptive design** for mobile devices with touch controls
 * **Multilingual support** - play the game in your preferred language

@@ -27,8 +27,7 @@ import {
   FOOD_EXPIRATION_TIMES,
   FOOD_SPAWN_PROBABILITIES,
   GRID_SIZES,
-  INITIAL_SPEED,
-  SPEED_INCREASE_RATE
+  INITIAL_SPEED
 } from '@/constants/gameConstants.ts';
 import { addRecord, loadRecords, loadSettings, playSound, saveSettings } from '@/utils';
 import i18n from '@/i18n';
@@ -308,9 +307,6 @@ export const useGameStore = create<GameStore>((set, get) => {
           ...foods.slice(eatenFoodIndex + 1),
           generateFood(newSnake, get().settings.gridSize, get().settings.environment)
         ];
-        
-        // Увеличиваем скорость
-        get().increaseSpeed();
       } else {
         // Если еда не съедена, удаляем хвост
         newSnake = newSnake.slice(0, -1);
@@ -398,8 +394,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     },
 
     increaseSpeed: () => {
-      const { speed } = get();
-      set({ speed: Math.max(50, speed - SPEED_INCREASE_RATE) });
+    //  TODO increase speed by level up
     },
 
     // Методы для управления настройками
