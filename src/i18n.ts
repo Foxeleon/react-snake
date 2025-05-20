@@ -11,9 +11,17 @@ declare module 'i18next' {
 }
 
 // Импорт переводов (для небольших проектов можно импортировать напрямую)
-import translationRU from './locales/ru/translation.json';
-import translationEN from './locales/en/translation.json';
-import translationDE from './locales/de/translation.json';
+import translationRU from './locales/ru_translation.json';
+import translationEN from './locales/en_translation.json';
+import translationDE from './locales/de_translation.json';
+import translationCH from './locales/ch_translation.json';
+import translationES from './locales/es_translation.json';
+import translationFR from './locales/fr_translation.json';
+import translationIT from './locales/it_translation.json';
+import translationGR from './locales/gr_translation.json';
+import translationJP from './locales/jp_translation.json';
+import translationKOR from './locales/kоr_translation.json';
+import translationTR from './locales/tr_translation.json';
 
 const resources = {
     ru: {
@@ -24,6 +32,30 @@ const resources = {
     },
     de: {
         translation: translationDE
+    },
+    ch: {
+        translation: translationCH
+    },
+    fr: {
+        translation: translationFR
+    },
+    it: {
+        translation: translationIT
+    },
+    es: {
+        translation: translationES
+    },
+    gr: {
+        translation: translationGR
+    },
+    jp: {
+        translation: translationJP
+    },
+    kor: {
+        translation: translationKOR
+    },
+    tr: {
+        translation: translationTR
     }
 };
 

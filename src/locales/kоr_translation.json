@@ -1,0 +1,371 @@
+
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "클래식 \"Snake\" 게임의 8비트 스타일 현대적 버전"
+  },
+  "game": {
+    "start": "게임 시작",
+    "pause": "일시정지",
+    "resume": "계속하기",
+    "restart": "다시 하기",
+    "gameOver": "게임 오버!",
+    "score": "점수: {{score}}",
+    "gameTitle": "Snake",
+    "doublePoints": {
+      "desktop": "더블 포인트! ({{seconds}}초)",
+      "mobile": "x2 ({{seconds}}초)"
+    },
+    "controls": {
+      "arrows": "방향키를 사용하여 뱀을 조종하세요"
+    },
+    "buttons": {
+      "settings": "설정",
+      "records": "순위표",
+      "showLegend": "범례 보기",
+      "hideLegend": "범례 숨기기"
+    }
+  },
+  "welcome": {
+    "title": "뱀 게임에 오신 것을 환영합니다!",
+    "description": "다양한 종류의 뱀과 환경이 있는 흥미진진한 8비트 게임",
+    "nameLabel": "당신의 이름은 무엇인가요?",
+    "namePlaceholder": "이름을 입력하세요",
+    "nameError": "이름을 입력해주세요",
+    "startButton": "게임 시작",
+    "settingsButton": "설정",
+    "recordsButton": "기록"
+  },
+  "settings": {
+    "title": "게임 설정",
+    "playerName": "플레이어 이름",
+    "boardSize": "보드 크기",
+    "fieldSelectionMode": "필드 선택 모드",
+    "speed": {
+      "title": "속도",
+      "easy": "느림",
+      "normal": "보통",
+      "hard": "빠름"
+    },
+    "enableSound": "소리 활성화",
+    "showMobileControls": "모바일 장치에서 컨트롤 버튼 표시",
+    "snakeType": "뱀 종류",
+    "notAvailableDuringGame": "게임 중에는 사용할 수 없음",
+    "theme": {
+      "title": "테마",
+      "light": "밝음",
+      "dark": "어두움"
+    },
+    "gridSize": {
+      "title": "그리드 크기",
+      "mini": "미니 (10×10)",
+      "small": "작음 (15×15)",
+      "medium": "중간 (20×20)",
+      "large": "큼 (25×25)",
+      "giant": "거대 (30×30)",
+      "epic": "에픽 (35×35)"
+    },
+    "environment": {
+      "title": "환경",
+      "jungle": "정글",
+      "sea": "바다",
+      "forest": "숲",
+      "desert": "사막",
+      "grassland": "초원"
+    },
+    "language": {
+      "title": "언어",
+      "ru": "러시아어",
+      "en": "영어",
+      "de": "독일어",
+      "ch": "중국어",
+      "es": "스페인어",
+      "fr": "프랑스어",
+      "gr": "그리스어",
+      "it": "이탈리아어",
+      "jp": "일본어",
+      "kor": "한국어",
+      "tr": "터키어"
+    }
+  },
+  "legend": {
+    "title": "범례",
+    "close": "닫기",
+    "yourSnake": "당신의 뱀",
+    "food": "음식",
+    "and": "그리고",
+    "points": "{{count}} 포인트",
+    "points_plural": "{{count}} 포인트",
+    "controls": {
+      "title": "조작법",
+      "keyboard": "방향키를 사용하여 뱀을 조종하세요.",
+      "mobile": "모바일 장치에서는 가상 버튼을 사용하거나 화면을 스와이프하세요."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "정글에 살고 있습니다",
+        "animation": "가벼운 공기의 흐름을 만듭니다"
+      },
+      "sea": {
+        "habitat": "바다에 살고 있습니다",
+        "animation": "뒤에 공기 방울을 남깁니다"
+      },
+      "forest": {
+        "habitat": "숲에 살고 있습니다",
+        "animation": "주변에 잎을 흩뿌립니다"
+      },
+      "desert": {
+        "habitat": "사막에 살고 있습니다",
+        "animation": "모래 파도를 일으킵니다"
+      },
+      "steppe": {
+        "habitat": "초원에 살고 있습니다",
+        "animation": "먼지 구름을 만듭니다"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "{{type}} 유형 뱀"
+      },
+      "green_snake": {
+        "name": "녹색 뱀",
+        "description": "정글의 우거진 식물 사이에 살고 있습니다",
+        "animation": "뒤에 가벼운 공기의 흐름을 남깁니다"
+      },
+      "python": {
+        "name": "파이썬",
+        "description": "열대 우림을 선호합니다",
+        "animation": "움직일 때 잎사귀 사이로 소리를 냅니다"
+      },
+      "viper": {
+        "name": "독사",
+        "description": "잎사귀 사이에 숨어 있습니다",
+        "animation": "주변 공기를 자릅니다"
+      },
+      "sea_snake": {
+        "name": "바다 뱀",
+        "description": "따뜻한 대양의 물에 살고 있습니다",
+        "animation": "뒤에 공기 방울을 남깁니다"
+      },
+      "eel": {
+        "name": "장어",
+        "description": "해초 사이로 미끄러집니다",
+        "animation": "물 속에 소용돌이를 만듭니다"
+      },
+      "forest_snake": {
+        "name": "숲 뱀",
+        "description": "잔디와 잎사귀 사이에 숨어 있습니다",
+        "animation": "잎을 날려버립니다"
+      },
+      "grass_snake": {
+        "name": "풀 뱀",
+        "description": "숲 가장자리를 선호합니다",
+        "animation": "모래 소용돌이를 만듭니다"
+      },
+      "steppe_adder": {
+        "name": "초원 독사",
+        "description": "키 큰 풀에 숨어 있습니다",
+        "animation": "움직일 때 먼지 구름을 일으킵니다"
+      },
+      "ratsnake": {
+        "name": "쥐뱀",
+        "description": "작은 설치류를 사냥합니다",
+        "animation": "풀을 흔들고 먼지를 일으킵니다"
+      }
+    }
+  },
+  "controls": {
+    "up": "위",
+    "down": "아래",
+    "left": "왼쪽",
+    "right": "오른쪽",
+    "keyboard": {
+      "arrows": "방향키 - 뱀 조종",
+      "enter": "Enter/Space - 게임 시작/재시작",
+      "pause": "P - 일시정지",
+      "settings": "Esc - 설정 메뉴 열기",
+      "records": "R - 최고 점수 보기"
+    }
+  },
+  "environments": {
+    "jungle": "정글",
+    "sea": "바다",
+    "forest": "숲",
+    "desert": "사막",
+    "steppe": "초원"
+  },
+  "themes": {
+    "light": "밝음",
+    "dark": "어두움"
+  },
+  "boardSizes": {
+    "mini": "미니",
+    "small": "작음",
+    "medium": "중간",
+    "large": "큼",
+    "giant": "거대",
+    "epic": "에픽"
+  },
+  "fieldSelectionModes": {
+    "static": "정적",
+    "sequential": "순차적",
+    "random": "무작위"
+  },
+  "snakes": {
+    "tropical_green": "녹색 뱀",
+    "red_sea": "바다 뱀",
+    "blue_green_sea": "장어",
+    "forest_boa": "숲 보아",
+    "rattlesnake": "사막 뱀",
+    "striped_viper": "방울뱀",
+    "mouse_hunter": "초원 독사"
+  },
+  "languages": {
+    "russian": "러시아어",
+    "english": "영어",
+    "german": "독일어",
+    "greek": "그리스어",
+    "korean": "한국어"
+  },
+  "common": {
+    "cancel": "취소",
+    "save": "저장"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "벌레",
+        "description": "정글에서 흔한 음식",
+        "points": 10
+      },
+      "frog": {
+        "name": "개구리",
+        "description": "중간 크기의 먹이",
+        "points": 25
+      },
+      "bird": {
+        "name": "새",
+        "description": "희귀한 먹이",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "파인애플",
+        "description": "15초 동안 얻는 포인트를 두 배로 늘립니다",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "독성 베리",
+        "description": "페널티 음식, 피하세요",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "새우",
+        "description": "바다에서 흔한 음식",
+        "points": 10
+      },
+      "fish": {
+        "name": "물고기",
+        "description": "중간 크기의 먹이",
+        "points": 25
+      },
+      "starfish": {
+        "name": "불가사리",
+        "description": "희귀한 먹이",
+        "points": 50
+      },
+      "plankton": {
+        "name": "플랑크톤",
+        "description": "15초 동안 얻는 포인트를 두 배로 늘립니다",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "해파리",
+        "description": "페널티 음식, 피하세요",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "개미",
+        "description": "숲에서 흔한 음식",
+        "points": 10
+      },
+      "locust": {
+        "name": "메뚜기",
+        "description": "중간 크기의 먹이",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "토끼",
+        "description": "희귀한 먹이",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "버섯",
+        "description": "15초 동안 얻는 포인트를 두 배로 늘립니다",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "곰팡이 핀 베리",
+        "description": "페널티 음식, 피하세요",
+        "points": -20
+      }
+    },
+    "desert": {
+      "scorpion": {
+        "name": "전갈",
+        "description": "사막에서 흔한 음식",
+        "points": 10
+      },
+      "beetle": {
+        "name": "딱정벌레",
+        "description": "중간 크기의 먹이",
+        "points": 25
+      },
+      "egg": {
+        "name": "알",
+        "description": "희귀한 먹이",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "선인장 꽃",
+        "description": "15초 동안 얻는 포인트를 두 배로 늘립니다",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "가시",
+        "description": "페널티 음식, 피하세요",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "메뚜기",
+        "description": "초원에서 흔한 음식",
+        "points": 10
+      },
+      "gopher": {
+        "name": "땅다람쥐",
+        "description": "중간 크기의 먹이",
+        "points": 25
+      },
+      "mouse": {
+        "name": "쥐",
+        "description": "희귀한 먹이",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "황금 풀",
+        "description": "15초 동안 얻는 포인트를 두 배로 늘립니다",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "쓴 씨앗",
+        "description": "페널티 음식, 피하세요",
+        "points": -20
+      }
+    }
+  }
+}

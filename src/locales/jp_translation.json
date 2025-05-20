@@ -1,0 +1,372 @@
+
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "クラシックな「Snake」ゲームの8ビットスタイルの現代版"
+  },
+  "game": {
+    "start": "ゲーム開始",
+    "pause": "一時停止",
+    "resume": "再開",
+    "restart": "リプレイ",
+    "gameOver": "ゲームオーバー！",
+    "score": "スコア: {{score}}",
+    "gameTitle": "Snake",
+    "doublePoints": {
+      "desktop": "ダブルポイント！({{seconds}}秒)",
+      "mobile": "x2 ({{seconds}}秒)"
+    },
+    "controls": {
+      "arrows": "矢印キーを使ってヘビを操作してください"
+    },
+    "buttons": {
+      "settings": "設定",
+      "records": "ランキング",
+      "showLegend": "凡例を表示",
+      "hideLegend": "凡例を隠す"
+    }
+  },
+  "welcome": {
+    "title": "Snakeゲームへようこそ！",
+    "description": "様々な種類のヘビと環境がある興奮の8ビットゲーム",
+    "nameLabel": "あなたの名前は？",
+    "namePlaceholder": "名前を入力してください",
+    "nameError": "名前を入力してください",
+    "startButton": "ゲーム開始",
+    "settingsButton": "設定",
+    "recordsButton": "記録"
+  },
+  "settings": {
+    "title": "ゲーム設定",
+    "playerName": "プレイヤー名",
+    "boardSize": "ボードサイズ",
+    "fieldSelectionMode": "フィールド選択モード",
+    "speed": {
+      "title": "速度",
+      "easy": "遅い",
+      "normal": "普通",
+      "hard": "速い"
+    },
+    "enableSound": "サウンドを有効にする",
+    "showMobileControls": "モバイルデバイスでコントロールボタンを表示",
+    "snakeType": "ヘビの種類",
+    "notAvailableDuringGame": "ゲーム中は利用できません",
+    "theme": {
+      "title": "テーマ",
+      "light": "ライト",
+      "dark": "ダーク"
+    },
+    "gridSize": {
+      "title": "グリッドサイズ",
+      "mini": "ミニ (10×10)",
+      "small": "小 (15×15)",
+      "medium": "中 (20×20)",
+      "large": "大 (25×25)",
+      "giant": "巨大 (30×30)",
+      "epic": "エピック (35×35)"
+    },
+    "environment": {
+      "title": "環境",
+      "jungle": "ジャングル",
+      "sea": "海",
+      "forest": "森",
+      "desert": "砂漠",
+      "grassland": "草原"
+    },
+    "language": {
+      "title": "言語",
+      "ru": "ロシア語",
+      "en": "英語",
+      "de": "ドイツ語",
+      "ch": "中国語",
+      "es": "スペイン語",
+      "fr": "フランス語",
+      "gr": "ギリシャ語",
+      "it": "イタリア語",
+      "jp": "日本語",
+      "kor": "韓国語",
+      "tr": "トルコ語"
+    }
+  },
+  "legend": {
+    "title": "凡例",
+    "close": "閉じる",
+    "yourSnake": "あなたのヘビ",
+    "food": "食べ物",
+    "and": "と",
+    "points": "{{count}}ポイント",
+    "points_plural": "{{count}}ポイント",
+    "controls": {
+      "title": "操作方法",
+      "keyboard": "矢印キーを使ってヘビを操作してください。",
+      "mobile": "モバイルデバイスでは、仮想ボタンを使用するか、画面をスワイプしてください。"
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "ジャングルに生息しています",
+        "animation": "軽い空気の流れを作ります"
+      },
+      "sea": {
+        "habitat": "海に生息しています",
+        "animation": "後ろに気泡を残します"
+      },
+      "forest": {
+        "habitat": "森に生息しています",
+        "animation": "周囲に葉を散らします"
+      },
+      "desert": {
+        "habitat": "砂漠に生息しています",
+        "animation": "砂の波を作ります"
+      },
+      "steppe": {
+        "habitat": "草原に生息しています",
+        "animation": "ほこりの雲を作ります"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "{{type}}タイプのヘビ"
+      },
+      "green_snake": {
+        "name": "緑のヘビ",
+        "description": "ジャングルの鬱蒼とした植物の中に生息しています",
+        "animation": "後ろに軽い空気の流れを残します"
+      },
+      "python": {
+        "name": "ニシキヘビ",
+        "description": "熱帯雨林を好みます",
+        "animation": "動くとき、葉の間で音を立てます"
+      },
+      "viper": {
+        "name": "マムシ",
+        "description": "葉の間に隠れています",
+        "animation": "周囲の空気を切ります"
+      },
+      "sea_snake": {
+        "name": "ウミヘビ",
+        "description": "暖かい海の水に生息しています",
+        "animation": "後ろに気泡を残します"
+      },
+      "eel": {
+        "name": "ウナギ",
+        "description": "海藻の間をすべります",
+        "animation": "水中に渦を作ります"
+      },
+      "forest_snake": {
+        "name": "森のヘビ",
+        "description": "草や葉の間に隠れています",
+        "animation": "葉を吹き飛ばします"
+      },
+      "grass_snake": {
+        "name": "シマヘビ",
+        "description": "森の縁を好みます",
+        "animation": "砂の渦を作ります"
+      },
+      "steppe_adder": {
+        "name": "草原のマムシ",
+        "description": "背の高い草に隠れています",
+        "animation": "動くときにほこりの雲を発生させます"
+      },
+      "ratsnake": {
+        "name": "ネズミヘビ",
+        "description": "小さなげっ歯類を狩ります",
+        "animation": "草を揺らしてほこりを巻き上げます"
+      }
+    }
+  },
+  "controls": {
+    "up": "上",
+    "down": "下",
+    "left": "左",
+    "right": "右",
+    "keyboard": {
+      "arrows": "矢印キー - ヘビの操作",
+      "enter": "Enter/Space - ゲーム開始/再開",
+      "pause": "P - 一時停止",
+      "settings": "Esc - 設定メニューを開く",
+      "records": "R - ハイスコアを表示"
+    }
+  },
+  "environments": {
+    "jungle": "ジャングル",
+    "sea": "海",
+    "forest": "森",
+    "desert": "砂漠",
+    "steppe": "草原"
+  },
+  "themes": {
+    "light": "ライト",
+    "dark": "ダーク"
+  },
+  "boardSizes": {
+    "mini": "ミニ",
+    "small": "小",
+    "medium": "中",
+    "large": "大",
+    "giant": "巨大",
+    "epic": "エピック"
+  },
+  "fieldSelectionModes": {
+    "static": "静的",
+    "sequential": "連続的",
+    "random": "ランダム"
+  },
+  "snakes": {
+    "tropical_green": "緑のヘビ",
+    "red_sea": "ウミヘビ",
+    "blue_green_sea": "ウナギ",
+    "forest_boa": "森のボア",
+    "rattlesnake": "砂漠のヘビ",
+    "striped_viper": "ガラガラヘビ",
+    "mouse_hunter": "草原のマムシ"
+  },
+  "languages": {
+    "russian": "ロシア語",
+    "english": "英語",
+    "german": "ドイツ語",
+    "greek": "ギリシャ語",
+    "korean": "韓国語",
+    "japanese": "日本語"
+  },
+  "common": {
+    "cancel": "キャンセル",
+    "save": "保存"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "虫",
+        "description": "ジャングルでよくある食べ物",
+        "points": 10
+      },
+      "frog": {
+        "name": "カエル",
+        "description": "中型の獲物",
+        "points": 25
+      },
+      "bird": {
+        "name": "鳥",
+        "description": "珍しい獲物",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "パイナップル",
+        "description": "15秒間獲得ポイントが2倍になります",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "毒の実",
+        "description": "ペナルティ食品、避けてください",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "エビ",
+        "description": "海でよくある食べ物",
+        "points": 10
+      },
+      "fish": {
+        "name": "魚",
+        "description": "中型の獲物",
+        "points": 25
+      },
+      "starfish": {
+        "name": "ヒトデ",
+        "description": "珍しい獲物",
+        "points": 50
+      },
+      "plankton": {
+        "name": "プランクトン",
+        "description": "15秒間獲得ポイントが2倍になります",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "クラゲ",
+        "description": "ペナルティ食品、避けてください",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "アリ",
+        "description": "森でよくある食べ物",
+        "points": 10
+      },
+      "locust": {
+        "name": "バッタ",
+        "description": "中型の獲物",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "ウサギ",
+        "description": "珍しい獲物",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "キノコ",
+        "description": "15秒間獲得ポイントが2倍になります",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "カビた実",
+        "description": "ペナルティ食品、避けてください",
+        "points": -20
+      }
+    },
+    "desert": {
+      "scorpion": {
+        "name": "サソリ",
+        "description": "砂漠でよくある食べ物",
+        "points": 10
+      },
+      "beetle": {
+        "name": "甲虫",
+        "description": "中型の獲物",
+        "points": 25
+      },
+      "egg": {
+        "name": "卵",
+        "description": "珍しい獲物",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "サボテンの花",
+        "description": "15秒間獲得ポイントが2倍になります",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "とげ",
+        "description": "ペナルティ食品、避けてください",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "バッタ",
+        "description": "草原でよくある食べ物",
+        "points": 10
+      },
+      "gopher": {
+        "name": "ホリネズミ",
+        "description": "中型の獲物",
+        "points": 25
+      },
+      "mouse": {
+        "name": "ネズミ",
+        "description": "珍しい獲物",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "黄金の草",
+        "description": "15秒間獲得ポイントが2倍になります",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "苦い種",
+        "description": "ペナルティ食品、避けてください",
+        "points": -20
+      }
+    }
+  }
+}

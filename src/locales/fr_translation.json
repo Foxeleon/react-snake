@@ -1,0 +1,380 @@
+
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Version moderne du jeu classique \"Snake\" en style 8-bit"
+  },
+  "game": {
+    "start": "Commencer le jeu",
+    "pause": "Pause",
+    "resume": "Reprendre",
+    "restart": "Recommencer",
+    "gameOver": "Partie terminée !",
+    "score": "Score : {{score}}",
+    "gameTitle": "Snake",
+    "doublePoints": {
+      "desktop": "Points doublés ! ({{seconds}}s)",
+      "mobile": "x2 ({{seconds}}s)"
+    },
+    "controls": {
+      "arrows": "Utilisez les flèches pour contrôler le serpent"
+    },
+    "buttons": {
+      "settings": "Paramètres",
+      "records": "Records",
+      "showLegend": "Afficher la légende",
+      "hideLegend": "Masquer la légende"
+    }
+  },
+  "welcome": {
+    "title": "Bienvenue dans le jeu Snake !",
+    "description": "Jeu passionnant en 8-bit avec différents types de serpents et d'environnements",
+    "nameLabel": "Comment vous appelez-vous ?",
+    "namePlaceholder": "Entrez votre nom",
+    "nameError": "Veuillez entrer votre nom",
+    "startButton": "Commencer le jeu",
+    "settingsButton": "Paramètres",
+    "recordsButton": "Records"
+  },
+  "settings": {
+    "title": "Paramètres du jeu",
+    "playerName": "Nom du joueur",
+    "boardSize": "Taille du plateau",
+    "fieldSelectionMode": "Mode de sélection du terrain",
+    "speed": {
+      "title": "Vitesse",
+      "easy": "Lente",
+      "normal": "Normale",
+      "hard": "Rapide"
+    },
+    "enableSound": "Activer le son",
+    "showMobileControls": "Afficher les contrôles sur les appareils mobiles",
+    "snakeType": "Type de serpent",
+    "notAvailableDuringGame": "Non disponible pendant le jeu",
+    "theme": {
+      "title": "Thème",
+      "light": "Clair",
+      "dark": "Sombre"
+    },
+    "gridSize": {
+      "title": "Taille de la grille",
+      "mini": "Mini (10×10)",
+      "small": "Petite (15×15)",
+      "medium": "Moyenne (20×20)",
+      "large": "Grande (25×25)",
+      "giant": "Géante (30×30)",
+      "epic": "Épique (35×35)"
+    },
+    "environment": {
+      "title": "Environnement",
+      "jungle": "Jungle",
+      "sea": "Mer",
+      "forest": "Forêt",
+      "desert": "Désert",
+      "grassland": "Prairie"
+    },
+    "language": {
+      "title": "Langue",
+      "ru": "Russe",
+      "en": "Anglais",
+      "de": "Allemand",
+      "ch": "Chinois",
+      "es": "Espagnol",
+      "fr": "Français",
+      "gr": "Grec",
+      "it": "Italien",
+      "jp": "Japonais",
+      "kor": "Coréen",
+      "tr": "Turc"
+    }
+  },
+  "legend": {
+    "title": "Légende",
+    "close": "Fermer",
+    "yourSnake": "Votre serpent",
+    "food": "Nourriture",
+    "and": "et",
+    "points": "{{count}} point",
+    "points_plural": "{{count}} points",
+    "controls": {
+      "title": "Contrôles",
+      "keyboard": "Utilisez les touches fléchées du clavier pour contrôler le serpent.",
+      "mobile": "Sur les appareils mobiles, il y a des boutons virtuels ou des gestes de glissement."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "vit dans la jungle",
+        "animation": "génère de légers courants d'air"
+      },
+      "sea": {
+        "habitat": "vit dans l'océan",
+        "animation": "laisse des bulles"
+      },
+      "forest": {
+        "habitat": "vit dans la forêt",
+        "animation": "disperse des feuilles autour"
+      },
+      "desert": {
+        "habitat": "vit dans le désert",
+        "animation": "soulève des vagues de sable"
+      },
+      "steppe": {
+        "habitat": "vit dans la prairie",
+        "animation": "génère des nuages de poussière"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "Type de serpent {{type}}"
+      },
+      "green_snake": {
+        "name": "Serpent vert",
+        "description": "vit dans la végétation dense de la jungle",
+        "animation": "laisse de légers courants d'air"
+      },
+      "python": {
+        "name": "Python",
+        "description": "préfère les forêts tropicales",
+        "animation": "fait craquer les feuilles mortes en se déplaçant"
+      },
+      "viper": {
+        "name": "Vipère",
+        "description": "se cache dans les feuilles",
+        "animation": "coupe l'air environnant"
+      },
+      "sea_snake": {
+        "name": "Serpent de mer",
+        "description": "vit dans les eaux océaniques chaudes",
+        "animation": "laisse des bulles"
+      },
+      "eel": {
+        "name": "Anguille",
+        "description": "glisse entre les algues",
+        "animation": "crée des tourbillons dans l'eau"
+      },
+      "forest_snake": {
+        "name": "Serpent de forêt",
+        "description": "se cache dans l'herbe et la litière",
+        "animation": "fait voler des feuilles"
+      },
+      "grass_snake": {
+        "name": "Couleuvre à collier",
+        "description": "préfère les lisières de forêts",
+        "animation": "fait craquer les feuilles mortes"
+      },
+      "sand_snake": {
+        "name": "Serpent des sables",
+        "description": "s'enfouit dans le sable chaud",
+        "animation": "soulève des nuages de sable en se déplaçant"
+      },
+      "sidewinder": {
+        "name": "Crotale",
+        "description": "laisse des traces en forme de S dans le sable",
+        "animation": "génère des tourbillons de sable"
+      },
+      "steppe_adder": {
+        "name": "Vipère des steppes",
+        "description": "se cache dans les hautes herbes",
+        "animation": "provoque de petits nuages de poussière en se déplaçant"
+      },
+      "ratsnake": {
+        "name": "Couleuvre ratière",
+        "description": "chasse les petits rongeurs",
+        "animation": "agite l'herbe et soulève de la poussière"
+      }
+    }
+  },
+  "controls": {
+    "up": "Haut",
+    "down": "Bas",
+    "left": "Gauche",
+    "right": "Droite",
+    "keyboard": {
+      "arrows": "Touches fléchées - contrôler le serpent",
+      "enter": "Entrée/Espace - commencer/recommencer le jeu",
+      "pause": "P - pause",
+      "settings": "Échap - ouvrir le menu des paramètres",
+      "records": "R - afficher les records"
+    }
+  },
+  "environments": {
+    "jungle": "Jungle",
+    "sea": "Mer",
+    "forest": "Forêt",
+    "desert": "Désert",
+    "steppe": "Prairie"
+  },
+  "themes": {
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Petit",
+    "medium": "Moyen",
+    "large": "Grand",
+    "giant": "Géant",
+    "epic": "Épique"
+  },
+  "fieldSelectionModes": {
+    "static": "Statique",
+    "sequential": "Séquentiel",
+    "random": "Aléatoire"
+  },
+  "snakes": {
+    "tropical_green": "Serpent vert",
+    "red_sea": "Serpent de mer",
+    "blue_green_sea": "Anguille",
+    "forest_boa": "Boa de forêt",
+    "rattlesnake": "Serpent du désert",
+    "striped_viper": "Crotale",
+    "mouse_hunter": "Vipère des steppes"
+  },
+  "languages": {
+    "russian": "Russe",
+    "english": "Anglais",
+    "german": "Allemand",
+    "french": "Français"
+  },
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Scarabée",
+        "description": "Nourriture commune dans la jungle",
+        "points": 10
+      },
+      "frog": {
+        "name": "Grenouille",
+        "description": "Proie moyenne",
+        "points": 25
+      },
+      "bird": {
+        "name": "Oiseau",
+        "description": "Proie rare",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Ananas",
+        "description": "Double les points pendant 15 secondes",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Baie empoisonnée",
+        "description": "Nourriture pénalité, à éviter",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Crevette",
+        "description": "Nourriture commune dans la mer",
+        "points": 10
+      },
+      "fish": {
+        "name": "Poisson",
+        "description": "Proie moyenne",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Étoile de mer",
+        "description": "Proie rare",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plancton",
+        "description": "Double les points pendant 15 secondes",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Méduse",
+        "description": "Nourriture pénalité, à éviter",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Fourmi",
+        "description": "Nourriture commune dans la forêt",
+        "points": 10
+      },
+      "locust": {
+        "name": "Sauterelle",
+        "description": "Proie moyenne",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Lapin",
+        "description": "Proie rare",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Champignon",
+        "description": "Double les points pendant 15 secondes",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Baie moisie",
+        "description": "Nourriture pénalité, à éviter",
+        "points": -20
+      }
+    },
+    "desert": {
+      "scorpion": {
+        "name": "Scorpion",
+        "description": "Nourriture commune dans le désert",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Scarabée",
+        "description": "Proie moyenne",
+        "points": 25
+      },
+      "egg": {
+        "name": "Œuf",
+        "description": "Proie rare",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Fleur de cactus",
+        "description": "Double les points pendant 15 secondes",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Épine",
+        "description": "Nourriture pénalité, à éviter",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Sauterelle",
+        "description": "Nourriture commune dans la prairie",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Spermophile",
+        "description": "Proie moyenne",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Souris",
+        "description": "Proie rare",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Herbe dorée",
+        "description": "Double les points pendant 15 secondes",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Graine amère",
+        "description": "Nourriture pénalité, à éviter",
+        "points": -20
+      }
+    }
+  }
+}
