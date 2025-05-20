@@ -242,6 +242,15 @@ export const GameSettings: React.FC = () => {
               </select>
             </div>
 
+            <div className={styles.buttonGroup}>
+              <button type="button" onClick={handleCancel} className={styles.cancelButton}>
+                {t('common.cancel')}
+              </button>
+              <button type="submit" className={styles.saveButton}>
+                {t('common.save')}
+              </button>
+            </div>
+
             <div className={styles.formGroup}>
               <label htmlFor="language">{t('settings.language.title')}:</label>
               <select
@@ -254,15 +263,6 @@ export const GameSettings: React.FC = () => {
                 <option value="en">{t('settings.language.en')}</option>
                 <option value="de">{t('settings.language.de')}</option>
               </select>
-            </div>
-
-            <div className={styles.buttonGroup}>
-              <button type="button" onClick={handleCancel} className={styles.cancelButton}>
-                {t('common.cancel')}
-              </button>
-              <button type="submit" className={styles.saveButton}>
-                {t('common.save')}
-              </button>
             </div>
           </form>
         </div>
