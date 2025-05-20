@@ -36,9 +36,7 @@ export const GameBoard = () => {
   }, []);
 
   // Состояние для отслеживания размеров окна
-  // TODO fix
-  //@ts-ignore
-  const [windowDimension, setWindowDimension] = useState({
+  const [, setWindowDimension] = useState({
     width: window.innerWidth,
     height: window.innerHeight
   });

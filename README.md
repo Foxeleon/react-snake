@@ -1,7 +1,7 @@
 # 🐍 8-bit Snake Game
 
 A modern version of the classic Snake game with 8-bit aesthetics, diverse environments, realistic movements, various food types, and player records. The game supports multiple languages for a global audience.
-
+https://foxeleon.github.io/snake_demo/
 ## ✨ Features
 
 * **8-bit animations and graphics** in retro game style

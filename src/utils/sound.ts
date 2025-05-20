@@ -332,7 +332,7 @@ export const playSound = (
         sea: 140,
         forest: 160,
         desert: 190,
-        steppe: 150
+        steppe: 170
       };
 
       const baseFreq = envFreq[environment] ?? 160;
