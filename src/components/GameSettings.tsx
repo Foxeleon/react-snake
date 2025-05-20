@@ -4,6 +4,7 @@ import styles from './GameSettings.module.css';
 import { BoardSize, Environment, FieldSelectionMode, Language, SnakeType, Theme } from '@/types/gameTypes.ts';
 import { ENVIRONMENT_TO_SNAKE_TYPES } from '@/constants/gameConstants.ts';
 import { useTranslation } from 'react-i18next';
+import { DifficultySwitcher } from '@/components/DifficultySwitcher.tsx';
 
 export const GameSettings: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -18,6 +19,7 @@ export const GameSettings: React.FC = () => {
     boardSize: settings.boardSize,
     fieldSelectionMode: settings.fieldSelectionMode,
     soundEnabled: settings.soundEnabled,
+    speed: settings.speed,
     snakeType: settings.snakeType,
     showMobileControls: settings.showMobileControls,
     language: settings.language
@@ -35,6 +37,7 @@ export const GameSettings: React.FC = () => {
       boardSize: settings.boardSize,
       fieldSelectionMode: settings.fieldSelectionMode,
       soundEnabled: settings.soundEnabled,
+      speed: settings.speed,
       snakeType: settings.snakeType,
       showMobileControls: settings.showMobileControls,
       language: settings.language
@@ -56,7 +59,6 @@ export const GameSettings: React.FC = () => {
     if (!availableSnakeTypes.includes(formData.snakeType as SnakeType)) {
       formData.snakeType = availableSnakeTypes[0];
     }
-
     updateSettings({
       playerName: formData.playerName,
       environment: formData.environment as Environment,
@@ -64,6 +66,7 @@ export const GameSettings: React.FC = () => {
       boardSize: formData.boardSize as BoardSize,
       fieldSelectionMode: formData.fieldSelectionMode as FieldSelectionMode,
       soundEnabled: formData.soundEnabled,
+      speed: formData.speed,
       snakeType: formData.snakeType as SnakeType,
       showMobileControls: formData.showMobileControls,
       language: formData.language as Language
@@ -187,6 +190,14 @@ export const GameSettings: React.FC = () => {
                 <option value="sequential">{t('fieldSelectionModes.sequential')}</option>
                 <option value="random">{t('fieldSelectionModes.random')}</option>
               </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <DifficultySwitcher
+                  formData={formData}
+                  setFormData={setFormData}
+                  isPlaying={isPlaying}
+              />
             </div>
 
             <div className={styles.formGroup}>

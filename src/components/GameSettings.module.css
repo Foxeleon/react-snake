@@ -274,4 +274,44 @@
 .disabledSelect {
   opacity: 0.6;
   cursor: not-allowed;
-} 
+}
+
+.difficultySwitcher {
+  display: flex;
+  gap: 1rem; /* Расстояние между кнопками */
+}
+
+.difficultyOption {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.difficultyOption:hover {
+  background-color: #ececec;
+}
+
+.difficultyOption.active {
+  background-color: #007bff;
+  color: #000000;
+  border-color: #000000;
+  border-width: 4px;
+}
+
+.easy {
+  background-color: #28a745; /* Зелёный */
+  color: #fff;
+}
+
+.normal {
+  background-color: #ffdd57;
+  color: #fff;
+}
+
+.hard {
+  background-color: #dc3545; /* Красный */
+  color: #fff;
+}

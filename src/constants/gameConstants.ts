@@ -61,8 +61,8 @@ export const DOUBLE_POINTS_DURATION = 15250; // 15,25 секунд
 
 // Настройки начальной скорости игры
 export const INITIAL_SPEED = 200;
-export const SLOW_SPEED = 400;
-export const FAST_SPEED = 200;
+export const SLOW_SPEED = 300;
+export const FAST_SPEED = 100;
 
 // Снижение скорости при поедании еды (выше значение = быстрее игра)
 export const SPEED_INCREASE_RATE = 2;

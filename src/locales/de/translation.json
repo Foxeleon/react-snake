@@ -40,6 +40,12 @@
     "playerName": "Spielername",
     "boardSize": "Spielfeldgröße",
     "fieldSelectionMode": "Feldauswahlmodus",
+    "speed": {
+      "title": "Geschwindigkeit",
+      "easy": "Langsamer",
+      "normal": "Normal",
+      "hard": "Schnell"
+    },
     "enableSound": "Ton aktivieren",
     "showMobileControls": "Steuerungstasten auf Mobilgeräten anzeigen",
     "snakeType": "Schlangentyp",

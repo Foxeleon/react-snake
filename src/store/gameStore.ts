@@ -140,6 +140,7 @@ const DEFAULT_SETTINGS: GameSettings = {
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
   soundEnabled: true,
+  speed: INITIAL_SPEED,
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE,
   showMobileControls: true,
   language: DEFAULT_LANGUAGE
@@ -183,6 +184,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       // В режиме sequential окружение уже выбрано в resetGame
       let environment = settings.environment;
       let snakeType = settings.snakeType;
+      let speed = settings.speed;
 
       playSound('start_game', environment);
 
@@ -201,7 +203,8 @@ export const useGameStore = create<GameStore>((set, get) => {
       const updatedSettings = { 
         ...settings, 
         environment,
-        snakeType
+        snakeType,
+        speed
       };
       
       set({
@@ -210,7 +213,7 @@ export const useGameStore = create<GameStore>((set, get) => {
         direction: 'UP',
         isGameOver: false,
         score: 0,
-        speed: INITIAL_SPEED,
+        speed,
         isPlaying: true,
         doublePointsActive: false,
         doublePointsEndTime: null,
@@ -504,6 +507,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       boardSize: BoardSize;
       fieldSelectionMode: FieldSelectionMode;
       soundEnabled: boolean;
+      speed: number;
       snakeType: SnakeType;
       showMobileControls: boolean;
       language: Language;
@@ -513,7 +517,7 @@ export const useGameStore = create<GameStore>((set, get) => {
 
       // Проверяем, подходит ли выбранный тип змеи для выбранного окружения
       const availableSnakeTypes = ENVIRONMENT_TO_SNAKE_TYPES[newSettings.environment];
-      let { snakeType } = newSettings;
+      let { snakeType, speed } = newSettings;
       if (!availableSnakeTypes.includes(snakeType)) {
         // Если тип змеи не подходит, выбираем первый доступный
         snakeType = availableSnakeTypes[0];
@@ -524,7 +528,8 @@ export const useGameStore = create<GameStore>((set, get) => {
         ...newSettings,
         gridSize,
         foodExpirationTime,
-        snakeType
+        snakeType,
+        speed
       };
 
       // Проверяем изменение языка
@@ -675,7 +680,7 @@ export const useGameStore = create<GameStore>((set, get) => {
       get().saveSettings();
 
       i18n.changeLanguage(language)
-          .catch(error =>  console.error("Error by language change:", error));
+          .catch(error => console.error("Error by language change:", error));
     },
   };
 }); 
