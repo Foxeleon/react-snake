@@ -129,10 +129,6 @@ const getDefaultSnakeType = (environment: Environment): SnakeType => {
   const types = ENVIRONMENT_TO_SNAKE_TYPES[environment];
   return types[0]; // Возвращаем первый доступный тип для данного окружения
 };
-const getSpeed = () => {
-
-  return INITIAL_SPEED; // Возвращаем первый доступный тип для данного окружения
-};
 
 // Дефолтные настройки
 const DEFAULT_SETTINGS: GameSettings = {
@@ -144,7 +140,7 @@ const DEFAULT_SETTINGS: GameSettings = {
   gridSize: GRID_SIZES[DEFAULT_BOARD_SIZE],
   foodExpirationTime: FOOD_EXPIRATION_TIMES[DEFAULT_BOARD_SIZE],
   soundEnabled: true,
-  speed: getSpeed(),
+  speed: INITIAL_SPEED,
   fieldSelectionMode: DEFAULT_FIELD_SELECTION_MODE,
   showMobileControls: true,
   language: DEFAULT_LANGUAGE

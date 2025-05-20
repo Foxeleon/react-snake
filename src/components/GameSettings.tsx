@@ -59,7 +59,6 @@ export const GameSettings: React.FC = () => {
     if (!availableSnakeTypes.includes(formData.snakeType as SnakeType)) {
       formData.snakeType = availableSnakeTypes[0];
     }
-
     updateSettings({
       playerName: formData.playerName,
       environment: formData.environment as Environment,
@@ -194,7 +193,11 @@ export const GameSettings: React.FC = () => {
             </div>
 
             <div className={styles.formGroup}>
-              <DifficultySwitcher/>
+              <DifficultySwitcher
+                  formData={formData}
+                  setFormData={setFormData}
+                  isPlaying={isPlaying}
+              />
             </div>
 
             <div className={styles.formGroup}>

@@ -1,8 +1,14 @@
 import React from 'react';
 import styles from './GameSettings.module.css';
 import { useTranslation } from 'react-i18next';
-import { useGameStore } from '@/store/gameStore';
 import { FAST_SPEED, INITIAL_SPEED, SLOW_SPEED } from '@/constants/gameConstants.ts';
+import { GameSettings } from '@/types/gameTypes.ts';
+
+interface DifficultySwitcherProps {
+    formData: Partial<GameSettings>;
+    setFormData: React.Dispatch<React.SetStateAction<any>>;
+    isPlaying: boolean;
+}
 
 interface DifficultyOption {
     label: string;
@@ -16,13 +22,15 @@ const difficultyOptions: DifficultyOption[] = [
     { label: 'settings.speed.hard', speed: FAST_SPEED, type: 'hard' },
 ];
 
-export const DifficultySwitcher: React.FC = () => {
+export const DifficultySwitcher: React.FC<DifficultySwitcherProps> = ({ formData, setFormData, isPlaying }) => {
     const { t } = useTranslation();
-    const { settings, updateSettings, isPlaying } = useGameStore();
 
     // Обработчик смены уровня сложности
     const handleDifficultyChange = (speed: number) => {
-        updateSettings({ ...settings, speed });
+        setFormData((prevState: GameSettings) => ({
+            ...prevState,
+            speed,
+        }));
     };
 
     return (
@@ -39,7 +47,7 @@ export const DifficultySwitcher: React.FC = () => {
                         type="button"
                         disabled={isPlaying}
                         className={isPlaying ? styles.disabledSelect : `${styles.difficultyOption} ${
-                            settings.speed === option.speed ? styles.active : ''
+                            formData.speed === option.speed ? styles.active : ''
                         } ${styles[option.type]}`}
                         onClick={() => handleDifficultyChange(option.speed)}
                     >
