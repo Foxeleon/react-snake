@@ -40,6 +40,12 @@
     "playerName": "Player name",
     "boardSize": "Board size",
     "fieldSelectionMode": "Field selection mode",
+    "speed": {
+      "title": "Speed",
+      "easy": "Slowly",
+      "normal": "Normal",
+      "hard": "Fast"
+    },
     "enableSound": "Enable sound",
     "showMobileControls": "Show control buttons on mobile devices",
     "snakeType": "Snake type",

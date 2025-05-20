@@ -62,6 +62,7 @@ export interface GameSettings {
   gridSize: number;
   foodExpirationTime: number;
   soundEnabled: boolean;
+  speed: number;
   fieldSelectionMode: FieldSelectionMode;
   showMobileControls: boolean;
   language: Language;
@@ -115,7 +116,8 @@ export interface GameStore extends GameState {
     fieldSelectionMode: "static" | "sequential" | "random";
     theme: "light" | "dark";
     language: "ru" | "en" | "de";
-    soundEnabled: boolean
+    soundEnabled: boolean;
+    speed: number
   }) => void;
   pauseGame: () => void;
   resumeGame: () => void;

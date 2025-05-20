@@ -40,6 +40,12 @@
     "playerName": "Имя игрока",
     "boardSize": "Размер поля",
     "fieldSelectionMode": "Режим выбора поля",
+    "speed": {
+      "title": "Скорость",
+      "easy": "Медленней",
+      "normal": "Обычная",
+      "hard": "Быстро"
+    },
     "enableSound": "Включить звук",
     "showMobileControls": "Показывать кнопки управления на мобильных устройствах",
     "snakeType": "Тип змеи",
