@@ -1,0 +1,372 @@
+{
+  "app": {
+    "title": "贪吃蛇 8-bit",
+    "description": "8位风格的经典《贪吃蛇》游戏现代版"
+  },
+  "game": {
+    "start": "开始游戏",
+    "pause": "暂停",
+    "resume": "继续",
+    "restart": "重新开始",
+    "gameOver": "游戏结束！",
+    "score": "得分：{{score}}",
+    "gameTitle": "贪吃蛇",
+    "doublePoints": {
+      "desktop": "双倍得分！({{seconds}}秒)",
+      "mobile": "x2 ({{seconds}}秒)"
+    },
+    "controls": {
+      "arrows": "使用方向键控制蛇的移动"
+    },
+    "buttons": {
+      "settings": "设置",
+      "records": "记录",
+      "showLegend": "显示图例",
+      "hideLegend": "隐藏图例"
+    }
+  },
+  "welcome": {
+    "title": "欢迎来到贪吃蛇游戏！",
+    "description": "刺激的8位游戏，有各种类型的蛇和环境",
+    "nameLabel": "您叫什么名字？",
+    "namePlaceholder": "请输入您的名字",
+    "nameError": "请输入您的名字",
+    "startButton": "开始游戏",
+    "settingsButton": "设置",
+    "recordsButton": "记录"
+  },
+  "settings": {
+    "title": "游戏设置",
+    "playerName": "玩家名称",
+    "boardSize": "游戏板大小",
+    "fieldSelectionMode": "场地选择模式",
+    "speed": {
+      "title": "速度",
+      "easy": "慢速",
+      "normal": "正常",
+      "hard": "快速"
+    },
+    "enableSound": "启用声音",
+    "showMobileControls": "在移动设备上显示控制按钮",
+    "snakeType": "蛇的类型",
+    "notAvailableDuringGame": "游戏期间不可用",
+    "theme": {
+      "title": "主题",
+      "light": "明亮",
+      "dark": "黑暗"
+    },
+    "gridSize": {
+      "title": "网格大小",
+      "mini": "迷你 (10×10)",
+      "small": "小 (15×15)",
+      "medium": "中 (20×20)",
+      "large": "大 (25×25)",
+      "giant": "巨大 (30×30)",
+      "epic": "史诗 (35×35)"
+    },
+    "environment": {
+      "title": "环境",
+      "jungle": "丛林",
+      "sea": "海洋",
+      "forest": "森林",
+      "desert": "沙漠",
+      "grassland": "草原"
+    },
+    "language": {
+      "title": "语言",
+      "ru": "俄语",
+      "en": "英语",
+      "de": "德语",
+      "zh": "中文"
+    }
+  },
+  "legend": {
+    "title": "图例",
+    "close": "关闭",
+    "yourSnake": "你的蛇",
+    "food": "食物",
+    "and": "和",
+    "points": "{{count}} 点",
+    "points_plural": "{{count}} 点",
+    "controls": {
+      "title": "控制",
+      "keyboard": "使用键盘上的方向键控制蛇。",
+      "mobile": "在移动设备上，有虚拟按钮或滑动手势。"
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "生活在丛林中",
+        "animation": "产生轻微的气流"
+      },
+      "sea": {
+        "habitat": "生活在海洋中",
+        "animation": "留下气泡"
+      },
+      "forest": {
+        "habitat": "生活在森林中",
+        "animation": "在周围散落树叶"
+      },
+      "desert": {
+        "habitat": "生活在沙漠中",
+        "animation": "掀起沙浪"
+      },
+      "steppe": {
+        "habitat": "生活在草原上",
+        "animation": "产生尘云"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "蛇类型 {{type}}"
+      },
+      "green_snake": {
+        "name": "绿蛇",
+        "description": "生活在茂密的丛林植被中",
+        "animation": "留下轻微的气流"
+      },
+      "python": {
+        "name": "蟒蛇",
+        "description": "喜欢热带森林",
+        "animation": "移动时在落叶中沙沙作响"
+      },
+      "viper": {
+        "name": "蝰蛇",
+        "description": "藏在树叶中",
+        "animation": "划破周围的空气"
+      },
+      "sea_snake": {
+        "name": "海蛇",
+        "description": "生活在温暖的海洋水域",
+        "animation": "留下气泡"
+      },
+      "eel": {
+        "name": "鳗鱼",
+        "description": "在海草间滑行",
+        "animation": "在水中产生漩涡"
+      },
+      "forest_snake": {
+        "name": "森林蛇",
+        "description": "藏在草和落叶中",
+        "animation": "使树叶飘走"
+      },
+      "grass_snake": {
+        "name": "草蛇",
+        "description": "喜欢森林边缘",
+        "animation": "在落叶中沙沙作响"
+      },
+      "sand_snake": {
+        "name": "沙蛇",
+        "description": "埋在热沙中",
+        "animation": "移动时卷起沙云"
+      },
+      "sidewinder": {
+        "name": "响尾蛇",
+        "description": "在沙中留下S形痕迹",
+        "animation": "产生沙旋"
+      },
+      "steppe_adder": {
+        "name": "草原蝰蛇",
+        "description": "藏在高草中",
+        "animation": "移动时引起尘云"
+      },
+      "ratsnake": {
+        "name": "鼠蛇",
+        "description": "捕食小啮齿动物",
+        "animation": "摇动草并扬起尘土"
+      }
+    }
+  },
+  "controls": {
+    "up": "上",
+    "down": "下",
+    "left": "左",
+    "right": "右",
+    "keyboard": {
+      "arrows": "方向键 - 控制蛇",
+      "enter": "回车/空格 - 开始/重新开始游戏",
+      "pause": "P - 暂停",
+      "settings": "Esc - 打开设置菜单",
+      "records": "R - 显示记录"
+    }
+  },
+  "environments": {
+    "jungle": "丛林",
+    "sea": "海洋",
+    "forest": "森林",
+    "desert": "沙漠",
+    "steppe": "草原"
+  },
+  "themes": {
+    "light": "明亮",
+    "dark": "黑暗"
+  },
+  "boardSizes": {
+    "mini": "迷你",
+    "small": "小",
+    "medium": "中",
+    "large": "大",
+    "giant": "巨大",
+    "epic": "史诗"
+  },
+  "fieldSelectionModes": {
+    "static": "静态",
+    "sequential": "顺序",
+    "random": "随机"
+  },
+  "snakes": {
+    "tropical_green": "绿蛇",
+    "red_sea": "海蛇",
+    "blue_green_sea": "鳗鱼",
+    "forest_boa": "森林蟒",
+    "rattlesnake": "沙漠蛇",
+    "striped_viper": "响尾蛇",
+    "mouse_hunter": "草原蝰蛇"
+  },
+  "languages": {
+    "russian": "俄语",
+    "english": "英语",
+    "german": "德语",
+    "chinese": "中文"
+  },
+  "common": {
+    "cancel": "取消",
+    "save": "保存"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "甲虫",
+        "description": "丛林中常见的食物",
+        "points": 10
+      },
+      "frog": {
+        "name": "青蛙",
+        "description": "中等猎物",
+        "points": 25
+      },
+      "bird": {
+        "name": "鸟",
+        "description": "稀有猎物",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "菠萝",
+        "description": "15秒内得分翻倍",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "毒浆果",
+        "description": "惩罚食物，避免它",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "虾",
+        "description": "海洋中常见的食物",
+        "points": 10
+      },
+      "fish": {
+        "name": "鱼",
+        "description": "中等猎物",
+        "points": 25
+      },
+      "starfish": {
+        "name": "海星",
+        "description": "稀有猎物",
+        "points": 50
+      },
+      "plankton": {
+        "name": "浮游生物",
+        "description": "15秒内得分翻倍",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "水母",
+        "description": "惩罚食物，避免它",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "蚂蚁",
+        "description": "森林中常见的食物",
+        "points": 10
+      },
+      "locust": {
+        "name": "蝗虫",
+        "description": "中等猎物",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "兔子",
+        "description": "稀有猎物",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "蘑菇",
+        "description": "15秒内得分翻倍",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "发霉的浆果",
+        "description": "惩罚食物，避免它",
+        "points": -20
+      }
+    },
+    "desert": {
+      "scorpion": {
+        "name": "蝎子",
+        "description": "沙漠中常见的食物",
+        "points": 10
+      },
+      "beetle": {
+        "name": "圣甲虫",
+        "description": "中等猎物",
+        "points": 25
+      },
+      "egg": {
+        "name": "蛋",
+        "description": "稀有猎物",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "仙人掌花",
+        "description": "15秒内得分翻倍",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "刺",
+        "description": "惩罚食物，避免它",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "蚱蜢",
+        "description": "草原上常见的食物",
+        "points": 10
+      },
+      "gopher": {
+        "name": "地鼠",
+        "description": "中等猎物",
+        "points": 25
+      },
+      "mouse": {
+        "name": "老鼠",
+        "description": "稀有猎物",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "金色草",
+        "description": "15秒内得分翻倍",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "苦种子",
+        "description": "惩罚食物，避免它",
+        "points": -20
+      }
+    }
+  }
+}

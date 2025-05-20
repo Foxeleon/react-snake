@@ -29,7 +29,7 @@ export type FoodType =
 
 export type FieldSelectionMode = 'static' | 'sequential' | 'random';
 
-export type Language = 'ru' | 'en' | 'de';
+export type Language = 'ru' | 'en' | 'de' | 'ch' | 'es' | 'fr' | 'gr' | 'it' | 'jp' | 'kor' | 'tr';
 
 export interface Food {
   position: Position;
@@ -115,7 +115,7 @@ export interface GameStore extends GameState {
     boardSize: "mini" | "small" | "medium" | "large" | "giant" | "epic";
     fieldSelectionMode: "static" | "sequential" | "random";
     theme: "light" | "dark";
-    language: "ru" | "en" | "de";
+    language: "ru" | "en" | "de" | 'ch' | 'es' | 'fr' | 'gr' | 'it' | 'jp' | 'kor' | 'tr';
     soundEnabled: boolean;
     speed: number
   }) => void;

@@ -18,9 +18,7 @@ let audioContext: AudioContext | null = null;
 
 export const initAudio = (): void => {
   if (audioContext === null) {
-    audioContext = new (window.AudioContext ||
-        // @ts-ignore
-        window.webkitAudioContext)();
+    audioContext = new window.AudioContext;
   }
 };
 

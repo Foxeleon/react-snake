@@ -76,7 +76,15 @@
       "title": "Sprache",
       "ru": "Russisch",
       "en": "Englisch",
-      "de": "Deutsch"
+      "de": "Deutsch",
+      "ch": "Chinesisch",
+      "es": "Spanisch",
+      "fr": "Französisch",
+      "gr": "Griechisch",
+      "it": "Italienisch",
+      "jp": "Japanisch",
+      "kor": "Koreanisch",
+      "tr": "Türkisch"
     }
   },
   "legend": {

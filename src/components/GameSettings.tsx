@@ -262,6 +262,14 @@ export const GameSettings: React.FC = () => {
                 <option value="ru">{t('settings.language.ru')}</option>
                 <option value="en">{t('settings.language.en')}</option>
                 <option value="de">{t('settings.language.de')}</option>
+                <option value="ch">{t('settings.language.ch')}</option>
+                <option value="es">{t('settings.language.es')}</option>
+                <option value="fr">{t('settings.language.fr')}</option>
+                <option value="gr">{t('settings.language.gr')}</option>
+                <option value="it">{t('settings.language.it')}</option>
+                <option value="jp">{t('settings.language.jp')}</option>
+                <option value="kor">{t('settings.language.kor')}</option>
+                <option value="tr">{t('settings.language.tr')}</option>
               </select>
             </div>
           </form>

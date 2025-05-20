@@ -1,0 +1,373 @@
+
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Klasik \"Snake\" oyununun 8-bit tarzında modern versiyonu"
+  },
+  "game": {
+    "start": "Oyunu Başlat",
+    "pause": "Duraklat",
+    "resume": "Devam Et",
+    "restart": "Yeniden Oyna",
+    "gameOver": "Oyun Bitti!",
+    "score": "Puan: {{score}}",
+    "gameTitle": "Snake",
+    "doublePoints": {
+      "desktop": "Çift Puan! ({{seconds}} saniye)",
+      "mobile": "x2 ({{seconds}} saniye)"
+    },
+    "controls": {
+      "arrows": "Yılanı kontrol etmek için ok tuşlarını kullanın"
+    },
+    "buttons": {
+      "settings": "Ayarlar",
+      "records": "Sıralama",
+      "showLegend": "Açıklamaları Göster",
+      "hideLegend": "Açıklamaları Gizle"
+    }
+  },
+  "welcome": {
+    "title": "Snake Oyununa Hoş Geldiniz!",
+    "description": "Çeşitli yılan türleri ve ortamlarla heyecan verici 8-bit oyun",
+    "nameLabel": "Adınız nedir?",
+    "namePlaceholder": "Adınızı girin",
+    "nameError": "Lütfen adınızı girin",
+    "startButton": "Oyunu Başlat",
+    "settingsButton": "Ayarlar",
+    "recordsButton": "Kayıtlar"
+  },
+  "settings": {
+    "title": "Oyun Ayarları",
+    "playerName": "Oyuncu Adı",
+    "boardSize": "Tahta Boyutu",
+    "fieldSelectionMode": "Alan Seçim Modu",
+    "speed": {
+      "title": "Hız",
+      "easy": "Yavaş",
+      "normal": "Normal",
+      "hard": "Hızlı"
+    },
+    "enableSound": "Sesi Etkinleştir",
+    "showMobileControls": "Mobil cihazlarda kontrol düğmelerini göster",
+    "snakeType": "Yılan Türü",
+    "notAvailableDuringGame": "Oyun sırasında kullanılamaz",
+    "theme": {
+      "title": "Tema",
+      "light": "Açık",
+      "dark": "Koyu"
+    },
+    "gridSize": {
+      "title": "Izgara Boyutu",
+      "mini": "Mini (10×10)",
+      "small": "Küçük (15×15)",
+      "medium": "Orta (20×20)",
+      "large": "Büyük (25×25)",
+      "giant": "Dev (30×30)",
+      "epic": "Epik (35×35)"
+    },
+    "environment": {
+      "title": "Ortam",
+      "jungle": "Orman",
+      "sea": "Deniz",
+      "forest": "Orman",
+      "desert": "Çöl",
+      "grassland": "Çayır"
+    },
+    "language": {
+      "title": "Dil",
+      "ru": "Rusça",
+      "en": "İngilizce",
+      "de": "Almanca",
+      "ch": "Çince",
+      "es": "İspanyolca",
+      "fr": "Fransızca",
+      "gr": "Yunanca",
+      "it": "İtalyanca",
+      "jp": "Japonca",
+      "kor": "Korece",
+      "tr": "Türkçe"
+    }
+  },
+  "legend": {
+    "title": "Açıklamalar",
+    "close": "Kapat",
+    "yourSnake": "Yılanınız",
+    "food": "Yiyecek",
+    "and": "ve",
+    "points": "{{count}} puan",
+    "points_plural": "{{count}} puan",
+    "controls": {
+      "title": "Kontroller",
+      "keyboard": "Yılanı kontrol etmek için ok tuşlarını kullanın.",
+      "mobile": "Mobil cihazlarda, sanal düğmeleri kullanın veya ekranı kaydırın."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "Ormanda yaşar",
+        "animation": "Hafif hava akımları oluşturur"
+      },
+      "sea": {
+        "habitat": "Denizde yaşar",
+        "animation": "Arkasında kabarcıklar bırakır"
+      },
+      "forest": {
+        "habitat": "Ormanda yaşar",
+        "animation": "Etrafına yapraklar saçar"
+      },
+      "desert": {
+        "habitat": "Çölde yaşar",
+        "animation": "Kum dalgaları oluşturur"
+      },
+      "steppe": {
+        "habitat": "Çayırda yaşar",
+        "animation": "Toz bulutları oluşturur"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "{{type}} türü yılan"
+      },
+      "green_snake": {
+        "name": "Yeşil Yılan",
+        "description": "Ormanın yoğun bitki örtüsünde yaşar",
+        "animation": "Arkasında hafif hava akımları bırakır"
+      },
+      "python": {
+        "name": "Python",
+        "description": "Tropikal yağmur ormanlarını tercih eder",
+        "animation": "Hareket ederken yapraklar arasında ses çıkarır"
+      },
+      "viper": {
+        "name": "Engerek",
+        "description": "Yapraklar arasında gizlenir",
+        "animation": "Etrafındaki havayı keser"
+      },
+      "sea_snake": {
+        "name": "Deniz Yılanı",
+        "description": "Sıcak deniz sularında yaşar",
+        "animation": "Arkasında kabarcıklar bırakır"
+      },
+      "eel": {
+        "name": "Yılan Balığı",
+        "description": "Yosunlar arasında kayar",
+        "animation": "Su altında girdaplar oluşturur"
+      },
+      "forest_snake": {
+        "name": "Orman Yılanı",
+        "description": "Çimen ve yapraklar arasında gizlenir",
+        "animation": "Yaprakları savurur"
+      },
+      "grass_snake": {
+        "name": "Çayır Yılanı",
+        "description": "Orman kenarlarını tercih eder",
+        "animation": "Kum girdapları oluşturur"
+      },
+      "steppe_adder": {
+        "name": "Çayır Engerek",
+        "description": "Uzun otlar arasında gizlenir",
+        "animation": "Hareket ederken toz bulutları oluşturur"
+      },
+      "ratsnake": {
+        "name": "Sıçan Yılanı",
+        "description": "Küçük kemirgenler avlar",
+        "animation": "Otları sallayarak toz kaldırır"
+      }
+    }
+  },
+  "controls": {
+    "up": "Yukarı",
+    "down": "Aşağı",
+    "left": "Sol",
+    "right": "Sağ",
+    "keyboard": {
+      "arrows": "Ok tuşları - Yılanı kontrol et",
+      "enter": "Enter/Space - Oyunu başlat/devam et",
+      "pause": "P - Duraklat",
+      "settings": "Esc - Ayarlar menüsünü aç",
+      "records": "R - Yüksek skorları göster"
+    }
+  },
+  "environments": {
+    "jungle": "Orman",
+    "sea": "Deniz",
+    "forest": "Orman",
+    "desert": "Çöl",
+    "steppe": "Çayır"
+  },
+  "themes": {
+    "light": "Açık",
+    "dark": "Koyu"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Küçük",
+    "medium": "Orta",
+    "large": "Büyük",
+    "giant": "Dev",
+    "epic": "Epik"
+  },
+  "fieldSelectionModes": {
+    "static": "Sabit",
+    "sequential": "Sıralı",
+    "random": "Rastgele"
+  },
+  "snakes": {
+    "tropical_green": "Yeşil Yılan",
+    "red_sea": "Deniz Yılanı",
+    "blue_green_sea": "Yılan Balığı",
+    "forest_boa": "Orman Boası",
+    "rattlesnake": "Çöl Yılanı",
+    "striped_viper": "Çıngıraklı Yılan",
+    "mouse_hunter": "Çayır Engerek"
+  },
+  "languages": {
+    "russian": "Rusça",
+    "english": "İngilizce",
+    "german": "Almanca",
+    "greek": "Yunanca",
+    "korean": "Korece",
+    "japanese": "Japonca",
+    "turkish": "Türkçe"
+  },
+  "common": {
+    "cancel": "İptal",
+    "save": "Kaydet"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Böcek",
+        "description": "Ormanda yaygın yiyecek",
+        "points": 10
+      },
+      "frog": {
+        "name": "Kurbağa",
+        "description": "Orta boy av",
+        "points": 25
+      },
+      "bird": {
+        "name": "Kuş",
+        "description": "Nadir av",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Ananas",
+        "description": "15 saniye boyunca kazanılan puanları ikiye katlar",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Zehirli Meyve",
+        "description": "Ceza yiyeceği, kaçının",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Karides",
+        "description": "Denizde yaygın yiyecek",
+        "points": 10
+      },
+      "fish": {
+        "name": "Balık",
+        "description": "Orta boy av",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Denizyıldızı",
+        "description": "Nadir av",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plankton",
+        "description": "15 saniye boyunca kazanılan puanları ikiye katlar",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Denizanası",
+        "description": "Ceza yiyeceği, kaçının",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Karınca",
+        "description": "Ormanda yaygın yiyecek",
+        "points": 10
+      },
+      "locust": {
+        "name": "Çekirge",
+        "description": "Orta boy av",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Tavşan",
+        "description": "Nadir av",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Mantar",
+        "description": "15 saniye boyunca kazanılan puanları ikiye katlar",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Küflü Meyve",
+        "description": "Ceza yiyeceği, kaçının",
+        "points": -20
+      }
+    },
+    "desert": {
+      "scorpion": {
+        "name": "Akrep",
+        "description": "Çölde yaygın yiyecek",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Böcek",
+        "description": "Orta boy av",
+        "points": 25
+      },
+      "egg": {
+        "name": "Yumurta",
+        "description": "Nadir av",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Kaktüs Çiçeği",
+        "description": "15 saniye boyunca kazanılan puanları ikiye katlar",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Diken",
+        "description": "Ceza yiyeceği, kaçının",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Çekirge",
+        "description": "Çayırda yaygın yiyecek",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Yer Sincabı",
+        "description": "Orta boy av",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Fare",
+        "description": "Nadir av",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Altın Ot",
+        "description": "15 saniye boyunca kazanılan puanları ikiye katlar",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Acı Tohum",
+        "description": "Ceza yiyeceği, kaçının",
+        "points": -20
+      }
+    }
+  }
+}

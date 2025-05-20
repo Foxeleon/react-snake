@@ -1,0 +1,380 @@
+
+{
+  "app": {
+    "title": "Snake 8-bit",
+    "description": "Versión moderna del clásico juego \"Snake\" en estilo 8-bit"
+  },
+  "game": {
+    "start": "Iniciar juego",
+    "pause": "Pausar",
+    "resume": "Continuar",
+    "restart": "Reiniciar",
+    "gameOver": "¡Juego terminado!",
+    "score": "Puntuación: {{score}}",
+    "gameTitle": "Snake",
+    "doublePoints": {
+      "desktop": "¡Puntos dobles! ({{seconds}}s)",
+      "mobile": "x2 ({{seconds}}s)"
+    },
+    "controls": {
+      "arrows": "Usa las flechas para controlar la serpiente"
+    },
+    "buttons": {
+      "settings": "Ajustes",
+      "records": "Récords",
+      "showLegend": "Mostrar leyenda",
+      "hideLegend": "Ocultar leyenda"
+    }
+  },
+  "welcome": {
+    "title": "¡Bienvenido al juego Snake!",
+    "description": "Emocionante juego 8-bit con varios tipos de serpientes y entornos",
+    "nameLabel": "¿Cómo te llamas?",
+    "namePlaceholder": "Introduce tu nombre",
+    "nameError": "Por favor, introduce tu nombre",
+    "startButton": "Iniciar juego",
+    "settingsButton": "Ajustes",
+    "recordsButton": "Récords"
+  },
+  "settings": {
+    "title": "Ajustes del juego",
+    "playerName": "Nombre del jugador",
+    "boardSize": "Tamaño del tablero",
+    "fieldSelectionMode": "Modo de selección de campo",
+    "speed": {
+      "title": "Velocidad",
+      "easy": "Lenta",
+      "normal": "Normal",
+      "hard": "Rápida"
+    },
+    "enableSound": "Activar sonido",
+    "showMobileControls": "Mostrar controles en dispositivos móviles",
+    "snakeType": "Tipo de serpiente",
+    "notAvailableDuringGame": "No disponible durante el juego",
+    "theme": {
+      "title": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "gridSize": {
+      "title": "Tamaño de cuadrícula",
+      "mini": "Mini (10×10)",
+      "small": "Pequeño (15×15)",
+      "medium": "Mediano (20×20)",
+      "large": "Grande (25×25)",
+      "giant": "Gigante (30×30)",
+      "epic": "Épico (35×35)"
+    },
+    "environment": {
+      "title": "Entorno",
+      "jungle": "Selva",
+      "sea": "Mar",
+      "forest": "Bosque",
+      "desert": "Desierto",
+      "grassland": "Pradera"
+    },
+    "language": {
+      "title": "Idioma",
+      "ru": "Ruso",
+      "en": "Inglés",
+      "de": "Alemán",
+      "ch": "Chino",
+      "es": "Español",
+      "fr": "Francés",
+      "gr": "Griego",
+      "it": "Italiano",
+      "jp": "Japonés",
+      "kor": "Coreano",
+      "tr": "Turco"
+    }
+  },
+  "legend": {
+    "title": "Leyenda",
+    "close": "Cerrar",
+    "yourSnake": "Tu serpiente",
+    "food": "Comida",
+    "and": "y",
+    "points": "{{count}} punto",
+    "points_plural": "{{count}} puntos",
+    "controls": {
+      "title": "Controles",
+      "keyboard": "Usa las teclas de flecha del teclado para controlar la serpiente.",
+      "mobile": "En dispositivos móviles, hay botones virtuales o gestos de deslizamiento."
+    },
+    "environments": {
+      "jungle": {
+        "habitat": "vive en la selva",
+        "animation": "genera ligeras corrientes de aire"
+      },
+      "sea": {
+        "habitat": "vive en el océano",
+        "animation": "deja burbujas"
+      },
+      "forest": {
+        "habitat": "vive en el bosque",
+        "animation": "esparce hojas alrededor"
+      },
+      "desert": {
+        "habitat": "vive en el desierto",
+        "animation": "levanta olas de arena"
+      },
+      "steppe": {
+        "habitat": "vive en la pradera",
+        "animation": "genera nubes de polvo"
+      }
+    },
+    "snakes": {
+      "default": {
+        "name": "Tipo de serpiente {{type}}"
+      },
+      "green_snake": {
+        "name": "Serpiente verde",
+        "description": "vive en densa vegetación de la selva",
+        "animation": "deja leves corrientes de aire"
+      },
+      "python": {
+        "name": "Pitón",
+        "description": "prefiere bosques tropicales",
+        "animation": "cruje en hojas caídas mientras se mueve"
+      },
+      "viper": {
+        "name": "Víbora",
+        "description": "se esconde en las hojas",
+        "animation": "corta el aire circundante"
+      },
+      "sea_snake": {
+        "name": "Serpiente marina",
+        "description": "vive en aguas oceánicas cálidas",
+        "animation": "deja burbujas"
+      },
+      "eel": {
+        "name": "Anguila",
+        "description": "se desliza entre algas marinas",
+        "animation": "crea remolinos en el agua"
+      },
+      "forest_snake": {
+        "name": "Serpiente del bosque",
+        "description": "se esconde en hierba y hojarasca",
+        "animation": "hace volar hojas"
+      },
+      "grass_snake": {
+        "name": "Culebra de collar",
+        "description": "prefiere bordes de bosques",
+        "animation": "cruje en hojas caídas"
+      },
+      "sand_snake": {
+        "name": "Serpiente de arena",
+        "description": "se entierra en la arena caliente",
+        "animation": "levanta nubes de arena al moverse"
+      },
+      "sidewinder": {
+        "name": "Serpiente de cascabel",
+        "description": "deja huellas en forma de S en la arena",
+        "animation": "genera remolinos de arena"
+      },
+      "steppe_adder": {
+        "name": "Víbora de la estepa",
+        "description": "se esconde en la hierba alta",
+        "animation": "causa pequeñas nubes de polvo al moverse"
+      },
+      "ratsnake": {
+        "name": "Culebra ratonera",
+        "description": "caza pequeños roedores",
+        "animation": "menea la hierba y levanta polvo"
+      }
+    }
+  },
+  "controls": {
+    "up": "Arriba",
+    "down": "Abajo",
+    "left": "Izquierda",
+    "right": "Derecha",
+    "keyboard": {
+      "arrows": "Teclas de flecha - controlar la serpiente",
+      "enter": "Enter/Espacio - iniciar/reiniciar juego",
+      "pause": "P - pausa",
+      "settings": "Esc - abrir menú de ajustes",
+      "records": "R - mostrar récords"
+    }
+  },
+  "environments": {
+    "jungle": "Selva",
+    "sea": "Mar",
+    "forest": "Bosque",
+    "desert": "Desierto",
+    "steppe": "Pradera"
+  },
+  "themes": {
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "boardSizes": {
+    "mini": "Mini",
+    "small": "Pequeño",
+    "medium": "Mediano",
+    "large": "Grande",
+    "giant": "Gigante",
+    "epic": "Épico"
+  },
+  "fieldSelectionModes": {
+    "static": "Estático",
+    "sequential": "Secuencial",
+    "random": "Aleatorio"
+  },
+  "snakes": {
+    "tropical_green": "Serpiente verde",
+    "red_sea": "Serpiente marina",
+    "blue_green_sea": "Anguila",
+    "forest_boa": "Boa del bosque",
+    "rattlesnake": "Serpiente del desierto",
+    "striped_viper": "Serpiente de cascabel",
+    "mouse_hunter": "Víbora de la estepa"
+  },
+  "languages": {
+    "russian": "Ruso",
+    "english": "Inglés",
+    "german": "Alemán",
+    "spanish": "Español"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "food": {
+    "jungle": {
+      "bug": {
+        "name": "Escarabajo",
+        "description": "Comida común en la selva",
+        "points": 10
+      },
+      "frog": {
+        "name": "Rana",
+        "description": "Presa mediana",
+        "points": 25
+      },
+      "bird": {
+        "name": "Ave",
+        "description": "Presa rara",
+        "points": 50
+      },
+      "pineapple": {
+        "name": "Piña",
+        "description": "Duplica los puntos durante 15 segundos",
+        "points": "x2"
+      },
+      "poison_berry": {
+        "name": "Baya venenosa",
+        "description": "Comida penalización, evítala",
+        "points": -20
+      }
+    },
+    "sea": {
+      "shrimp": {
+        "name": "Camarón",
+        "description": "Comida común en el mar",
+        "points": 10
+      },
+      "fish": {
+        "name": "Pez",
+        "description": "Presa mediana",
+        "points": 25
+      },
+      "starfish": {
+        "name": "Estrella de mar",
+        "description": "Presa rara",
+        "points": 50
+      },
+      "plankton": {
+        "name": "Plancton",
+        "description": "Duplica los puntos durante 15 segundos",
+        "points": "x2"
+      },
+      "jellyfish": {
+        "name": "Medusa",
+        "description": "Comida penalización, evítala",
+        "points": -20
+      }
+    },
+    "forest": {
+      "ant": {
+        "name": "Hormiga",
+        "description": "Comida común en el bosque",
+        "points": 10
+      },
+      "locust": {
+        "name": "Langosta",
+        "description": "Presa mediana",
+        "points": 25
+      },
+      "rabbit": {
+        "name": "Conejo",
+        "description": "Presa rara",
+        "points": 50
+      },
+      "mushroom": {
+        "name": "Seta",
+        "description": "Duplica los puntos durante 15 segundos",
+        "points": "x2"
+      },
+      "moldy_berry": {
+        "name": "Baya mohosa",
+        "description": "Comida penalización, evítala",
+        "points": -20
+      }
+    },
+    "desert": {
+      "scorpion": {
+        "name": "Escorpión",
+        "description": "Comida común en el desierto",
+        "points": 10
+      },
+      "beetle": {
+        "name": "Escarabajo",
+        "description": "Presa mediana",
+        "points": 25
+      },
+      "egg": {
+        "name": "Huevo",
+        "description": "Presa rara",
+        "points": 50
+      },
+      "cactus_flower": {
+        "name": "Flor de cactus",
+        "description": "Duplica los puntos durante 15 segundos",
+        "points": "x2"
+      },
+      "thorn": {
+        "name": "Espina",
+        "description": "Comida penalización, evítala",
+        "points": -20
+      }
+    },
+    "steppe": {
+      "grasshopper": {
+        "name": "Saltamontes",
+        "description": "Comida común en la pradera",
+        "points": 10
+      },
+      "gopher": {
+        "name": "Topo",
+        "description": "Presa mediana",
+        "points": 25
+      },
+      "mouse": {
+        "name": "Ratón",
+        "description": "Presa rara",
+        "points": 50
+      },
+      "golden_grass": {
+        "name": "Hierba dorada",
+        "description": "Duplica los puntos durante 15 segundos",
+        "points": "x2"
+      },
+      "bitter_seed": {
+        "name": "Semilla amarga",
+        "description": "Comida penalización, evítala",
+        "points": -20
+      }
+    }
+  }
+}
