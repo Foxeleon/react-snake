@@ -85,8 +85,6 @@ export interface GameState {
   showLegend: boolean;
   isPaused: boolean;
   pausedDoublePointsTimeLeft: number | null;
-  // TODO add isMobile to gameStore
-  // isMobile: boolean;
 }
 
 export interface GameStore extends GameState {
