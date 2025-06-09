@@ -6,7 +6,7 @@ import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils';
 import { getFoodColor, getSnakeStyle } from '@/constants/gameConstants.ts';
-import SnakeSegment from '@/components/snakeSegment.tsx';
+import SnakeSegment from '@/components/SnakeSegment.tsx';
 
 export const GameBoard = () => {
   const {
