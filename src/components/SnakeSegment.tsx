@@ -9,8 +9,8 @@ const SnakeSegment: React.FC<SnakeSegmentProps> = React.memo(
                 <div
                     className={styles.snakeBody}
                     style={{
-                        backgroundColor: SnakeStyle!.bg,
-                        border: `3px solid ${SnakeStyle!.border}`
+                        backgroundColor: SnakeStyle.bg,
+                        border: `3px solid ${SnakeStyle.border}`
                     }}
             />
         );
