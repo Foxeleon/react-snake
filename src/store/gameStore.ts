@@ -148,10 +148,6 @@ const DEFAULT_SETTINGS: GameSettings = {
 
 export const useGameStore = create<GameStore>((set, get) => {
   const savedSettings = loadSettings() || DEFAULT_SETTINGS;
-  if (savedSettings.language) {
-    i18n.changeLanguage(savedSettings.language)
-        .catch(error => console.error("Error by language change:", error));
-  }
   const savedRecords = loadRecords();
   
   const initialSnake = getInitialSnake(savedSettings.gridSize);
@@ -533,8 +529,8 @@ export const useGameStore = create<GameStore>((set, get) => {
       };
 
       // Проверяем изменение языка
-      const currentLanguage = get().settings.language;
-      const newLanguage = updatedSettings.language;
+      // const currentLanguage = get().settings.language;
+      // const newLanguage = updatedSettings.language;
 
       set(state => ({
         ...state,
@@ -554,11 +550,11 @@ export const useGameStore = create<GameStore>((set, get) => {
       // Сохраняем настройки в localStorage
       saveSettings(updatedSettings);
 
-      // Если язык изменился, применяем его после сохранения настроек
-      if (newLanguage !== currentLanguage) {
-        i18n.changeLanguage(newLanguage)
-            .catch(error => console.error("Error by language change:", error));
-      }
+      // Язык меняется сразу в настройках без сохранения.
+      // if (newLanguage !== currentLanguage) {
+      //   i18n.changeLanguage(newLanguage)
+      //       .catch(error => console.error("Error by language change:", error));
+      // }
     },
 
     pauseGame: () => {
