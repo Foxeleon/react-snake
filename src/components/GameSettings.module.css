@@ -126,6 +126,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
+  flex-grow: 1;
 }
 
 .saveButton {
@@ -278,7 +279,9 @@
 
 .difficultySwitcher {
   display: flex;
-  gap: 1rem; /* Расстояние между кнопками */
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .difficultyOption {
@@ -288,6 +291,7 @@
   background-color: #f9f9f9;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  flex-grow: 1;
 }
 
 .difficultyOption:hover {
