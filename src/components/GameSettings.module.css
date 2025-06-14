@@ -278,7 +278,9 @@
 
 .difficultySwitcher {
   display: flex;
-  gap: 1rem; /* Расстояние между кнопками */
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .difficultyOption {
