@@ -126,6 +126,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
+  flex-grow: 1;
 }
 
 .saveButton {
@@ -290,7 +291,7 @@
   background-color: #f9f9f9;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  flex-grow: 3;
+  flex-grow: 1;
 }
 
 .difficultyOption:hover {
