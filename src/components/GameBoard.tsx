@@ -6,6 +6,7 @@ import styles from './GameBoard.module.css';
 import { addAnimationStyles, createAnimationEffect } from '@/utils/animations';
 import { playSound } from '@/utils';
 import { getFoodColor, getSnakeStyle } from '@/constants/gameConstants.ts';
+import SnakeSegment from '@/components/SnakeSegment.tsx';
 
 export const GameBoard = () => {
   const {
@@ -317,20 +318,18 @@ export const GameBoard = () => {
       );
     }
 
-    // Отображение тела змеи
     if (isSnakeBody) {
-      // Получаем стили из константы
+      const segment = snake.find(segment => segment.x === x && segment.y === y);
       const snakeStyle = getSnakeStyle(snakeType);
-
-      return (
-          <div
-              className={styles.snakeBody}
-              style={{
-                backgroundColor: snakeStyle.bg,
-                border: `3px solid ${snakeStyle.border}`
-              }}
-          />
-      );
+      if (segment) {
+        return (
+            <SnakeSegment
+                key={`${segment.x}-${segment.y}`}
+                position={{ x: segment.x, y: segment.y }}
+                SnakeStyle={snakeStyle}
+            />
+        );
+      }
     }
 
     // Отображение еды

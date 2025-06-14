@@ -210,7 +210,6 @@ const Game: React.FC = () => {
                 </div>
             )}
           </div>
-
           <GameBoard/>
         </div>
 

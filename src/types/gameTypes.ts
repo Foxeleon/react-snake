@@ -45,6 +45,11 @@ export interface Position {
   y: number;
 }
 
+export interface SnakeSegmentProps {
+  position: Position;
+  SnakeStyle: SnakeStyle; // Optional styling for the segment
+}
+
 export interface PlayerRecord {
   name: string;
   score: number;
